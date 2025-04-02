@@ -1,3 +1,0 @@
-[submodule "rucio-ams/docker/permissions/fnal/dune"]
-	path = images/permissions-fnal/dune
-	url = https://github.com/jamesp-epcc/DUNERucioPolicy 
