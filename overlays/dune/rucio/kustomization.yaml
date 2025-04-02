@@ -82,9 +82,13 @@ secretGenerator:
 - name: fnal-fts-cert
   files:
   - usercert.pem=etc/.secrets/hostcert.pem
+  options:
+    disableNameSuffixHash: true
 - name: fnal-fts-key
   files:
   - new_userkey.pem=etc/.secrets/hostkey.pem
+  options:
+    disableNameSuffixHash: true
 
 # Messenger
 - name: ssl-secrets
@@ -139,3 +143,5 @@ secretGenerator:
 - name: fnal-ferry-rucio-config
   files:
   - rucio.cfg=etc/ferry-sync-rucio.cfg
+  options:
+    disableNameSuffixHash: true

@@ -35,7 +35,7 @@ spec:
             emptyDir: {}
           containers:
             - name: sync-ferry-users
-              image: "imageregistry.fnal.gov/rucio-ams/rucio-client:34.3.0.fnal"
+              image: "imageregistry.fnal.gov/rucio-ams/rucio-client:36.2.0.fnal"
               imagePullPolicy: Always
               command:
               - /bin/bash
