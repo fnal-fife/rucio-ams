@@ -91,8 +91,8 @@ def sync_ferry_users(commit=False,
             continue
 
         # Only incative users have no token
-        uuid = user['uuid']
-        issuer = 'https://cilogon.org/dune' if vo == 'dune' else 'https://cilogon.org/fermilab' 
+        uuid = user['tokensubject']
+        issuer = 'https://cilogon.org/'
 
         # get identities
         user_dns = list(filter(lambda x: x['username'] == username, all_dns))
@@ -107,6 +107,7 @@ def sync_ferry_users(commit=False,
     # Add or update users to Rucio
     if commit:
         for user in users_to_add:
+            logger.info(f"Adding user {user.name}")
             add_user(ferry, client, user, scopes, analysis)
 
     # delete rucio accounts not in FERRY members or if their status has changed
@@ -145,21 +146,33 @@ def add_user(ferry: FerryClient, client: RucioClient, user: User, scopes=False, 
     email = account['email']
 
     # Create Rucio formatted account identity
-    token_suject = f'SUB={user.uuid}, ISS={user.issuer}'
+    token_subject = f'SUB={user.uuid}, ISS={user.issuer}'
 
     # add user identities
     logger.info(f"Adding identities for {username}")
+    # First, see what is currently attached to the user so we can skip adding duplicates
+    existing = client.list_identities(username)
+    # Add a token if there is not one for this user
+    try:
+        if token_subject not in existing:
+            email = get_email(ferry, username)
+            client.add_identity(username, token_subject, "OIDC", email)
+            logger.info(f"Added token for user {username}")
+    except Duplicate:
+        pass
+    except UserLDAPError as e:
+        logger.error(f"Could not get email for {username}, skipping")
+        logger.error(e)
+        pass
+
+    # Add certificate DNs that don't exist yet for this user
     for d in user.identities:
         try:
-            existing = client.list_identities(username)
             if d['dn'] not in existing:
                 if not email:
                     email = get_email(ferry, username)
                 client.add_identity(username, d['dn'], "X509", email)
-            if token_subject not in existing:
-                email = get_email(ferry, username)
-                client.add_identity(username, token_subject, "OIDC", email)
-
+                logger.info(f"Added X509 DN for user {username}: {d['dn']}")
         except Duplicate:
             continue
         except UserLDAPError as e:
