@@ -11,7 +11,7 @@ metadata:
     heritage: "Helm"
 type: Opaque
 data:
-  common.json: "ewogICJwb2xpY3kiOiB7CiAgICAibGZuMnBmbl9hbGdvcml0aG1fZGVmYXVsdCI6ICJEVU5FIiwKICAgICJtZXRhY2F0X2Jhc2VfdXJsIjogImh0dHBzOi8vbWV0YWNhdC5mbmFsLmdvdjo5NDQzL2R1bmVfbWV0YV9wcm9kL2FwcCIsCiAgICAicGFja2FnZSI6ICJmZXJtaWxhYi5kdW5lIgogIH0sCiAgIndlYnVpIjogewogICAgInVybHMiOiAiaHR0cHM6Ly93ZWJ1aS1kdW5lLWludC1ydWNpby5mbmFsLmdvdiIKICB9Cn0="
+  common.json: "ewogICJvaWRjIjogewogICAgImFkbWluX2lzc3VlciI6ICJDSUxvZ29uIiwKICAgICJpZHBzZWNyZXRzIjogIi9vcHQvcnVjaW8vZXRjL2lkcHNlY3JldHMuanNvbiIsCiAgICAic3VwcG9ydHNfYXVkaWVuY2UiOiAiRmFsc2UiCiAgfSwKICAicG9saWN5IjogewogICAgImxmbjJwZm5fYWxnb3JpdGhtX2RlZmF1bHQiOiAiRFVORSIsCiAgICAibWV0YWNhdF9iYXNlX3VybCI6ICJodHRwczovL21ldGFjYXQuZm5hbC5nb3Y6OTQ0My9kdW5lX21ldGFfcHJvZC9hcHAiLAogICAgInBhY2thZ2UiOiAiZmVybWlsYWIuZHVuZSIKICB9LAogICJ3ZWJ1aSI6IHsKICAgICJ1cmxzIjogImh0dHBzOi8vd2VidWktZHVuZS1pbnQtcnVjaW8uZm5hbC5nb3YiCiAgfQp9"
 ---
 # Source: rucio-server/templates/secrets.yaml
 apiVersion: v1
@@ -76,7 +76,7 @@ spec:
         app: rucio-server
         release: fnal
       annotations:
-        checksum/config: 0f2b395ca352f3deb18a9dea692e5c650b45c9c4
+        checksum/config: e6c60a55cf6f85c8e5025c6e73f11e11744d5c09
     spec:
       serviceAccountName: useroot
       volumes:
@@ -104,6 +104,9 @@ spec:
       - name: server-hostkey
         secret:
           secretName: fnal-server-hostkey
+      - name: idpsecrets
+        secret:
+          secretName: fnal-idpsecrets
       containers:
         - name: httpd-error-log
           image: busybox
@@ -119,7 +122,7 @@ spec:
               cpu: 20m
               memory: 20Mi
         - name: rucio-server
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-server:release-36.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-server:release-37.0.0"
           imagePullPolicy: Always
           resources:
             limits:
@@ -152,6 +155,9 @@ spec:
           - name: server-hostkey
             mountPath: /etc/grid-security/hostkey.pem
             subPath: hostkey.pem
+          - name: idpsecrets
+            mountPath: /opt/rucio/etc/idpsecrets.json
+            subPath: ipsecrets.json
           ports:
             - name: http
               containerPort: 80
