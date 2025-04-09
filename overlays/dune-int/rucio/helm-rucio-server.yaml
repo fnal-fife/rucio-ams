@@ -157,7 +157,7 @@ spec:
             subPath: hostkey.pem
           - name: idpsecrets
             mountPath: /opt/rucio/etc/idpsecrets.json
-            subPath: ipsecrets.json
+            subPath: idpsecrets.json
           ports:
             - name: http
               containerPort: 80
