@@ -195,6 +195,9 @@ secretMounts:
   - secretName: server-hostkey
     mountPath: /etc/grid-security/hostkey.pem
     subPath: hostkey.pem
+  - secretName: idpsecrets
+    mountPath: /opt/rucio/etc/idpsecrets.json
+    subPath: idpsecrets.json
   # - volumeName: gcssecret
   #   secretName: gcssecret
   #   mountPath: /opt/rucio/etc/gcs_rucio.json
@@ -377,6 +380,11 @@ config:
     # carbon_server: "8125"
     ## config.monitor.user_scope: scope used on the graphite server (default: "default_docker")
     # user_scope: "default_docker"
+
+  oidc:
+    admin_issuer: "CILogon"
+    supports_audience: "False"
+    idpsecrets: "/opt/rucio/etc/idpsecrets.json"
 
   ## only necessary if the server is configurated to receive traces
   # trace:
