@@ -272,7 +272,7 @@ spec:
           secretName: fnal-rucio-x509up
       containers:
         - name: rucio-daemons
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-36.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-37.0.0"
           imagePullPolicy: Always
           volumeMounts:
             - name: config-common
@@ -360,7 +360,7 @@ spec:
           secretName: fnal-rucio-x509up
       containers:
         - name: rucio-daemons
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-36.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-37.0.0"
           imagePullPolicy: Always
           volumeMounts:
             - name: config-common
@@ -456,7 +456,7 @@ spec:
             secretName: fnal-rucio-x509up
       containers:
         - name: rucio-daemons
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-36.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-37.0.0"
           imagePullPolicy: Always
           volumeMounts:
 
@@ -550,7 +550,7 @@ spec:
           secretName: fnal-rucio-x509up
       containers:
         - name: rucio-daemons
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-36.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-37.0.0"
           imagePullPolicy: Always
           volumeMounts:
             - name: config-common
@@ -638,7 +638,7 @@ spec:
           secretName: fnal-rucio-x509up
       containers:
         - name: rucio-daemons
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-36.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-37.0.0"
           imagePullPolicy: Always
           volumeMounts:
             - name: config-common
@@ -726,7 +726,7 @@ spec:
           secretName: fnal-rucio-x509up
       containers:
         - name: rucio-daemons
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-36.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-37.0.0"
           imagePullPolicy: Always
           volumeMounts:
             - name: config-common
@@ -814,7 +814,7 @@ spec:
           secretName: fnal-rucio-x509up
       containers:
         - name: rucio-daemons
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-36.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-37.0.0"
           imagePullPolicy: Always
           volumeMounts:
             - name: config-common
@@ -902,7 +902,7 @@ spec:
           secretName: fnal-rucio-x509up
       containers:
         - name: rucio-daemons
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-36.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-37.0.0"
           imagePullPolicy: Always
           volumeMounts:
             - name: config-common
@@ -990,7 +990,7 @@ spec:
           secretName: fnal-rucio-x509up
       containers:
         - name: rucio-daemons
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-36.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-37.0.0"
           imagePullPolicy: Always
           volumeMounts:
             - name: config-common
@@ -1078,7 +1078,7 @@ spec:
           secretName: fnal-rucio-x509up
       containers:
         - name: rucio-daemons
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-36.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-37.0.0"
           imagePullPolicy: Always
           volumeMounts:
             - name: config-common
@@ -1166,7 +1166,7 @@ spec:
           secretName: fnal-rucio-x509up
       containers:
         - name: rucio-daemons
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-36.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-37.0.0"
           imagePullPolicy: Always
           volumeMounts:
             - name: config-common
@@ -1254,7 +1254,7 @@ spec:
           secretName: fnal-rucio-x509up
       containers:
         - name: rucio-daemons
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-36.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-37.0.0"
           imagePullPolicy: Always
           volumeMounts:
             - name: config-common
