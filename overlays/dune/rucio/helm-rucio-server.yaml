@@ -11,7 +11,7 @@ metadata:
     heritage: "Helm"
 type: Opaque
 data:
-  common.json: "ewogICJwb2xpY3kiOiB7CiAgICAibGZuMnBmbl9hbGdvcml0aG1fZGVmYXVsdCI6ICJEVU5FIiwKICAgICJtZXRhY2F0X2Jhc2VfdXJsIjogImh0dHBzOi8vbWV0YWNhdC5mbmFsLmdvdjo5NDQzL2R1bmVfbWV0YV9wcm9kL2FwcCIsCiAgICAicGFja2FnZSI6ICJmZXJtaWxhYi5kdW5lIgogIH0sCiAgIndlYnVpIjogewogICAgInVybHMiOiAiaHR0cHM6Ly93ZWJ1aS1kdW5lLXJ1Y2lvLmZuYWwuZ292IgogIH0KfQ=="
+  common.json: "ewogICJvaWRjIjogewogICAgImFkbWluX2lzc3VlciI6ICJDSUxvZ29uIiwKICAgICJpZHBzZWNyZXRzIjogIi9vcHQvcnVjaW8vZXRjL2lkcHNlY3JldHMuanNvbiIsCiAgICAic3VwcG9ydHNfYXVkaWVuY2UiOiAiRmFsc2UiCiAgfSwKICAicG9saWN5IjogewogICAgImxmbjJwZm5fYWxnb3JpdGhtX2RlZmF1bHQiOiAiRFVORSIsCiAgICAibWV0YWNhdF9iYXNlX3VybCI6ICJodHRwczovL21ldGFjYXQuZm5hbC5nb3Y6OTQ0My9kdW5lX21ldGFfcHJvZC9hcHAiLAogICAgInBhY2thZ2UiOiAiZmVybWlsYWIuZHVuZSIKICB9LAogICJ3ZWJ1aSI6IHsKICAgICJ1cmxzIjogImh0dHBzOi8vd2VidWktZHVuZS1ydWNpby5mbmFsLmdvdiIKICB9Cn0="
 ---
 # Source: rucio-server/templates/secrets.yaml
 apiVersion: v1
@@ -76,7 +76,7 @@ spec:
         app: rucio-server
         release: fnal
       annotations:
-        checksum/config: 8852a47e67e8d45ac1c7a7c0c67858bf170d73af
+        checksum/config: 4c4e2c5a53d15d7eff7e56a52712db7571d29132
     spec:
       serviceAccountName: useroot
       volumes:
@@ -104,6 +104,9 @@ spec:
       - name: server-hostkey
         secret:
           secretName: fnal-server-hostkey
+      - name: idpsecrets
+        secret:
+          secretName: fnal-idpsecrets
       containers:
         - name: httpd-error-log
           image: busybox
@@ -152,6 +155,9 @@ spec:
           - name: server-hostkey
             mountPath: /etc/grid-security/hostkey.pem
             subPath: hostkey.pem
+          - name: idpsecrets
+            mountPath: /opt/rucio/etc/idpsecrets.json
+            subPath: idpsecrets.json
           ports:
             - name: http
               containerPort: 80
