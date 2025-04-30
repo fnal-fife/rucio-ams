@@ -92,7 +92,12 @@ def sync_ferry_users(commit=False,
 
         # Only incative users have no token
         uuid = user['tokensubject']
-        issuer = 'https://cilogon.org/'
+        if unitname == 'dune':
+            issuer = 'https://cilogon.org/dune'
+        elif unitname == 'mu2e':
+            issuer = 'https://cilogon.org/mu2e'
+        else:
+            issuer = 'https://cilogon.org/fermilab'
 
         # get identities
         user_dns = list(filter(lambda x: x['username'] == username, all_dns))
