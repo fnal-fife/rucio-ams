@@ -11,7 +11,7 @@ metadata:
     heritage: "Helm"
 type: Opaque
 data:
-  common.json: "ewogICJwb2xpY3kiOiB7CiAgICAicGFja2FnZSI6ICJmZXJtaWxhYiIKICB9LAogICJ3ZWJ1aSI6IHsKICAgICJ1cmxzIjogImh0dHBzOi8vd2VidWktaWNhcnVzLXJ1Y2lvLmZuYWwuZ292IgogIH0KfQ=="
+  common.json: "ewogICJvaWRjIjogewogICAgImFkbWluX2lzc3VlciI6ICJDSUxvZ29uIiwKICAgICJpZHBzZWNyZXRzIjogIi9vcHQvcnVjaW8vZXRjL2lkcHNlY3JldHMuanNvbiIsCiAgICAic3VwcG9ydHNfYXVkaWVuY2UiOiAiRmFsc2UiCiAgfSwKICAicG9saWN5IjogewogICAgInBhY2thZ2UiOiAiZmVybWlsYWIiCiAgfSwKICAid2VidWkiOiB7CiAgICAidXJscyI6ICJodHRwczovL3dlYnVpLWljYXJ1cy1ydWNpby5mbmFsLmdvdiIKICB9Cn0="
 ---
 # Source: rucio-server/templates/secrets.yaml
 apiVersion: v1
@@ -76,7 +76,7 @@ spec:
         app: rucio-server
         release: fnal
       annotations:
-        checksum/config: ebc003e68150d3587a5b5d9de5301e31ad6b6d46
+        checksum/config: 436ba0991ad4d4cc07f0685a148c525e1191298c
     spec:
       serviceAccountName: useroot
       volumes:
@@ -100,6 +100,9 @@ spec:
       - name: server-hostkey
         secret:
           secretName: fnal-server-hostkey
+      - name: idpsecrets
+        secret:
+          secretName: fnal-idpsecrets
       containers:
         - name: httpd-error-log
           image: busybox
@@ -145,6 +148,9 @@ spec:
           - name: server-hostkey
             mountPath: /etc/grid-security/hostkey.pem
             subPath: hostkey.pem
+          - name: idpsecrets
+            mountPath: /opt/rucio/etc/idpsecrets.json
+            subPath: idpsecrets.json
           ports:
             - name: http
               containerPort: 80
