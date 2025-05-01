@@ -122,7 +122,7 @@ spec:
               cpu: 20m
               memory: 20Mi
         - name: rucio-server
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-server:release-37.0.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-server:release-37.2.0"
           imagePullPolicy: Always
           resources:
             limits:
