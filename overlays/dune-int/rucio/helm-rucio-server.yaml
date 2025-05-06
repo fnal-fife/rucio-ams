@@ -11,7 +11,7 @@ metadata:
     heritage: "Helm"
 type: Opaque
 data:
-  common.json: "ewogICJvaWRjIjogewogICAgImFkbWluX2lzc3VlciI6ICJDSUxvZ29uIiwKICAgICJpZHBzZWNyZXRzIjogIi9vcHQvcnVjaW8vZXRjL2lkcHNlY3JldHMuanNvbiIsCiAgICAic3VwcG9ydHNfYXVkaWVuY2UiOiAiRmFsc2UiCiAgfSwKICAicG9saWN5IjogewogICAgImxmbjJwZm5fYWxnb3JpdGhtX2RlZmF1bHQiOiAiRFVORSIsCiAgICAibWV0YWNhdF9iYXNlX3VybCI6ICJodHRwczovL21ldGFjYXQuZm5hbC5nb3Y6OTQ0My9kdW5lX21ldGFfcHJvZC9hcHAiLAogICAgInBhY2thZ2UiOiAiZmVybWlsYWIuZHVuZSIKICB9LAogICJ3ZWJ1aSI6IHsKICAgICJ1cmxzIjogImh0dHBzOi8vd2VidWktZHVuZS1pbnQtcnVjaW8uZm5hbC5nb3YiCiAgfQp9"
+  common.json: "ewogICJvaWRjIjogewogICAgImFkbWluX2lzc3VlciI6ICJDSUxvZ29uIiwKICAgICJleHBlY3RlZF9hdWRpZW5jIjogImh0dHBzOi8vd2xjZy5jZXJuLmNoL2p3dC92MS9hbnkiLAogICAgImV4cGVjdGVkX3Njb3BlcyI6ICJzdG9yYWdlLnJlYWQ6LyIsCiAgICAiaWRwc2VjcmV0cyI6ICIvb3B0L3J1Y2lvL2V0Yy9pZHBzZWNyZXRzLmpzb24iLAogICAgInN1cHBvcnRzX2F1ZGllbmNlIjogIkZhbHNlIgogIH0sCiAgInBvbGljeSI6IHsKICAgICJsZm4ycGZuX2FsZ29yaXRobV9kZWZhdWx0IjogIkRVTkUiLAogICAgIm1ldGFjYXRfYmFzZV91cmwiOiAiaHR0cHM6Ly9tZXRhY2F0LmZuYWwuZ292Ojk0NDMvZHVuZV9tZXRhX3Byb2QvYXBwIiwKICAgICJwYWNrYWdlIjogImZlcm1pbGFiLmR1bmUiCiAgfSwKICAid2VidWkiOiB7CiAgICAidXJscyI6ICJodHRwczovL3dlYnVpLWR1bmUtaW50LXJ1Y2lvLmZuYWwuZ292IgogIH0KfQ=="
 ---
 # Source: rucio-server/templates/secrets.yaml
 apiVersion: v1
@@ -76,7 +76,7 @@ spec:
         app: rucio-server
         release: fnal
       annotations:
-        checksum/config: e6c60a55cf6f85c8e5025c6e73f11e11744d5c09
+        checksum/config: 4290a6bc526c274f683db39f503b3b7a58ab8efd
     spec:
       serviceAccountName: useroot
       volumes:
