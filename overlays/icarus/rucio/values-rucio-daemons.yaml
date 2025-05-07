@@ -826,7 +826,6 @@ config:
   conveyor:
     scheme: "davs,https,http,srm,gsiftp,root"
     # transfertool: "fts3"
-    ftshosts: "https://fts3-public.cern.ch:8446"
     cacert: "/opt/certs/ca.pem"
     usercert: "/opt/proxy/x509up"
     # cache_time: ""
