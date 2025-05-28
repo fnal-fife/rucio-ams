@@ -269,7 +269,7 @@ metadata:
     heritage: "Helm"
 type: Opaque
 data:
-  common.json: "ewogICJhdXRvbWF0aXgiOiB7CiAgICAiYWNjb3VudCI6ICJhdXRvbWF0aXgiLAogICAgImRhdGFzZXRfbGlmZXRpbWUiOiAzNjAwLAogICAgInJzZXMiOiAiRENBQ0hFX0JKV0hJVEVfU1RBUlQiLAogICAgInNjb3BlIjogImF1dG9tYXRpeCIsCiAgICAic2V0X21ldGFkYXRhIjogIlRydWUiCiAgfSwKICAiY2FjaGUiOiB7CiAgICAidXJsIjogInJ1Y2lvLWNhY2hlOjExMjExIgogIH0sCiAgImNsaWVudCI6IHsKICAgICJhY2NvdW50IjogImF1dG9tYXRpeCIsCiAgICAiYXV0aF9ob3N0IjogImh0dHBzOi8vaW50LXJ1Y2lvLmZuYWwuZ292IiwKICAgICJhdXRoX3R5cGUiOiAieDUwOV9wcm94eSIsCiAgICAiY2FfY2VydCI6ICIvZXRjL2dyaWQtc2VjdXJpdHkvY2VydGlmaWNhdGVzIiwKICAgICJjbGllbnRfeDUwOV9wcm94eSI6ICIvb3B0L3Byb3h5L3g1MDl1cCIsCiAgICAicHJvdG9jb2xfc3RhdF9yZXRyaWVzIjogNiwKICAgICJyZXF1ZXN0X3JldHJpZXMiOiAzLAogICAgInJ1Y2lvX2hvc3QiOiAiaHR0cHM6Ly9pbnQtcnVjaW8uZm5hbC5nb3YiCiAgfSwKICAiY29udmV5b3IiOiB7CiAgICAiY2FjZXJ0IjogIi9vcHQvY2VydHMvY2EucGVtIiwKICAgICJmdHNob3N0cyI6ICJodHRwczovL2Z0czMtcHVibGljLmZuYWwuZ292Ojg0NDYiLAogICAgInVzZXJjZXJ0IjogIi9vcHQvcHJveHkveDUwOXVwIgogIH0sCiAgImhlcm1lcyI6IHsKICAgICJzZXJ2aWNlc19saXN0IjogImFjdGl2ZW1xIgogIH0sCiAgIm1lc3NhZ2luZy1jYWNoZSI6IHsKICAgICJhY2NvdW50IjogIm1lbWNhY2hlIiwKICAgICJicm9rZXJzIjogInJ1Y2lvLWNhY2hlIiwKICAgICJkZXN0aW5hdGlvbiI6ICIvdG9waWMvcnVjaW8uZXZlbnRzLmludCIsCiAgICAicG9ydCI6ICI2MTEyMyIsCiAgICAidm9uYW1lIjogImZlcm1pbGFiIgogIH0sCiAgIm1lc3NhZ2luZy1oZXJtZXMiOiB7CiAgICAiYnJva2VyX3ZpcnR1YWxfaG9zdCI6ICIvIiwKICAgICJicm9rZXJzIjogImZuYWwtcnVjaW8tbWVzc2VuZ2VyIiwKICAgICJkZXN0aW5hdGlvbiI6ICIvdG9waWMvcnVjaW8uZXZlbnRzLmludCIsCiAgICAiZW1haWxfZnJvbSI6ICJSdWNpbyBcdTAwM2NhdGxhcy1hZGMtZGRtLXN1cHBvcnRAY2Vybi5jaCIsCiAgICAiZW1haWxfdGVzdCI6ICIiLAogICAgIm5vbnNzbF9wb3J0IjogIjYxNjEzIiwKICAgICJwYXNzd29yZCI6ICJndWVzdCIsCiAgICAicG9ydCI6ICI2MTYxMyIsCiAgICAic3NsX2NlcnRfZmlsZSI6ICIvb3B0L3J1Y2lvL2NlcnRzL2hvc3RjZXJ0LnBlbSIsCiAgICAic3NsX2tleV9maWxlIjogIi9vcHQvcnVjaW8va2V5cy9ob3N0a2V5LnBlbSIsCiAgICAidXNlX3NzbCI6ICJGYWxzZSIsCiAgICAidXNlcm5hbWUiOiAiZ3Vlc3QiLAogICAgInZvbmFtZSI6ICJpbnQiCiAgfSwKICAibW9uaXRvciI6IHsKICAgICJlbmFibGVfbWV0cmljcyI6IHRydWUKICB9LAogICJwb2xpY3kiOiB7CiAgICAicGFja2FnZSI6ICJmZXJtaWxhYiIKICB9LAogICJ0cmFuc2ZlcnMiOiB7CiAgICAibXVsdGlob3BfcnNlX2V4cHJlc3Npb24iOiAiIgogIH0KfQ=="
+  common.json: "ewogICJhdXRvbWF0aXgiOiB7CiAgICAiYWNjb3VudCI6ICJhdXRvbWF0aXgiLAogICAgImRhdGFzZXRfbGlmZXRpbWUiOiAzNjAwLAogICAgInJzZXMiOiAiRENBQ0hFX0JKV0hJVEVfU1RBUlQiLAogICAgInNjb3BlIjogImF1dG9tYXRpeCIsCiAgICAic2V0X21ldGFkYXRhIjogIlRydWUiCiAgfSwKICAiY2FjaGUiOiB7CiAgICAidXJsIjogInJ1Y2lvLWNhY2hlOjExMjExIgogIH0sCiAgImNsaWVudCI6IHsKICAgICJhY2NvdW50IjogImF1dG9tYXRpeCIsCiAgICAiYXV0aF9ob3N0IjogImh0dHBzOi8vaW50LXJ1Y2lvLmZuYWwuZ292IiwKICAgICJhdXRoX3R5cGUiOiAieDUwOV9wcm94eSIsCiAgICAiY2FfY2VydCI6ICIvZXRjL2dyaWQtc2VjdXJpdHkvY2VydGlmaWNhdGVzIiwKICAgICJjbGllbnRfeDUwOV9wcm94eSI6ICIvb3B0L3Byb3h5L3g1MDl1cCIsCiAgICAicHJvdG9jb2xfc3RhdF9yZXRyaWVzIjogNiwKICAgICJyZXF1ZXN0X3JldHJpZXMiOiAzLAogICAgInJ1Y2lvX2hvc3QiOiAiaHR0cHM6Ly9pbnQtcnVjaW8uZm5hbC5nb3YiCiAgfSwKICAiY29udmV5b3IiOiB7CiAgICAiY2FjZXJ0IjogIi9vcHQvY2VydHMvY2EucGVtIiwKICAgICJ1c2VyY2VydCI6ICIvb3B0L3Byb3h5L3g1MDl1cCIKICB9LAogICJoZXJtZXMiOiB7CiAgICAic2VydmljZXNfbGlzdCI6ICJhY3RpdmVtcSIKICB9LAogICJtZXNzYWdpbmctY2FjaGUiOiB7CiAgICAiYWNjb3VudCI6ICJtZW1jYWNoZSIsCiAgICAiYnJva2VycyI6ICJydWNpby1jYWNoZSIsCiAgICAiZGVzdGluYXRpb24iOiAiL3RvcGljL3J1Y2lvLmV2ZW50cy5pbnQiLAogICAgInBvcnQiOiAiNjExMjMiLAogICAgInZvbmFtZSI6ICJmZXJtaWxhYiIKICB9LAogICJtZXNzYWdpbmctaGVybWVzIjogewogICAgImJyb2tlcl92aXJ0dWFsX2hvc3QiOiAiLyIsCiAgICAiYnJva2VycyI6ICJmbmFsLXJ1Y2lvLW1lc3NlbmdlciIsCiAgICAiZGVzdGluYXRpb24iOiAiL3RvcGljL3J1Y2lvLmV2ZW50cy5pbnQiLAogICAgImVtYWlsX2Zyb20iOiAiUnVjaW8gXHUwMDNjYXRsYXMtYWRjLWRkbS1zdXBwb3J0QGNlcm4uY2giLAogICAgImVtYWlsX3Rlc3QiOiAiIiwKICAgICJub25zc2xfcG9ydCI6ICI2MTYxMyIsCiAgICAicGFzc3dvcmQiOiAiZ3Vlc3QiLAogICAgInBvcnQiOiAiNjE2MTMiLAogICAgInNzbF9jZXJ0X2ZpbGUiOiAiL29wdC9ydWNpby9jZXJ0cy9ob3N0Y2VydC5wZW0iLAogICAgInNzbF9rZXlfZmlsZSI6ICIvb3B0L3J1Y2lvL2tleXMvaG9zdGtleS5wZW0iLAogICAgInVzZV9zc2wiOiAiRmFsc2UiLAogICAgInVzZXJuYW1lIjogImd1ZXN0IiwKICAgICJ2b25hbWUiOiAiaW50IgogIH0sCiAgIm1vbml0b3IiOiB7CiAgICAiZW5hYmxlX21ldHJpY3MiOiB0cnVlCiAgfSwKICAicG9saWN5IjogewogICAgInBhY2thZ2UiOiAiZmVybWlsYWIiCiAgfSwKICAidHJhbnNmZXJzIjogewogICAgIm11bHRpaG9wX3JzZV9leHByZXNzaW9uIjogIiIKICB9Cn0="
 ---
 # Source: rucio-daemons/templates/transmogrifier-deployment.yaml
 apiVersion: v1
@@ -630,7 +630,7 @@ spec:
         release: fnal
         rucio-daemon: automatix
       annotations:
-        checksum/config: adde90e8c3f5974a1df5035eaf2aa0daeba9894a
+        checksum/config: e864a4fd6ee92d784abd785d9585a15dc92b81e0
     spec:
       serviceAccountName: useroot
       volumes:
@@ -731,7 +731,7 @@ spec:
         release: fnal
         rucio-daemon: conveyor-finisher
       annotations:
-        checksum/config: adde90e8c3f5974a1df5035eaf2aa0daeba9894a
+        checksum/config: e864a4fd6ee92d784abd785d9585a15dc92b81e0
     spec:
       serviceAccountName: useroot
       volumes:
@@ -819,7 +819,7 @@ spec:
         release: fnal
         rucio-daemon: conveyor-poller
       annotations:
-        checksum/config: adde90e8c3f5974a1df5035eaf2aa0daeba9894a
+        checksum/config: e864a4fd6ee92d784abd785d9585a15dc92b81e0
     spec:
       serviceAccountName: useroot
       volumes:
@@ -907,7 +907,7 @@ spec:
         release: fnal
         rucio-daemon: conveyor-stager
       annotations:
-        checksum/config: adde90e8c3f5974a1df5035eaf2aa0daeba9894a
+        checksum/config: e864a4fd6ee92d784abd785d9585a15dc92b81e0
     spec:
       serviceAccountName: useroot
       volumes:
@@ -995,7 +995,7 @@ spec:
         release: fnal
         rucio-daemon: conveyor-submitter
       annotations:
-        checksum/config: adde90e8c3f5974a1df5035eaf2aa0daeba9894a
+        checksum/config: e864a4fd6ee92d784abd785d9585a15dc92b81e0
     spec:
       serviceAccountName: useroot
       volumes:
@@ -1083,7 +1083,7 @@ spec:
         release: fnal
         rucio-daemon: hermes
       annotations:
-        checksum/config: adde90e8c3f5974a1df5035eaf2aa0daeba9894a
+        checksum/config: e864a4fd6ee92d784abd785d9585a15dc92b81e0
     spec:
       serviceAccountName: useroot
       volumes:
@@ -1185,7 +1185,7 @@ spec:
         release: fnal
         rucio-daemon: judge-cleaner
       annotations:
-        checksum/config: adde90e8c3f5974a1df5035eaf2aa0daeba9894a
+        checksum/config: e864a4fd6ee92d784abd785d9585a15dc92b81e0
     spec:
       serviceAccountName: useroot
       volumes:
@@ -1273,7 +1273,7 @@ spec:
         release: fnal
         rucio-daemon: judge-evaluator
       annotations:
-        checksum/config: adde90e8c3f5974a1df5035eaf2aa0daeba9894a
+        checksum/config: e864a4fd6ee92d784abd785d9585a15dc92b81e0
     spec:
       serviceAccountName: useroot
       volumes:
@@ -1361,7 +1361,7 @@ spec:
         release: fnal
         rucio-daemon: judge-injector
       annotations:
-        checksum/config: adde90e8c3f5974a1df5035eaf2aa0daeba9894a
+        checksum/config: e864a4fd6ee92d784abd785d9585a15dc92b81e0
     spec:
       serviceAccountName: useroot
       volumes:
@@ -1449,7 +1449,7 @@ spec:
         release: fnal
         rucio-daemon: judge-repairer
       annotations:
-        checksum/config: adde90e8c3f5974a1df5035eaf2aa0daeba9894a
+        checksum/config: e864a4fd6ee92d784abd785d9585a15dc92b81e0
     spec:
       serviceAccountName: useroot
       volumes:
@@ -1537,7 +1537,7 @@ spec:
         release: fnal
         rucio-daemon: minos
       annotations:
-        checksum/config: adde90e8c3f5974a1df5035eaf2aa0daeba9894a
+        checksum/config: e864a4fd6ee92d784abd785d9585a15dc92b81e0
     spec:
       serviceAccountName: useroot
       volumes:
@@ -1625,7 +1625,7 @@ spec:
         release: fnal
         rucio-daemon: minos-temporary-expiration
       annotations:
-        checksum/config: adde90e8c3f5974a1df5035eaf2aa0daeba9894a
+        checksum/config: e864a4fd6ee92d784abd785d9585a15dc92b81e0
     spec:
       serviceAccountName: useroot
       volumes:
@@ -1713,7 +1713,7 @@ spec:
         release: fnal
         rucio-daemon: necromancer
       annotations:
-        checksum/config: adde90e8c3f5974a1df5035eaf2aa0daeba9894a
+        checksum/config: e864a4fd6ee92d784abd785d9585a15dc92b81e0
     spec:
       serviceAccountName: useroot
       volumes:
@@ -1801,7 +1801,7 @@ spec:
         release: fnal
         rucio-daemon: reaper
       annotations:
-        checksum/config: adde90e8c3f5974a1df5035eaf2aa0daeba9894a
+        checksum/config: e864a4fd6ee92d784abd785d9585a15dc92b81e0
     spec:
       serviceAccountName: useroot
       volumes:
@@ -1898,7 +1898,7 @@ spec:
         release: fnal
         rucio-daemon: replica-recoverer
       annotations:
-        checksum/config: adde90e8c3f5974a1df5035eaf2aa0daeba9894a
+        checksum/config: e864a4fd6ee92d784abd785d9585a15dc92b81e0
     spec:
       serviceAccountName: useroot
       volumes:
@@ -1986,7 +1986,7 @@ spec:
         release: fnal
         rucio-daemon: transmogrifier
       annotations:
-        checksum/config: adde90e8c3f5974a1df5035eaf2aa0daeba9894a
+        checksum/config: e864a4fd6ee92d784abd785d9585a15dc92b81e0
     spec:
       serviceAccountName: useroot
       volumes:
@@ -2074,7 +2074,7 @@ spec:
         release: fnal
         rucio-daemon: undertaker
       annotations:
-        checksum/config: adde90e8c3f5974a1df5035eaf2aa0daeba9894a
+        checksum/config: e864a4fd6ee92d784abd785d9585a15dc92b81e0
     spec:
       serviceAccountName: useroot
       volumes:
