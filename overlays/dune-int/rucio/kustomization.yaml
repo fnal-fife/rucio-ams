@@ -50,6 +50,7 @@ secretGenerator:
   - schema.py=etc/policy-package/schema.py
   - lfn2pfn.py=etc/policy-package/lfn2pfn.py
   - path_gen.py=etc/policy-package/path_gen.py
+  - utils.py=etc/policy-package/utils.py
 # Custom docker-entrypoint.sh files for DUNE (installs Metacat)
 - name: fnal-docker-entrypoint-server
   files:
