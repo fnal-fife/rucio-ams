@@ -31,7 +31,9 @@ At Fermilab, we use centrally managed PostgreSQL databases.
   * `hostcert.pem`: Host server certificate
   * `hostkey.pem`: Host server key
   * `ca.pem`: CA Certificate bundle
-  * `db-connstr`: Database Connection String; in the format of `postgresql://<user>:<password>@<database-url>:<database-port>/<rucio-db-name>`
+  * `db-connstr`: Database Connection String; in the format of `postgresql+psycopg://<user>:<password>@<database-url>:<database-port>/<rucio-db-name>`
+    * Using only `postgresql://` defaults to using `psycopg2` in SQLAlchemy, which is not installed in the Rucio containers. Rucio containers are now installing `psycopg`, which is actuall `psycopg3`. Thus, we use `posgtresql+psycopg://` to switch to the proper `psycopg`.
+    * See: https://docs.sqlalchemy.org/en/20/dialects/postgresql.html#module-sqlalchemy.dialects.postgresql.psycopg
   * *Note:* These secrets should be stored onto a secrets management service (i.e. Vault), then pulled when apply configurations
 * (Optional) Custom Policy Package
   * `__init__.py`
