@@ -25,7 +25,7 @@ service:
   name: https
   tls:
     enabled: true
-  #allocateLoadBalancerNodePorts: false
+  allocateLoadBalancerNodePorts: false
 
 image:
   repository: imageregistry.fnal.gov/docker.io/rucio/rucio-webui
