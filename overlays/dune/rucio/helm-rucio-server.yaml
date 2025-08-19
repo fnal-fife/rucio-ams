@@ -26,6 +26,7 @@ metadata:
 type: Opaque
 data:
   grid_site_enabled: "VHJ1ZQ=="
+  timeout: "MzAw"
 ---
 # Source: rucio-server/templates/service.yaml
 apiVersion: v1
@@ -127,10 +128,10 @@ spec:
           resources:
             limits:
               cpu: 1000m
-              memory: 3000Mi
+              memory: 4000Mi
             requests:
               cpu: 700m
-              memory: 3000Mi
+              memory: 4000Mi
           volumeMounts:
           - name: config
             mountPath: /opt/rucio/etc/conf.d/10_common.json
@@ -181,15 +182,20 @@ spec:
               path: /ping
               port: 444
               scheme: HTTPS
-            initialDelaySeconds: 10
+            initialDelaySeconds: 20
             periodSeconds: 120
-            timeoutSeconds: 60
+            timeoutSeconds: 180
           env:
             - name: RUCIO_HTTPD_GRID_SITE_ENABLED
               valueFrom:
                 secretKeyRef:
                   name: fnal-rucio-server.cfg
                   key: grid_site_enabled
+            - name: RUCIO_HTTPD_TIMEOUT
+              valueFrom:
+                secretKeyRef:
+                  name: fnal-rucio-server.cfg
+                  key: timeout
             - name: RUCIO_ENABLE_SSL
               value: "True"
             - name: RUCIO_HEALTH_CHECK_PORT

@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fnal-rucio-server
+spec:
+  template:
+    spec:
+      serviceAccountName: useroot
+      volumes:
+        - name: rucio-conf-j2
+          configMap:
+            name: server-rucio-conf-j2
+      containers:
+        - name: rucio-server
+          volumeMounts:
+            - name: rucio-conf-j2
+              mountPath: /tmp/rucio.conf.j2
+              subPath: rucio.conf.j2
