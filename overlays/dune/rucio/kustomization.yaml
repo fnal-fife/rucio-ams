@@ -14,6 +14,7 @@ patchesStrategicMerge:
 - patch-service.yaml
 - grid-certificates-patch.yaml
 - patch-webui.yaml
+- patch-server.yaml
 - patch-busybox.yaml
 
 configmapGenerator:
@@ -23,6 +24,9 @@ configmapGenerator:
 - name: webui-rucio-conf-j2
   files:
   - rucio.conf.j2=etc/rucio.conf.j2
+- name: server-rucio-conf-j2
+  files:
+  - rucio.conf.j2=etc/rucio-server.conf.j2
 
 secretGenerator:
 # Database Connection String
