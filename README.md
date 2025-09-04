@@ -1,4 +1,3 @@
-
 # rucio-ams: Fermilab Rucio Deployment Framework
 
 ## Scientific Data Management
@@ -181,12 +180,43 @@ At Fermilab, we use centrally managed PostgreSQL databases.
     pod/rucio-db-upgrade created
     ```
 
-3. Follow instructions at <https://rucio.github.io/documentation/operator/database#upgrading-and-downgrading-the-database-schema>
+3. Enter the pod with k9s, or
+
+    ```bash
+    $ kubectl exec -it rucio-db-upgrade -- /bin/bash
+    ```
+
+    
+4. Generate the `rucio.cfg` and `alembic.ini` file and set `ALEMBIC_CONFIG` (these are the first few commands in `docker-entrypoint.sh`)
+
+    ```bash
+    $ python3 /usr/local/rucio/tools/merge_rucio_configs.py \
+            -s /tmp/rucio.config.default.cfg $RUCIO_OVERRIDE_CONFIGS \
+            --use-env \
+            -d /opt/rucio/etc/rucio.cfg
+
+    $ j2 /tmp/alembic.ini.j2 | sed '/^\s*$/d' > /opt/rucio/etc/alembic.ini
+
+    $ export ALEMBIC_CONFIG=/opt/rucio/etc/alembic.ini
+    ```
+
+5. Modify `script_location` in `/opt/rucio/etc/alembic.ini` to the Rucio package's migrate repo
+
+    ```
+    script_location = /usr/local/lib/python3.9/site-packages/rucio/db/sqla/migrate_repo
+    ```
+
+6. Check the current alembic migration version
+    ```bash
+    alembic current
+    ```
+
+7. Follow instructions at <https://rucio.github.io/documentation/operator/database#upgrading-and-downgrading-the-database-schema>
 
     > Ensure that in etc/alembic.ini the database connection string is is set to the same database connection string as the etc/rucio.cfg and issue the following command to verify the changes to the upgrade of the schema:
     >
     > ```bash
-    > alembic upgrade --sql $(alembic current | cut -d' '-f1):head
+    > alembic upgrade --sql $(alembic current | cut -d' ' -f1):head
     > ```
     >
     > You can edit and then apply the SQL directly on your database.
@@ -195,9 +225,17 @@ At Fermilab, we use centrally managed PostgreSQL databases.
     > alembic upgrade head
     > ```
 
-    Rucio developers do no advise running upgrades using alembic
+    Rucio developers do no advise running upgrades using alembic. Another method is to generate the sql file, then apply it with a `psql` command
 
-4. Delete the pod with
+    ```bash
+    # In pod
+    alembic upgrade --sql $(alembic current | cut -d' ' -f1):head > upgrade.sql
+
+    # On host with psql command
+    psql> source upgrade.sql
+    ```
+
+8. Delete the pod with
 
     ```bash
     $ kubectl delete pod/rucio-db-upgrade

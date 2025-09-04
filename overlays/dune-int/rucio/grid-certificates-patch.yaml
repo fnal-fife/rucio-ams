@@ -28,7 +28,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fnal-reaper
+  name: fnal-rucio-daemons-reaper
 spec:
   template:
     spec:
