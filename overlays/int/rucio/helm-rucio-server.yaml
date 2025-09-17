@@ -11,7 +11,7 @@ metadata:
     heritage: "Helm"
 type: Opaque
 data:
-  common.json: "ewogICJwb2xpY3kiOiB7CiAgICAicGFja2FnZSI6ICJmZXJtaWxhYiIKICB9LAogICJ3ZWJ1aSI6IHsKICAgICJ1cmxzIjogImh0dHBzOi8vd2VidWktaW50LXJ1Y2lvLmZuYWwuZ292IgogIH0KfQ=="
+  common.json: "ewogICJwb2xpY3kiOiB7CiAgICAicGFja2FnZSI6ICJydWNpb2ludHBvbGljeSIKICB9LAogICJ3ZWJ1aSI6IHsKICAgICJ1cmxzIjogImh0dHBzOi8vd2VidWktaW50LXJ1Y2lvLmZuYWwuZ292IgogIH0KfQ=="
 ---
 # Source: rucio-server/templates/secrets.yaml
 apiVersion: v1
@@ -20,7 +20,7 @@ metadata:
   name: fnal-rucio-server.cfg
   labels:
     app: rucio-server
-    chart: "rucio-server-35.0.1"
+    chart: "rucio-server-38.0.0"
     release: "fnal"
     heritage: "Helm"
 type: Opaque
@@ -34,7 +34,7 @@ metadata:
   name: fnal-rucio-server
   labels:
     app: rucio-server
-    chart: rucio-server-35.0.1
+    chart: rucio-server-38.0.0
     release: fnal
     heritage: Helm
 spec:
@@ -55,9 +55,10 @@ metadata:
   name: fnal-rucio-server
   labels:
     app: rucio-server
-    chart: rucio-server-35.0.1
+    chart: rucio-server-38.0.0
     release: fnal
     heritage: Helm
+
 spec:
   replicas: 1
   selector:
@@ -76,7 +77,7 @@ spec:
         app: rucio-server
         release: fnal
       annotations:
-        checksum/config: 406aab4331e6a6b19649f28518b708e5b4f5c874
+        checksum/config: 0a712bc225b0512abca6d66d05e561f685d99d07
     spec:
       serviceAccountName: useroot
       volumes:
@@ -84,6 +85,8 @@ spec:
         secret:
           secretName: fnal-rucio-server.config.common
       - name: httpdlog
+        emptyDir: {}
+      - name: policy-package-volume
         emptyDir: {}
       - name: policy-package
         secret:
@@ -100,9 +103,32 @@ spec:
       - name: server-hostkey
         secret:
           secretName: fnal-server-hostkey
+      initContainers:
+      - name: install-policy-packages
+        # A slim Python image could be used instead, but using the same image as the base image for the main container ensures that the same Python version is used
+        image: "almalinux:9"
+        command:
+          - /bin/bash
+          - -e
+          - -c
+          - |
+            export PYTHONPATH=/opt/policy_packages/:$PYTHONPATH
+            if python3 -c "from importlib.metadata import version; assert version('ruciointpolicy') == '0.1.0'"; then
+                echo "module ruciointpolicy version 0.1.0 is already installed"
+            else
+                if [[ 'git+https://github.com/d-ylee/ruciointpolicy@main' == git+* ]]; then
+                    dnf install --assumeyes git
+                fi
+                dnf install --assumeyes python-pip
+                pip uninstall --yes ruciointpolicy
+                pip install git+https://github.com/d-ylee/ruciointpolicy@main --target /opt/policy_packages/
+            fi
+        volumeMounts:
+        - name: policy-package-volume
+          mountPath: /opt/policy_packages/
       containers:
         - name: httpd-error-log
-          image: busybox
+          image: "busybox"
           args: [/bin/sh, -c, 'tail -n+1 -F /var/log/httpd/error_log']
           volumeMounts:
           - name: httpdlog
@@ -115,7 +141,7 @@ spec:
               cpu: 20m
               memory: 20Mi
         - name: rucio-server
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-server:release-37.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-server:release-38.1.0"
           imagePullPolicy: Always
           resources:
             limits:
@@ -128,6 +154,8 @@ spec:
           - name: config
             mountPath: /opt/rucio/etc/conf.d/10_common.json
             subPath: common.json
+          - name: policy-package-volume
+            mountPath: /opt/policy_packages/
           - name: httpdlog
             mountPath: /var/log/httpd
           - name: policy-package
@@ -177,6 +205,8 @@ spec:
                 secretKeyRef:
                   name: fnal-rucio-server.cfg
                   key: grid_site_enabled
+            - name: PYTHONPATH
+              value: /opt/policy_packages/
             - name: RUCIO_ENABLE_SSL
               value: "True"
             - name: RUCIO_HEALTH_CHECK_PORT
@@ -191,8 +221,6 @@ spec:
               value: "4"
             - name: RUCIO_WSGI_DAEMON_THREADS
               value: "4"
-            - name: PYTHONPATH
-              value: /opt/rucio/permissions
             - name: RUCIO_CFG_DATABASE_DEFAULT
               valueFrom:
                 secretKeyRef:
