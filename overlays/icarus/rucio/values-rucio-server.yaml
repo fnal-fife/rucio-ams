@@ -25,7 +25,7 @@ useSSL: true
 
 image:
   repository: imageregistry.fnal.gov/docker.io/rucio/rucio-server
-  tag: release-37.2.0
+  tag: release-38.1.0
   pullPolicy: Always
 
 service:
@@ -82,8 +82,6 @@ livenessProbe:
   timeoutSeconds: 5
 
 serverType: api
-
-logFormat: '[%{%Y-%m-%d %H:%M:%S}t]\t%v\t%h\t%{X-Forwarded-For}i\t%{X-Rucio-RequestId}i\t%>s\t%I\t%B\t%D\t\"%r\"\t\"%{X-Rucio-Auth-Token}i\"\t\"%{User-Agent}i\"\t%{X-Rucio-Script}i'
 
 monitoring:
   enabled: false
