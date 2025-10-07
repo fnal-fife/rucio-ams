@@ -25,7 +25,7 @@ useSSL: true
 
 image:
   repository: imageregistry.fnal.gov/docker.io/rucio/rucio-server
-  tag: release-37.2.0
+  tag: release-38.1.0
   pullPolicy: Always
 
 service:
@@ -163,6 +163,39 @@ ftsRenewal:
       cpu: 100m
       memory: 128Mi
 
+policyPackages:
+  enabled: true
+
+  # Use an ephemeral volume to install the policy package.
+  # This means that the policy package will need to be installed on every pod restart but no PV/PVC are needed
+  ephemeralVolume: true
+
+  # Make sure the trailing slash is present
+  mountPath: /opt/policy_packages/
+  # Use underscores instead of hyphens for module names
+  # (e.g. atlas_rucio_policy_package instead of atlas-rucio-policy-package)
+  packages:
+    # example: install from an index (default is PyPI)
+    # - moduleName: vo_1_policy_package
+    #   requirement: vo_1_policy_package==1.4.0
+    #   version: 1.4.0
+    # example: install from a git repository
+    - moduleName: ruciointpolicy
+      requirement: git+https://github.com/fnal-fife/ruciointpolicy@main
+      version: 0.1.0
+  pvc:
+    # Set true to create a PVC for the policy packages; leave false if providing it separately.
+    createPvc: false
+    name: policy-package-volume
+    # Whether to prepend the release name to the PVC name provided.
+    prependReleaseName: false
+  resources:
+    requests:
+      # Storage required by the policy packages - resize if needed
+      storage: 100Mi
+  storageClass:
+    name:
+
 automaticRestart:
   enabled: 0
   image:
@@ -206,8 +239,8 @@ hostPathMounts: []
   #   type: DirectoryOrCreate
 
 additionalEnvs:
-  - name: PYTHONPATH
-    value: /opt/rucio/permissions
+  #- name: PYTHONPATH
+  #  value: /opt/rucio/permissions
   - name: RUCIO_CFG_DATABASE_DEFAULT
     valueFrom:
       secretKeyRef:
@@ -392,7 +425,7 @@ config:
     # password: ""
 
   policy:
-    package: fermilab
+    package: ruciointpolicy
     ## config.permission.policy: (default "generic")
     # permission: "generic"
     ## config.permission.schema: (default "generic")
