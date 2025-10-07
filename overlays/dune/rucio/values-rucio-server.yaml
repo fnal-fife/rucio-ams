@@ -25,7 +25,7 @@ useSSL: true
 
 image:
   repository: imageregistry.fnal.gov/docker.io/rucio/rucio-server
-  tag: release-37.2.0
+  tag: release-38.1.0
   pullPolicy: Always
 
 service:
@@ -383,6 +383,8 @@ config:
     admin_issuer: "CILogon"
     supports_audience: "False"
     idpsecrets: "/opt/rucio/etc/idpsecrets.json"
+    expected_audience: "https://wlcg.cern.ch/jwt/v1/any"
+    expected_scope: "storage.read:/"
 
   ## only necessary if the server is configurated to receive traces
   # trace:
