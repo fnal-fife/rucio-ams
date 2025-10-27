@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: fnal-rucio-edit
+  name: fnal-rucio-daemons-rucio-edit
 ---
 # Source: rucio-daemons/templates/abacus-deployment.yaml
 apiVersion: v1
@@ -12,7 +12,7 @@ metadata:
   name: fnal-rucio-daemons.config.abacus-account
   labels:
     app: rucio-daemons-abacus-account
-    chart: "rucio-daemons-35.0.2"
+    chart: "rucio-daemons-38.0.1"
     release: "fnal"
     heritage: "Helm"
 type: Opaque
@@ -26,7 +26,7 @@ metadata:
   name: fnal-rucio-daemons.config.abacus-rse
   labels:
     app: rucio-daemons-abacus-rse
-    chart: "rucio-daemons-35.0.2"
+    chart: "rucio-daemons-38.0.1"
     release: "fnal"
     heritage: "Helm"
 type: Opaque
@@ -40,7 +40,7 @@ metadata:
   name: fnal-rucio-daemons.config.hermes
   labels:
     app: rucio-daemons-hermes
-    chart: "rucio-daemons-35.0.2"
+    chart: "rucio-daemons-38.0.1"
     release: "fnal"
     heritage: "Helm"
 type: Opaque
@@ -54,7 +54,7 @@ metadata:
   name: fnal-rucio-daemons.config.judge-cleaner
   labels:
     app: rucio-daemons-judge-cleaner
-    chart: "rucio-daemons-35.0.2"
+    chart: "rucio-daemons-38.0.1"
     release: "fnal"
     heritage: "Helm"
 type: Opaque
@@ -68,7 +68,7 @@ metadata:
   name: fnal-rucio-daemons.config.judge-evaluator
   labels:
     app: rucio-daemons-judge-evaluator
-    chart: "rucio-daemons-35.0.2"
+    chart: "rucio-daemons-38.0.1"
     release: "fnal"
     heritage: "Helm"
 type: Opaque
@@ -82,7 +82,7 @@ metadata:
   name: fnal-rucio-daemons.config.judge-injector
   labels:
     app: rucio-daemons-judge-injector
-    chart: "rucio-daemons-35.0.2"
+    chart: "rucio-daemons-38.0.1"
     release: "fnal"
     heritage: "Helm"
 type: Opaque
@@ -96,7 +96,7 @@ metadata:
   name: fnal-rucio-daemons.config.judge-repairer
   labels:
     app: rucio-daemons-judge-repairer
-    chart: "rucio-daemons-35.0.2"
+    chart: "rucio-daemons-38.0.1"
     release: "fnal"
     heritage: "Helm"
 type: Opaque
@@ -110,7 +110,7 @@ metadata:
   name: fnal-rucio-daemons.config.minos
   labels:
     app: rucio-daemons-minos
-    chart: "rucio-daemons-35.0.2"
+    chart: "rucio-daemons-38.0.1"
     release: "fnal"
     heritage: "Helm"
 type: Opaque
@@ -124,7 +124,7 @@ metadata:
   name: fnal-rucio-daemons.config.minos-temporary-expiration
   labels:
     app: rucio-daemons-minos-temporary-expiration
-    chart: "rucio-daemons-35.0.2"
+    chart: "rucio-daemons-38.0.1"
     release: "fnal"
     heritage: "Helm"
 type: Opaque
@@ -138,7 +138,7 @@ metadata:
   name: fnal-rucio-daemons.config.necromancer
   labels:
     app: rucio-daemons-necromancer
-    chart: "rucio-daemons-35.0.2"
+    chart: "rucio-daemons-38.0.1"
     release: "fnal"
     heritage: "Helm"
 type: Opaque
@@ -152,7 +152,7 @@ metadata:
   name: fnal-rucio-daemons.config.replica-recoverer
   labels:
     app: rucio-daemons-replica-recoverer
-    chart: "rucio-daemons-35.0.2"
+    chart: "rucio-daemons-38.0.1"
     release: "fnal"
     heritage: "Helm"
 type: Opaque
@@ -166,12 +166,12 @@ metadata:
   name: fnal-rucio-daemons.config.common
   labels:
     app: rucio-daemons
-    chart: "rucio-daemons-35.0.2"
+    chart: "rucio-daemons-38.0.1"
     release: "fnal"
     heritage: "Helm"
 type: Opaque
 data:
-  common.json: "ewogICJhdXRvbWF0aXgiOiB7CiAgICAiYWNjb3VudCI6ICJhdXRvbWF0aXgiLAogICAgImRhdGFzZXRfbGlmZXRpbWUiOiAzMCwKICAgICJyc2VzIjogIkRDQUNIRV9CSldISVRFX0VORCwgRENBQ0hFX0JKV0hJVEVfRU5EMiIsCiAgICAic2NvcGUiOiAiYXV0b21hdGl4IiwKICAgICJzZXRfbWV0YWRhdGEiOiAiVHJ1ZSIKICB9LAogICJjYWNoZSI6IHsKICAgICJ1cmwiOiAicnVjaW8tY2FjaGU6MTEyMTEiCiAgfSwKICAiY2xpZW50IjogewogICAgImFjY291bnQiOiAiYXV0b21hdGl4IiwKICAgICJhdXRoX2hvc3QiOiAiaHR0cHM6Ly9tdTJlLXJ1Y2lvLmZuYWwuZ292IiwKICAgICJhdXRoX3R5cGUiOiAieDUwOV9wcm94eSIsCiAgICAiY2FfY2VydCI6ICIvZXRjL2dyaWQtc2VjdXJpdHkvY2VydGlmaWNhdGVzIiwKICAgICJjbGllbnRfeDUwOV9wcm94eSI6ICIvb3B0L3Byb3h5L3g1MDl1cCIsCiAgICAicHJvdG9jb2xfc3RhdF9yZXRyaWVzIjogNiwKICAgICJyZXF1ZXN0X3JldHJpZXMiOiAzLAogICAgInJ1Y2lvX2hvc3QiOiAiaHR0cHM6Ly9tdTJlLXJ1Y2lvLmZuYWwuZ292IgogIH0sCiAgImNvbnZleW9yIjogewogICAgImNhY2VydCI6ICIvb3B0L2NlcnRzL2NhLnBlbSIsCiAgICAiZnRzaG9zdHMiOiAiaHR0cHM6Ly9mdHMzLXB1YmxpYy5jZXJuLmNoOjg0NDYsaHR0cHM6Ly9mdHMzLXB1YmxpYy5mbmFsLmdvdjo4NDQ2IiwKICAgICJ1c2VyY2VydCI6ICIvb3B0L3Byb3h5L3g1MDl1cCIKICB9LAogICJoZXJtZXMiOiB7CiAgICAic2VydmljZXNfbGlzdCI6ICJhY3RpdmVtcSIKICB9LAogICJtZXNzYWdpbmctY2FjaGUiOiB7CiAgICAiYWNjb3VudCI6ICJtZW1jYWNoZSIsCiAgICAiYnJva2VycyI6ICJydWNpby1jYWNoZSIsCiAgICAiZGVzdGluYXRpb24iOiAiL3RvcGljL3J1Y2lvLmV2ZW50cy5tdTJlIiwKICAgICJwb3J0IjogIjYxMTIzIiwKICAgICJ2b25hbWUiOiAibXUyZSIKICB9LAogICJtZXNzYWdpbmctaGVybWVzIjogewogICAgImJyb2tlcl92aXJ0dWFsX2hvc3QiOiAiLyIsCiAgICAiYnJva2VycyI6ICJmbmFsLXJ1Y2lvLW1lc3NlbmdlciIsCiAgICAiZGVzdGluYXRpb24iOiAiL3RvcGljL3J1Y2lvLmV2ZW50cy5tdTJlIiwKICAgICJub25zc2xfcG9ydCI6ICI2MTYxMyIsCiAgICAicGFzc3dvcmQiOiAiZ3Vlc3QiLAogICAgInBvcnQiOiAiNjE2MTMiLAogICAgInNzbF9jZXJ0X2ZpbGUiOiAiL29wdC9ydWNpby9jZXJ0cy9ob3N0Y2VydC5wZW0iLAogICAgInNzbF9rZXlfZmlsZSI6ICIvb3B0L3J1Y2lvL2tleXMvaG9zdGtleS5wZW0iLAogICAgInVzZV9zc2wiOiAiRmFsc2UiLAogICAgInVzZXJuYW1lIjogImd1ZXN0IiwKICAgICJ2b25hbWUiOiAibXUyZSIKICB9LAogICJtb25pdG9yIjogewogICAgImVuYWJsZV9tZXRyaWNzIjogdHJ1ZQogIH0sCiAgInBvbGljeSI6IHsKICAgICJsZm4ycGZuX2FsZ29yaXRobV9kZWZhdWx0IjogIk1VMkUiLAogICAgInBhY2thZ2UiOiAiZmVybWlsYWIubXUyZSIKICB9LAogICJ0cmFuc2ZlcnMiOiB7CiAgICAibXVsdGlob3BfcnNlX2V4cHJlc3Npb24iOiAiIgogIH0KfQ=="
+  common.json: "ewogICJhdXRvbWF0aXgiOiB7CiAgICAiYWNjb3VudCI6ICJhdXRvbWF0aXgiLAogICAgImRhdGFzZXRfbGlmZXRpbWUiOiAzMCwKICAgICJyc2VzIjogIkRDQUNIRV9CSldISVRFX0VORCwgRENBQ0hFX0JKV0hJVEVfRU5EMiIsCiAgICAic2NvcGUiOiAiYXV0b21hdGl4IiwKICAgICJzZXRfbWV0YWRhdGEiOiAiVHJ1ZSIKICB9LAogICJjYWNoZSI6IHsKICAgICJ1cmwiOiAicnVjaW8tY2FjaGU6MTEyMTEiCiAgfSwKICAiY2xpZW50IjogewogICAgImFjY291bnQiOiAiYXV0b21hdGl4IiwKICAgICJhdXRoX2hvc3QiOiAiaHR0cHM6Ly9tdTJlLXJ1Y2lvLmZuYWwuZ292IiwKICAgICJhdXRoX3R5cGUiOiAieDUwOV9wcm94eSIsCiAgICAiY2FfY2VydCI6ICIvZXRjL2dyaWQtc2VjdXJpdHkvY2VydGlmaWNhdGVzIiwKICAgICJjbGllbnRfeDUwOV9wcm94eSI6ICIvb3B0L3Byb3h5L3g1MDl1cCIsCiAgICAicHJvdG9jb2xfc3RhdF9yZXRyaWVzIjogNiwKICAgICJyZXF1ZXN0X3JldHJpZXMiOiAzLAogICAgInJ1Y2lvX2hvc3QiOiAiaHR0cHM6Ly9tdTJlLXJ1Y2lvLmZuYWwuZ292IgogIH0sCiAgImNvbnZleW9yIjogewogICAgImNhY2VydCI6ICIvb3B0L2NlcnRzL2NhLnBlbSIsCiAgICAidXNlcmNlcnQiOiAiL29wdC9wcm94eS94NTA5dXAiCiAgfSwKICAiaGVybWVzIjogewogICAgInNlcnZpY2VzX2xpc3QiOiAiYWN0aXZlbXEiCiAgfSwKICAibWVzc2FnaW5nLWNhY2hlIjogewogICAgImFjY291bnQiOiAibWVtY2FjaGUiLAogICAgImJyb2tlcnMiOiAicnVjaW8tY2FjaGUiLAogICAgImRlc3RpbmF0aW9uIjogIi90b3BpYy9ydWNpby5ldmVudHMubXUyZSIsCiAgICAicG9ydCI6ICI2MTEyMyIsCiAgICAidm9uYW1lIjogIm11MmUiCiAgfSwKICAibWVzc2FnaW5nLWhlcm1lcyI6IHsKICAgICJicm9rZXJfdmlydHVhbF9ob3N0IjogIi8iLAogICAgImJyb2tlcnMiOiAiZm5hbC1ydWNpby1tZXNzZW5nZXIiLAogICAgImRlc3RpbmF0aW9uIjogIi90b3BpYy9ydWNpby5ldmVudHMubXUyZSIsCiAgICAibm9uc3NsX3BvcnQiOiAiNjE2MTMiLAogICAgInBhc3N3b3JkIjogImd1ZXN0IiwKICAgICJwb3J0IjogIjYxNjEzIiwKICAgICJzc2xfY2VydF9maWxlIjogIi9vcHQvcnVjaW8vY2VydHMvaG9zdGNlcnQucGVtIiwKICAgICJzc2xfa2V5X2ZpbGUiOiAiL29wdC9ydWNpby9rZXlzL2hvc3RrZXkucGVtIiwKICAgICJ1c2Vfc3NsIjogIkZhbHNlIiwKICAgICJ1c2VybmFtZSI6ICJndWVzdCIsCiAgICAidm9uYW1lIjogIm11MmUiCiAgfSwKICAibW9uaXRvciI6IHsKICAgICJlbmFibGVfbWV0cmljcyI6IHRydWUKICB9LAogICJwb2xpY3kiOiB7CiAgICAibGZuMnBmbl9hbGdvcml0aG1fZGVmYXVsdCI6ICJNVTJFIiwKICAgICJwYWNrYWdlIjogImZlcm1pbGFiLm11MmUiCiAgfSwKICAidHJhbnNmZXJzIjogewogICAgIm11bHRpaG9wX3JzZV9leHByZXNzaW9uIjogIiIKICB9Cn0="
 ---
 # Source: rucio-daemons/templates/undertaker-deployment.yaml
 apiVersion: v1
@@ -180,7 +180,7 @@ metadata:
   name: fnal-rucio-daemons.config.undertaker
   labels:
     app: rucio-daemons-undertaker
-    chart: "rucio-daemons-35.0.2"
+    chart: "rucio-daemons-38.0.1"
     release: "fnal"
     heritage: "Helm"
 type: Opaque
@@ -191,11 +191,11 @@ data:
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: fnal-rucio-edit
+  name: fnal-rucio-daemons-rucio-edit
   namespace: rucio-mu2e
 subjects:
 - kind: ServiceAccount
-  name: fnal-rucio-edit
+  name: fnal-rucio-daemons-rucio-edit
   namespace: rucio-mu2e
 roleRef:
   kind: ClusterRole
@@ -209,7 +209,7 @@ metadata:
   name: fnal-rucio-daemons
   labels:
     app-group: rucio-daemons
-    chart: rucio-daemons-35.0.2
+    chart: rucio-daemons-38.0.1
     release: fnal
     heritage: Helm
 spec:
@@ -227,11 +227,11 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fnal-abacus-account
+  name: fnal-rucio-daemons-abacus-account
   labels:
     app: rucio-daemons-abacus-account
     app-group: rucio-daemons
-    chart: rucio-daemons-35.0.2
+    chart: rucio-daemons-38.0.1
     release: fnal
     heritage: Helm
 spec:
@@ -272,7 +272,7 @@ spec:
           secretName: fnal-rucio-x509up
       containers:
         - name: rucio-daemons
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-37.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-38.3.0"
           imagePullPolicy: Always
           volumeMounts:
             - name: config-common
@@ -315,11 +315,11 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fnal-abacus-rse
+  name: fnal-rucio-daemons-abacus-rse
   labels:
     app: rucio-daemons-abacus-rse
     app-group: rucio-daemons
-    chart: rucio-daemons-35.0.2
+    chart: rucio-daemons-38.0.1
     release: fnal
     heritage: Helm
 spec:
@@ -360,7 +360,7 @@ spec:
           secretName: fnal-rucio-x509up
       containers:
         - name: rucio-daemons
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-37.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-38.3.0"
           imagePullPolicy: Always
           volumeMounts:
             - name: config-common
@@ -403,11 +403,11 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fnal-hermes
+  name: fnal-rucio-daemons-hermes
   labels:
     app: rucio-daemons-hermes
     app-group: rucio-daemons
-    chart: rucio-daemons-35.0.2
+    chart: rucio-daemons-38.0.1
     release: fnal
     heritage: Helm
 spec:
@@ -430,7 +430,7 @@ spec:
         release: fnal
         rucio-daemon: hermes
       annotations:
-        checksum/config: d671745ca7f4df1a1d47b07b5be1622e63cf4121
+        checksum/config: 6523892312695c7498ebcaadb60eea1dd588f111
     spec:
       serviceAccountName: useroot
       volumes:
@@ -456,7 +456,7 @@ spec:
             secretName: fnal-rucio-x509up
       containers:
         - name: rucio-daemons
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-37.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-38.3.0"
           imagePullPolicy: Always
           volumeMounts:
 
@@ -505,11 +505,11 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fnal-judge-cleaner
+  name: fnal-rucio-daemons-judge-cleaner
   labels:
     app: rucio-daemons-judge-cleaner
     app-group: rucio-daemons
-    chart: rucio-daemons-35.0.2
+    chart: rucio-daemons-38.0.1
     release: fnal
     heritage: Helm
 spec:
@@ -532,7 +532,7 @@ spec:
         release: fnal
         rucio-daemon: judge-cleaner
       annotations:
-        checksum/config: d671745ca7f4df1a1d47b07b5be1622e63cf4121
+        checksum/config: 6523892312695c7498ebcaadb60eea1dd588f111
     spec:
       serviceAccountName: useroot
       volumes:
@@ -550,7 +550,7 @@ spec:
           secretName: fnal-rucio-x509up
       containers:
         - name: rucio-daemons
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-37.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-38.3.0"
           imagePullPolicy: Always
           volumeMounts:
             - name: config-common
@@ -593,11 +593,11 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fnal-judge-evaluator
+  name: fnal-rucio-daemons-judge-evaluator
   labels:
     app: rucio-daemons-judge-evaluator
     app-group: rucio-daemons
-    chart: rucio-daemons-35.0.2
+    chart: rucio-daemons-38.0.1
     release: fnal
     heritage: Helm
 spec:
@@ -620,7 +620,7 @@ spec:
         release: fnal
         rucio-daemon: judge-evaluator
       annotations:
-        checksum/config: d671745ca7f4df1a1d47b07b5be1622e63cf4121
+        checksum/config: 6523892312695c7498ebcaadb60eea1dd588f111
     spec:
       serviceAccountName: useroot
       volumes:
@@ -638,7 +638,7 @@ spec:
           secretName: fnal-rucio-x509up
       containers:
         - name: rucio-daemons
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-37.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-38.3.0"
           imagePullPolicy: Always
           volumeMounts:
             - name: config-common
@@ -681,11 +681,11 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fnal-judge-injector
+  name: fnal-rucio-daemons-judge-injector
   labels:
     app: rucio-daemons-judge-injector
     app-group: rucio-daemons
-    chart: rucio-daemons-35.0.2
+    chart: rucio-daemons-38.0.1
     release: fnal
     heritage: Helm
 spec:
@@ -708,7 +708,7 @@ spec:
         release: fnal
         rucio-daemon: judge-injector
       annotations:
-        checksum/config: d671745ca7f4df1a1d47b07b5be1622e63cf4121
+        checksum/config: 6523892312695c7498ebcaadb60eea1dd588f111
     spec:
       serviceAccountName: useroot
       volumes:
@@ -726,7 +726,7 @@ spec:
           secretName: fnal-rucio-x509up
       containers:
         - name: rucio-daemons
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-37.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-38.3.0"
           imagePullPolicy: Always
           volumeMounts:
             - name: config-common
@@ -769,11 +769,11 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fnal-judge-repairer
+  name: fnal-rucio-daemons-judge-repairer
   labels:
     app: rucio-daemons-judge-repairer
     app-group: rucio-daemons
-    chart: rucio-daemons-35.0.2
+    chart: rucio-daemons-38.0.1
     release: fnal
     heritage: Helm
 spec:
@@ -796,7 +796,7 @@ spec:
         release: fnal
         rucio-daemon: judge-repairer
       annotations:
-        checksum/config: d671745ca7f4df1a1d47b07b5be1622e63cf4121
+        checksum/config: 6523892312695c7498ebcaadb60eea1dd588f111
     spec:
       serviceAccountName: useroot
       volumes:
@@ -814,7 +814,7 @@ spec:
           secretName: fnal-rucio-x509up
       containers:
         - name: rucio-daemons
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-37.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-38.3.0"
           imagePullPolicy: Always
           volumeMounts:
             - name: config-common
@@ -857,11 +857,11 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fnal-minos
+  name: fnal-rucio-daemons-minos
   labels:
     app: rucio-daemons-minos
     app-group: rucio-daemons
-    chart: rucio-daemons-35.0.2
+    chart: rucio-daemons-38.0.1
     release: fnal
     heritage: Helm
 spec:
@@ -884,7 +884,7 @@ spec:
         release: fnal
         rucio-daemon: minos
       annotations:
-        checksum/config: d671745ca7f4df1a1d47b07b5be1622e63cf4121
+        checksum/config: 6523892312695c7498ebcaadb60eea1dd588f111
     spec:
       serviceAccountName: useroot
       volumes:
@@ -902,7 +902,7 @@ spec:
           secretName: fnal-rucio-x509up
       containers:
         - name: rucio-daemons
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-37.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-38.3.0"
           imagePullPolicy: Always
           volumeMounts:
             - name: config-common
@@ -945,11 +945,11 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fnal-minos-temporary-expiration
+  name: fnal-rucio-daemons-minos-temporary-expiration
   labels:
     app: rucio-daemons-minos-temporary-expiration
     app-group: rucio-daemons
-    chart: rucio-daemons-35.0.2
+    chart: rucio-daemons-38.0.1
     release: fnal
     heritage: Helm
 spec:
@@ -972,7 +972,7 @@ spec:
         release: fnal
         rucio-daemon: minos-temporary-expiration
       annotations:
-        checksum/config: d671745ca7f4df1a1d47b07b5be1622e63cf4121
+        checksum/config: 6523892312695c7498ebcaadb60eea1dd588f111
     spec:
       serviceAccountName: useroot
       volumes:
@@ -990,7 +990,7 @@ spec:
           secretName: fnal-rucio-x509up
       containers:
         - name: rucio-daemons
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-37.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-38.3.0"
           imagePullPolicy: Always
           volumeMounts:
             - name: config-common
@@ -1033,11 +1033,11 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fnal-necromancer
+  name: fnal-rucio-daemons-necromancer
   labels:
     app: rucio-daemons-necromancer
     app-group: rucio-daemons
-    chart: rucio-daemons-35.0.2
+    chart: rucio-daemons-38.0.1
     release: fnal
     heritage: Helm
 spec:
@@ -1060,7 +1060,7 @@ spec:
         release: fnal
         rucio-daemon: necromancer
       annotations:
-        checksum/config: d671745ca7f4df1a1d47b07b5be1622e63cf4121
+        checksum/config: 6523892312695c7498ebcaadb60eea1dd588f111
     spec:
       serviceAccountName: useroot
       volumes:
@@ -1078,7 +1078,7 @@ spec:
           secretName: fnal-rucio-x509up
       containers:
         - name: rucio-daemons
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-37.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-38.3.0"
           imagePullPolicy: Always
           volumeMounts:
             - name: config-common
@@ -1121,11 +1121,11 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fnal-replica-recoverer
+  name: fnal-rucio-daemons-replica-recoverer
   labels:
     app: rucio-daemons-replica-recoverer
     app-group: rucio-daemons
-    chart: rucio-daemons-35.0.2
+    chart: rucio-daemons-38.0.1
     release: fnal
     heritage: Helm
 spec:
@@ -1148,7 +1148,7 @@ spec:
         release: fnal
         rucio-daemon: replica-recoverer
       annotations:
-        checksum/config: d671745ca7f4df1a1d47b07b5be1622e63cf4121
+        checksum/config: 6523892312695c7498ebcaadb60eea1dd588f111
     spec:
       serviceAccountName: useroot
       volumes:
@@ -1166,7 +1166,7 @@ spec:
           secretName: fnal-rucio-x509up
       containers:
         - name: rucio-daemons
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-37.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-38.3.0"
           imagePullPolicy: Always
           volumeMounts:
             - name: config-common
@@ -1209,11 +1209,11 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fnal-undertaker
+  name: fnal-rucio-daemons-undertaker
   labels:
     app: rucio-daemons-undertaker
     app-group: rucio-daemons
-    chart: rucio-daemons-35.0.2
+    chart: rucio-daemons-38.0.1
     release: fnal
     heritage: Helm
 spec:
@@ -1236,7 +1236,7 @@ spec:
         release: fnal
         rucio-daemon: undertaker
       annotations:
-        checksum/config: d671745ca7f4df1a1d47b07b5be1622e63cf4121
+        checksum/config: 6523892312695c7498ebcaadb60eea1dd588f111
     spec:
       serviceAccountName: useroot
       volumes:
@@ -1254,7 +1254,7 @@ spec:
           secretName: fnal-rucio-x509up
       containers:
         - name: rucio-daemons
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-37.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-38.3.0"
           imagePullPolicy: Always
           volumeMounts:
             - name: config-common
@@ -1297,14 +1297,14 @@ spec:
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: fnal-renew-fts-proxy
+  name: fnal-rucio-daemons-renew-fts-proxy
 spec:
   schedule: "12 */6 * * *"
   jobTemplate:
     spec:
       template:
         spec:        
-          serviceAccountName: fnal-rucio-edit
+          serviceAccountName: fnal-rucio-daemons-rucio-edit
           volumes:
           - name: config-common
             secret:
@@ -1376,14 +1376,14 @@ spec:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: fnal-renew-fts-proxy-on-helm-install
+  name: fnal-rucio-daemons-renew-fts-proxy-on-helm-install
   annotations:
     helm.sh/hook: post-install  # Relies on rucio service account, created by this helm chart
     helm.sh/hook-delete-policy: hook-succeeded
 spec:
   template:
     spec:    
-      serviceAccountName: fnal-rucio-edit
+      serviceAccountName: fnal-rucio-daemons-rucio-edit
       volumes:
       - name: config-common
         secret:
