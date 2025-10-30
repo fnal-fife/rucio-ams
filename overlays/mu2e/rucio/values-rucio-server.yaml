@@ -83,7 +83,7 @@ livenessProbe:
 
 serverType: api
 
-logFormat: '[%{%Y-%m-%d %H:%M:%S}t]\t%v\t%h\t%{X-Forwarded-For}i\t%{X-Rucio-RequestId}i\t%>s\t%I\t%B\t%D\t\"%r\"\t\"%{X-Rucio-Auth-Token}i\"\t\"%{User-Agent}i\"\t%{X-Rucio-Script}i'
+#logFormat: '[%{%Y-%m-%d %H:%M:%S}t]\t%v\t%h\t%{X-Forwarded-For}i\t%{X-Rucio-RequestId}i\t%>s\t%I\t%B\t%D\t\"%r\"\t\"%{X-Rucio-Auth-Token}i\"\t\"%{User-Agent}i\"\t%{X-Rucio-Script}i'
 
 monitoring:
   enabled: false
@@ -386,7 +386,7 @@ config:
     supports_audience: "False"
     idpsecrets: "/opt/rucio/etc/idpsecrets.json"
     expected_audience: "https://wlcg.cern.ch/jwt/v1/any"
-    expected_scope: "storage.read:/mu2e"
+    expected_scope: "compute.read"
 
   ## only necessary if the server is configurated to receive traces
   # trace:
