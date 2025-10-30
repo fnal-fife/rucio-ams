@@ -11,7 +11,7 @@ metadata:
     heritage: "Helm"
 type: Opaque
 data:
-  common.json: "ewogICJvaWRjIjogewogICAgImFkbWluX2lzc3VlciI6ICJDSUxvZ29uIiwKICAgICJpZHBzZWNyZXRzIjogIi9vcHQvcnVjaW8vZXRjL2lkcHNlY3JldHMuanNvbiIsCiAgICAic3VwcG9ydHNfYXVkaWVuY2UiOiAiRmFsc2UiCiAgfSwKICAicG9saWN5IjogewogICAgImxmbjJwZm5fYWxnb3JpdGhtX2RlZmF1bHQiOiAiTVUyRSIsCiAgICAicGFja2FnZSI6ICJmZXJtaWxhYi5tdTJlIgogIH0sCiAgIndlYnVpIjogewogICAgInVybHMiOiAiaHR0cHM6Ly93ZWJ1aS1tdTJlLXJ1Y2lvLmZuYWwuZ292IgogIH0KfQ=="
+  common.json: "ewogICJvaWRjIjogewogICAgImFkbWluX2lzc3VlciI6ICJDSUxvZ29uIiwKICAgICJleHBlY3RlZF9hdWRpZW5jZSI6ICJodHRwczovL3dsY2cuY2Vybi5jaC9qd3QvdjEvYW55IiwKICAgICJleHBlY3RlZF9zY29wZSI6ICJjb21wdXRlLnJlYWQiLAogICAgImlkcHNlY3JldHMiOiAiL29wdC9ydWNpby9ldGMvaWRwc2VjcmV0cy5qc29uIiwKICAgICJzdXBwb3J0c19hdWRpZW5jZSI6ICJGYWxzZSIKICB9LAogICJwb2xpY3kiOiB7CiAgICAibGZuMnBmbl9hbGdvcml0aG1fZGVmYXVsdCI6ICJNVTJFIiwKICAgICJwYWNrYWdlIjogImZlcm1pbGFiLm11MmUiCiAgfSwKICAid2VidWkiOiB7CiAgICAidXJscyI6ICJodHRwczovL3dlYnVpLW11MmUtcnVjaW8uZm5hbC5nb3YiCiAgfQp9"
 ---
 # Source: rucio-server/templates/secrets.yaml
 apiVersion: v1
@@ -20,7 +20,7 @@ metadata:
   name: fnal-rucio-server.cfg
   labels:
     app: rucio-server
-    chart: "rucio-server-35.0.0"
+    chart: "rucio-server-38.0.2"
     release: "fnal"
     heritage: "Helm"
 type: Opaque
@@ -34,7 +34,7 @@ metadata:
   name: fnal-rucio-server
   labels:
     app: rucio-server
-    chart: rucio-server-35.0.0
+    chart: rucio-server-38.0.2
     release: fnal
     heritage: Helm
 spec:
@@ -55,9 +55,10 @@ metadata:
   name: fnal-rucio-server
   labels:
     app: rucio-server
-    chart: rucio-server-35.0.0
+    chart: rucio-server-38.0.2
     release: fnal
     heritage: Helm
+
 spec:
   replicas: 2
   selector:
@@ -76,7 +77,7 @@ spec:
         app: rucio-server
         release: fnal
       annotations:
-        checksum/config: cce04ff6bd4ce39500251efe76dfa47e3b58fbdf
+        checksum/config: 0f930c41857e060b54bec9b73b4d98abbef3a27a
     spec:
       serviceAccountName: useroot
       volumes:
@@ -105,7 +106,7 @@ spec:
           secretName: fnal-idpsecrets
       containers:
         - name: httpd-error-log
-          image: busybox
+          image: "busybox:latest"
           args: [/bin/sh, -c, 'tail -n+1 -F /var/log/httpd/error_log']
           volumeMounts:
           - name: httpdlog
@@ -118,7 +119,7 @@ spec:
               cpu: 20m
               memory: 20Mi
         - name: rucio-server
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-server:release-37.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-server:release-38.3.0"
           imagePullPolicy: Always
           resources:
             limits:
@@ -192,7 +193,7 @@ spec:
             - name: RUCIO_OVERRIDE_CONFIGS
               value: "/opt/rucio/etc/conf.d/"
             - name: RUCIO_LOG_FORMAT
-              value: '[%{%Y-%m-%d %H:%M:%S}t]\t%v\t%h\t%{X-Forwarded-For}i\t%{X-Rucio-RequestId}i\t%>s\t%I\t%B\t%D\t\"%r\"\t\"%{X-Rucio-Auth-Token}i\"\t\"%{User-Agent}i\"\t%{X-Rucio-Script}i'
+              value: '[%{%Y-%m-%d %H:%M:%S}t]\t%v\t%h\t%{X-Forwarded-For}i\t%{X-Rucio-RequestId}i\t%>s\t%I\t%B\t%D\t\"%r\"\t\"%{X-Rucio-Account}i\"\t\"%{User-Agent}i\"\t%{X-Rucio-Script}i'
             - name: RUCIO_WSGI_DAEMON_PROCESSES
               value: "4"
             - name: RUCIO_WSGI_DAEMON_THREADS
