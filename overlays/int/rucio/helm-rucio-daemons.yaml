@@ -2161,7 +2161,7 @@ spec:
               secretName: fnal-rucio-x509up
           containers:
             - name: renew-fts-cron
-              image: "imageregistry.fnal.gov/docker.io/rucio/fts-cron:latest"
+              image: "imageregistry.fnal.gov/docker.io/rucio/fts-cron:38.5.1"
               imagePullPolicy: Always
               resources:
                 limits:
@@ -2240,7 +2240,7 @@ spec:
           secretName: fnal-rucio-x509up
       containers:
         - name: renew-fts-cron
-          image: "imageregistry.fnal.gov/docker.io/rucio/fts-cron:latest"
+          image: "imageregistry.fnal.gov/docker.io/rucio/fts-cron:38.5.1"
           imagePullPolicy: Always
           resources:
             limits:
