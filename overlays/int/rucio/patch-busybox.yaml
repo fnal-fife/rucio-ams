@@ -5,9 +5,25 @@ metadata:
 spec:
   template:
     spec:
+      initContainers:
+        - name: install-policy-packages
+          resources:
+            requests:
+              cpu: 500m
+              memory: 600Mi
+            limits:
+              cpu: 500m
+              memory: 600Mi
       containers:
         - name: httpd-error-log
           image: imageregistry.fnal.gov/docker.io/busybox
+          resources:
+            requests:
+              cpu: 500m
+              memory: 600Mi
+            limits:
+              cpu: 500m
+              memory: 600Mi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -19,5 +35,19 @@ spec:
       containers:
         - name: httpd-error-log
           image: imageregistry.fnal.gov/docker.io/busybox
+          resources:
+            requests:
+              cpu: 500m
+              memory: 600Mi
+            limits:
+              cpu: 500m
+              memory: 600Mi
         - name: webui-log
           image: imageregistry.fnal.gov/docker.io/busybox
+          resources:
+            requests:
+              cpu: 500m
+              memory: 600Mi
+            limits:
+              cpu: 500m
+              memory: 600Mi
