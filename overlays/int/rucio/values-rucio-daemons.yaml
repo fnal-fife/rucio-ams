@@ -2,6 +2,8 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+kubeVersionOverride: "1.34"
+
 ## judgeCleanerCount gives the number of judge-cleaner pods to run
 abacusAccountCount: 1
 abacusCollectionReplicaCount: 1
@@ -36,7 +38,7 @@ serviceAccountName: useroot
 
 image:
   repository: imageregistry.fnal.gov/docker.io/rucio/rucio-daemons
-  tag: release-38.1.0
+  tag: release-38.5.1
   pullPolicy: Always
 
 strategy:

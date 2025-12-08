@@ -32,7 +32,7 @@ service:
 
 image:
   repository: imageregistry.fnal.gov/docker.io/rucio/rucio-webui
-  tag: release-36.2.0
+  tag: release-38.2.1
   pullPolicy: Always
 
 strategy:
@@ -117,9 +117,9 @@ resources:
   limits:
     cpu: 1000m
     memory: 8Gi
-  # requests:
-  #  cpu: 100m
-  #  memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
 secretMounts:
   #  - secretName: policy-package
   #    mountPath: /opt/rucio/permissions/fermilab

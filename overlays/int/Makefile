@@ -1,7 +1,7 @@
 EXPERIMENT=int
-SERVER_CHART_VERSION := 38.0.0
-DAEMON_CHART_VERSION := 38.0.0
-UI_CHART_VERSION := 38.0.0
+SERVER_CHART_VERSION := 38.0.4
+DAEMON_CHART_VERSION := 38.0.3
+UI_CHART_VERSION := 38.0.1
 
 helm:
 	helm repo add rucio https://rucio.github.io/helm-charts
