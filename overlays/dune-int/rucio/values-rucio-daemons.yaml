@@ -723,7 +723,7 @@ ftsRenewal:
 automaticRestart:
   enabled: 0
   image:
-    repository: imageregistry.fnal.gov/docker.io/bitnami/kubectl
+    repository: imageregistry.fnal.gov/docker.io/bitnamilegacy/kubectl
     tag: latest
     pullPolicy: Always
   schedule: "0 0 * * *"
