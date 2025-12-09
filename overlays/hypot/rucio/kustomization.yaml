@@ -12,17 +12,8 @@ resources:
 patchesStrategicMerge:
 - patch-service.yaml
 - grid-certificates-patch.yaml
-- patch-webui.yaml
 - patch-busybox.yaml
 #- rucio-env-patch.yaml
-
-configmapGenerator:
-- name: webui-patch
-  files:
-  - next.config.js=etc/next.config.js
-- name: webui-rucio-conf-j2
-  files:
-  - rucio.conf.j2=etc/rucio.conf.j2
 
 secretGenerator:
 # Database Connection String

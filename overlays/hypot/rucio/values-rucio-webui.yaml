@@ -29,7 +29,7 @@ service:
 
 image:
   repository: imageregistry.fnal.gov/docker.io/rucio/rucio-webui
-  tag: release-36.2.0
+  tag: release-38.2.1
   pullPolicy: Always
 
 strategy:
