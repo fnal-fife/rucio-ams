@@ -2,4 +2,4 @@
 #
 # Brandon White <bjwhite@fnal.gov>, 2020
 
-SUPPORTED_VERSION=[">=36.0"]
+SUPPORTED_VERSION = [">=36.0"]
