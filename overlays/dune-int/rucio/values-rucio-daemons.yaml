@@ -1,6 +1,8 @@
 # Default values for rucio.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
+#
+kubeVersionOverride: "1.34"
 
 ## judgeCleanerCount gives the number of judge-cleaner pods to run
 abacusAccountCount: 0
@@ -667,7 +669,7 @@ ftsRenewal:
   schedule: "12 */6 * * *"
   image:
     repository: imageregistry.fnal.gov/docker.io/rucio/fts-cron
-    tag: latest
+    tag: 38.5.1
     pullPolicy: Always
   servers: "https://fts3-public.cern.ch:8446,https://fts3-public.fnal.gov:8446"
   script: 'default'  # one of: 'default', 'atlas', 'dteam', 'multi_vo', 'tutorial', 'escape'. The associated scripts can be found here: https://github.com/rucio/containers/tree/master/fts-cron
