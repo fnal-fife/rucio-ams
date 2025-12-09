@@ -25,7 +25,7 @@ useSSL: true
 
 image:
   repository: imageregistry.fnal.gov/docker.io/rucio/rucio-server
-  tag: release-37.2.0
+  tag: release-38.5.1
   pullPolicy: Always
 
 service:
@@ -126,7 +126,7 @@ ftsRenewal:
   schedule: "42 */6 * * *"
   image:
     repository: imageregistry.fnal.gov/docker.io/rucio/fts-cron
-    tag: latest
+    tag: 38.5.1
     pullPolicy: Always
   servers: "https://fts3-public.fnal.gov:8446"
   script: 'default'  # one of: 'default', 'atlas', 'dteam', 'multi_vo', 'tutorial', 'escape'. The associated scripts can be found here: https://github.com/rucio/containers/tree/master/fts-cron

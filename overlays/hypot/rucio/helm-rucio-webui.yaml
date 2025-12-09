@@ -6,12 +6,12 @@ metadata:
   name: fnal-rucio-webui.config.yaml
   labels:
     app: rucio-webui
-    chart: rucio-webui-35.1.0
+    chart: rucio-webui-38.0.1
     release: "fnal"
     heritage: "Helm"
 type: Opaque
 data:
-  common.json: "ewogICJib290c3RyYXAiOiB7CiAgICAieDUwOV9lbWFpbCI6ICJiandoaXRlQGZuYWwuZ292IiwKICAgICJ4NTA5X2lkZW50aXR5IjogIi9EQz1vcmcvREM9Y2lsb2dvbi9DPVVTL089RmVybWkgTmF0aW9uYWwgQWNjZWxlcmF0b3IgTGFib3JhdG9yeS9PVT1QZW9wbGUvQ049QnJhbmRvbiBXaGl0ZS9DTj1VSUQ6Ymp3aGl0ZSIKICB9LAogICJodHRwZCI6IHsKICAgICJrZWVwX2FsaXZlIjogIk9uIiwKICAgICJrZWVwX2FsaXZlX3RpbWVvdXQiOiAiNSIsCiAgICAibWF4X2NsaWVudHMiOiAiMjAiLAogICAgIm1heF9jb25uZWN0aW9uc19wZXJfY2hpbGQiOiAiMjA0OCIsCiAgICAibWF4X2tlZXBfYWxpdmVfcmVxdWVzdHMiOiAiMTI4IiwKICAgICJtYXhfcmVxdWVzdF93b3JrZXJzIjogIjEyODAiLAogICAgIm1heF9yZXF1ZXN0c19wZXJfY2hpbGQiOiAiODE5MiIsCiAgICAibWF4X3NwYXJlX3NlcnZlcnMiOiAiNSIsCiAgICAibWF4X3NwYXJlX3RocmVhZHMiOiAiMjAiLAogICAgIm1pbl9zcGFyZV9zZXJ2ZXJzIjogIjEiLAogICAgIm1pbl9zcGFyZV90aHJlYWRzIjogIjEiLAogICAgIm1wbV9tb2RlIjogImV2ZW50IiwKICAgICJzZXJ2ZXJfbGltaXQiOiAiMTAiLAogICAgInN0YXJ0X3NlcnZlcnMiOiAiMSIsCiAgICAidGhyZWFkc19saW1pdCI6ICIxMjgiLAogICAgInRocmVhZHNfcGVyX2NoaWxkIjogIjUiLAogICAgInRpbWVvdXQiOiAzMDAKICB9LAogICJsb2dzIjogewogICAgImV4cG9zZUh0dHBkTG9ncyI6IHRydWUsCiAgICAiZXhwb3NlV2VidWlMb2dzIjogdHJ1ZQogIH0sCiAgIm9pZGNfcHJvdmlkZXJzIjogewogICAgImNlcm4iOiB7CiAgICAgICJhdXRob3JpemF0aW9uX3VybCI6ICIiLAogICAgICAiY2xpZW50X2lkIjogIiIsCiAgICAgICJjbGllbnRfc2VjcmV0IjogIiIsCiAgICAgICJyZWRpcmVjdF91cmwiOiAiIiwKICAgICAgInJlZnJlc2hfdG9rZW5fdXJsIjogIiIsCiAgICAgICJ0b2tlbl91cmwiOiAiIiwKICAgICAgInVzZXJpbmZvX3VybCI6ICIiCiAgICB9CiAgfSwKICAicG9saWN5IjogewogICAgInBhY2thZ2UiOiAiZmVybWlsYWIiCiAgfSwKICAidm8iOiB7CiAgICAiZGVmIjogewogICAgICAibmFtZSI6ICJkZWZhdWx0IiwKICAgICAgIm9pZGNfZW5hYmxlZCI6ICJGYWxzZSIsCiAgICAgICJvaWRjX3Byb3ZpZGVycyI6ICIiCiAgICB9CiAgfSwKICAid2VidWkiOiB7CiAgICAiY29tbXVuaXR5X2xvZ29fdXJsIjogImh0dHBzOi8vZW5jcnlwdGVkLXRibjAuZ3N0YXRpYy5jb20vaW1hZ2VzP3E9dGJuOkFOZDlHY1N4bkhia0VydE1IZE1uMkZYdnNNcmt5azU1U1BlcWg0YmtCOFg0dXZBUUUySEhObUZ6bmY0Nlprcjk2a05fNUVibUZmY1x1MDAyNnVzcXA9Q0FVIiwKICAgICJlbmFibGVfc3NsIjogIlRydWUiLAogICAgImVuYWJsZV91c2VycGFzc19sb2dpbiI6ICJUcnVlIiwKICAgICJob3N0bmFtZSI6ICJ3ZWJ1aS1oeXBvdC1ydWNpby5mbmFsLmdvdiIsCiAgICAibXVsdGl2b19lbmFibGVkIjogIkZhbHNlIiwKICAgICJvaWRjX2VuYWJsZWQiOiAiRmFsc2UiLAogICAgIm9pZGNfcHJvdmlkZXJzIjogIiIsCiAgICAicGFyYW1zX2VuY29kaW5nX2VuYWJsZWQiOiAiRmFsc2UiLAogICAgInByb2plY3RfdXJsIjogImh0dHBzOi8vZm5hbC5nb3YiLAogICAgInJ1Y2lvX2F1dGhfaG9zdCI6ICJodHRwczovL2h5cG90LXJ1Y2lvLmZuYWwuZ292IiwKICAgICJydWNpb19ob3N0IjogImh0dHBzOi8vaHlwb3QtcnVjaW8uZm5hbC5nb3YiLAogICAgInJ1bGVfYWN0aXZpdHkiOiAiVXNlciBTdWJzY3JpcHRpb25zIiwKICAgICJzZXJ2ZXJfY2FfYnVuZGxlIjogIi9ldGMvZ3JpZC1zZWN1cml0eS9jYS5wZW0iLAogICAgInZvX2RlZmF1bHQiOiAiZGVmIiwKICAgICJ2b19saXN0IjogImRlZiIKICB9Cn0="
+  common.json: "ewogICJib290c3RyYXAiOiB7CiAgICAieDUwOV9lbWFpbCI6ICJiandoaXRlQGZuYWwuZ292IiwKICAgICJ4NTA5X2lkZW50aXR5IjogIi9EQz1vcmcvREM9Y2lsb2dvbi9DPVVTL089RmVybWkgTmF0aW9uYWwgQWNjZWxlcmF0b3IgTGFib3JhdG9yeS9PVT1QZW9wbGUvQ049QnJhbmRvbiBXaGl0ZS9DTj1VSUQ6Ymp3aGl0ZSIKICB9LAogICJodHRwZCI6IHsKICAgICJrZWVwX2FsaXZlIjogIk9uIiwKICAgICJrZWVwX2FsaXZlX3RpbWVvdXQiOiAiNSIsCiAgICAibWF4X2NsaWVudHMiOiAiMjAiLAogICAgIm1heF9jb25uZWN0aW9uc19wZXJfY2hpbGQiOiAiMjA0OCIsCiAgICAibWF4X2tlZXBfYWxpdmVfcmVxdWVzdHMiOiAiMTI4IiwKICAgICJtYXhfcmVxdWVzdF93b3JrZXJzIjogIjEyODAiLAogICAgIm1heF9yZXF1ZXN0c19wZXJfY2hpbGQiOiAiODE5MiIsCiAgICAibWF4X3NwYXJlX3NlcnZlcnMiOiAiNSIsCiAgICAibWF4X3NwYXJlX3RocmVhZHMiOiAiMjAiLAogICAgIm1pbl9zcGFyZV9zZXJ2ZXJzIjogIjEiLAogICAgIm1pbl9zcGFyZV90aHJlYWRzIjogIjEiLAogICAgIm1wbV9tb2RlIjogImV2ZW50IiwKICAgICJzZXJ2ZXJfbGltaXQiOiAiMTAiLAogICAgInN0YXJ0X3NlcnZlcnMiOiAiMSIsCiAgICAidGhyZWFkc19saW1pdCI6ICIxMjgiLAogICAgInRocmVhZHNfcGVyX2NoaWxkIjogIjUiLAogICAgInRpbWVvdXQiOiAzMDAKICB9LAogICJsb2dzIjogewogICAgImV4cG9zZUh0dHBkTG9ncyI6IHRydWUsCiAgICAiZXhwb3NlV2VidWlMb2dzIjogdHJ1ZQogIH0sCiAgIm9pZGNfcHJvdmlkZXJzIjogewogICAgImNlcm4iOiB7CiAgICAgICJhdXRob3JpemF0aW9uX3VybCI6ICIiLAogICAgICAiY2xpZW50X2lkIjogIiIsCiAgICAgICJjbGllbnRfc2VjcmV0IjogIiIsCiAgICAgICJyZWRpcmVjdF91cmwiOiAiIiwKICAgICAgInJlZnJlc2hfdG9rZW5fdXJsIjogIiIsCiAgICAgICJ0b2tlbl91cmwiOiAiIiwKICAgICAgInVzZXJpbmZvX3VybCI6ICIiCiAgICB9CiAgfSwKICAicG9saWN5IjogewogICAgInBhY2thZ2UiOiAiZmVybWlsYWIiCiAgfSwKICAidm8iOiB7CiAgICAiZGVmIjogewogICAgICAibmFtZSI6ICJkZWZhdWx0IiwKICAgICAgIm9pZGNfZW5hYmxlZCI6ICJGYWxzZSIsCiAgICAgICJvaWRjX3Byb3ZpZGVycyI6ICIiCiAgICB9CiAgfSwKICAid2VidWkiOiB7CiAgICAiY29tbXVuaXR5X2xvZ29fdXJsIjogImh0dHBzOi8vZW5jcnlwdGVkLXRibjAuZ3N0YXRpYy5jb20vaW1hZ2VzP3E9dGJuOkFOZDlHY1N4bkhia0VydE1IZE1uMkZYdnNNcmt5azU1U1BlcWg0YmtCOFg0dXZBUUUySEhObUZ6bmY0Nlprcjk2a05fNUVibUZmY1x1MDAyNnVzcXA9Q0FVIiwKICAgICJlbmFibGVfc3NsIjogIlRydWUiLAogICAgImVuYWJsZV91c2VycGFzc19sb2dpbiI6ICJUcnVlIiwKICAgICJob3N0bmFtZSI6ICJ3ZWJ1aS1oeXBvdC1ydWNpby5mbmFsLmdvdiIsCiAgICAibGlzdF9kaWRzX2luaXRpYWxfcGF0dGVybiI6ICIiLAogICAgIm11bHRpdm9fZW5hYmxlZCI6ICJGYWxzZSIsCiAgICAib2lkY19lbmFibGVkIjogIkZhbHNlIiwKICAgICJvaWRjX3Byb3ZpZGVycyI6ICIiLAogICAgInBhcmFtc19lbmNvZGluZ19lbmFibGVkIjogIkZhbHNlIiwKICAgICJwcm9qZWN0X3VybCI6ICJodHRwczovL2ZuYWwuZ292IiwKICAgICJydWNpb19hdXRoX2hvc3QiOiAiaHR0cHM6Ly9oeXBvdC1ydWNpby5mbmFsLmdvdiIsCiAgICAicnVjaW9faG9zdCI6ICJodHRwczovL2h5cG90LXJ1Y2lvLmZuYWwuZ292IiwKICAgICJydWxlX2FjdGl2aXR5IjogIlVzZXIgU3Vic2NyaXB0aW9ucyIsCiAgICAic2VydmVyX2NhX2J1bmRsZSI6ICIvZXRjL2dyaWQtc2VjdXJpdHkvY2EucGVtIiwKICAgICJ2b19kZWZhdWx0IjogImRlZiIsCiAgICAidm9fbGlzdCI6ICJkZWYiCiAgfQp9"
 ---
 # Source: rucio-webui/templates/service.yaml
 apiVersion: v1
@@ -20,7 +20,7 @@ metadata:
   name: fnal-rucio-webui
   labels:
     app: rucio-webui
-    chart: rucio-webui-35.1.0
+    chart: rucio-webui-38.0.1
     release: fnal
     heritage: Helm
 spec:
@@ -41,7 +41,7 @@ metadata:
   name: fnal-rucio-webui
   labels:
     app: rucio-webui
-    chart: rucio-webui-35.1.0
+    chart: rucio-webui-38.0.1
     release: fnal
     heritage: Helm
 spec:
@@ -62,7 +62,7 @@ spec:
         app: rucio-webui
         release: fnal
       annotations:
-        checksum/config: c604c097872cd56e7b5653e7068f379965be04b4
+        checksum/config: c8f03a4a92dbffad1d16109415c59cda5a476da7
     spec:
       serviceAccountName: useroot
       volumes:
@@ -90,19 +90,19 @@ spec:
           secretName: fnal-httpd-custom-config
       containers:
         - name: httpd-error-log
-          image: busybox
+          image: "busybox"
           args: [/bin/sh, -c, 'tail -n+1 -F /var/log/httpd/error_log']
           volumeMounts:
           - name: httpdlog
             mountPath: /var/log/httpd
         - name: webui-log
-          image: busybox
+          image: "busybox"
           args: [/bin/sh, -c, 'tail -n+1 -F /var/log/webui/rucio-webui-out.log /var/log/webui/rucio-webui-error.log']
           volumeMounts:
           - name: webui-log
             mountPath: /var/log/webui/
         - name: rucio-webui
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-webui:release-36.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-webui:release-38.2.1"
           imagePullPolicy: Always
           ports:
             - name: http
@@ -174,6 +174,8 @@ spec:
               value: "True"
             - name: RUCIO_WEBUI_HOSTNAME
               value: "webui-hypot-rucio.fnal.gov"
+            - name: RUCIO_WEBUI_LIST_DIDS_INITIAL_PATTERN
+              value: ""
             - name: RUCIO_WEBUI_MULTIVO_ENABLED
               value: "False"
             - name: RUCIO_WEBUI_OIDC_ENABLED
@@ -223,7 +225,7 @@ spec:
             - name: RUCIO_ENABLE_LOGS
               value: "True"
             - name: RUCIO_LOG_FORMAT
-              value: '[%{%Y-%m-%d %H:%M:%S}t]\t%v\t%h\t%{X-Forwarded-For}i\t%{X-Rucio-RequestId}i\t%>s\t%I\t%B\t%D\t\"%r\"\t\"%{X-Rucio-Auth-Token}i\"\t\"%{User-Agent}i\"\t%{X-Rucio-Script}i'
+              value: '[%{%Y-%m-%d %H:%M:%S}t]\t%v\t%h\t%{X-Forwarded-For}i\t%{X-Rucio-RequestId}i\t%>s\t%I\t%B\t%D\t\"%r\"\t\"%{X-Rucio-Account}i\"\t\"%{User-Agent}i\"\t%{X-Rucio-Script}i'
             - name: RUCIO_WEBUI_ENABLE_SSL
               value: "True"
             - name: RUCIO_CA_PATH
