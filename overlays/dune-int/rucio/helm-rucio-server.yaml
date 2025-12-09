@@ -20,7 +20,7 @@ metadata:
   name: fnal-rucio-server.cfg
   labels:
     app: rucio-server
-    chart: "rucio-server-38.0.0"
+    chart: "rucio-server-38.0.4"
     release: "fnal"
     heritage: "Helm"
 type: Opaque
@@ -34,7 +34,7 @@ metadata:
   name: fnal-rucio-server
   labels:
     app: rucio-server
-    chart: rucio-server-38.0.0
+    chart: rucio-server-38.0.4
     release: fnal
     heritage: Helm
 spec:
@@ -55,12 +55,12 @@ metadata:
   name: fnal-rucio-server
   labels:
     app: rucio-server
-    chart: rucio-server-38.0.0
+    chart: rucio-server-38.0.4
     release: fnal
     heritage: Helm
 
 spec:
-  replicas: 1
+  replicas: 12
   selector:
     matchLabels:
       app: rucio-server
@@ -110,7 +110,7 @@ spec:
           secretName: fnal-idpsecrets
       containers:
         - name: httpd-error-log
-          image: "busybox"
+          image: "busybox:latest"
           args: [/bin/sh, -c, 'tail -n+1 -F /var/log/httpd/error_log']
           volumeMounts:
           - name: httpdlog
