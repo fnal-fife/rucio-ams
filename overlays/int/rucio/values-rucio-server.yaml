@@ -25,7 +25,7 @@ useSSL: true
 
 image:
   repository: imageregistry.fnal.gov/docker.io/rucio/rucio-server
-  tag: release-38.1.0
+  tag: release-38.5.1
   pullPolicy: Always
 
 service:
@@ -193,6 +193,13 @@ policyPackages:
     requests:
       # Storage required by the policy packages - resize if needed
       storage: 100Mi
+  containerResources:
+    requests:
+      cpu: 500m
+      memory: 500Mi
+    limits:
+      cpu: 500m
+      memory: 500Mi
   storageClass:
     name:
 

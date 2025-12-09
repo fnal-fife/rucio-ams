@@ -20,7 +20,7 @@ metadata:
   name: fnal-rucio-server.cfg
   labels:
     app: rucio-server
-    chart: "rucio-server-38.0.0"
+    chart: "rucio-server-38.0.4"
     release: "fnal"
     heritage: "Helm"
 type: Opaque
@@ -34,7 +34,7 @@ metadata:
   name: fnal-rucio-server
   labels:
     app: rucio-server
-    chart: rucio-server-38.0.0
+    chart: rucio-server-38.0.4
     release: fnal
     heritage: Helm
 spec:
@@ -55,7 +55,7 @@ metadata:
   name: fnal-rucio-server
   labels:
     app: rucio-server
-    chart: rucio-server-38.0.0
+    chart: rucio-server-38.0.4
     release: fnal
     heritage: Helm
 
@@ -116,19 +116,19 @@ spec:
             if python3 -c "from importlib.metadata import version; assert version('ruciointpolicy') == '0.1.0'"; then
                 echo "module ruciointpolicy version 0.1.0 is already installed"
             else
-                if [[ 'git+https://github.com/d-ylee/ruciointpolicy@main' == git+* ]]; then
+                if [[ 'git+https://github.com/fnal-fife/ruciointpolicy@main' == git+* ]]; then
                     dnf install --assumeyes git
                 fi
                 dnf install --assumeyes python-pip
                 pip uninstall --yes ruciointpolicy
-                pip install git+https://github.com/d-ylee/ruciointpolicy@main --target /opt/policy_packages/
+                pip install git+https://github.com/fnal-fife/ruciointpolicy@main --target /opt/policy_packages/
             fi
         volumeMounts:
         - name: policy-package-volume
           mountPath: /opt/policy_packages/
       containers:
         - name: httpd-error-log
-          image: "busybox"
+          image: "busybox:latest"
           args: [/bin/sh, -c, 'tail -n+1 -F /var/log/httpd/error_log']
           volumeMounts:
           - name: httpdlog
@@ -141,7 +141,7 @@ spec:
               cpu: 20m
               memory: 20Mi
         - name: rucio-server
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-server:release-38.1.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-server:release-38.5.1"
           imagePullPolicy: Always
           resources:
             limits:

@@ -75,3 +75,10 @@ spec:
           env:
             - name: EXPERIMENT
               value: "int"
+          resources:
+            requests:
+              cpu: 1
+              memory: 4Gi
+            limits:
+              cpu: 1
+              memory: 4Gi
