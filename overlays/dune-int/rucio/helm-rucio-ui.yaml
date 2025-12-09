@@ -237,4 +237,9 @@ spec:
             - name: RUCIO_LOG_LEVEL
               value: debug
           resources:
-            {}
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
