@@ -123,6 +123,7 @@ resources:
   requests:
     cpu: 100m
     memory: 128Mi
+
 secretMounts:
   # Custom to install metacat? Needed for webui?
   #- secretName: docker-entrypoint-webui

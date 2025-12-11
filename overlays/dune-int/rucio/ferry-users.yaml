@@ -18,6 +18,13 @@ spec:
             volumeMounts:
             - name: ca-volume-grid
               mountPath: /out/
+            resources:
+              requests:
+                cpu: 100m
+                memory: 500M
+              limits:
+                cpu: 256m
+                memory: 500M
           volumes:
           - name: rucio-config
             secret:
