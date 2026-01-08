@@ -28,9 +28,12 @@ secretGenerator:
 - name: fnal-server-hostkey
   files:
   - hostkey.pem=etc/.secrets/hostkey.pem
-- name: fnal-server-cafile
+#- name: fnal-server-cafile
+#  files:
+#  - ca.pem=etc/.secrets/ca.pem
+- name: fnal-idpsecrets
   files:
-  - ca.pem=etc/.secrets/ca.pem
+  - idpsecrets.json=etc/.secrets/idpsecrets.json
 
 # The desired policy package implementation files
 - name: fnal-policy-package
