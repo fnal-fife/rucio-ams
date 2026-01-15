@@ -1,7 +1,7 @@
 EXPERIMENT=dune
 SERVER_CHART_VERSION := 38.0.2
 DAEMON_CHART_VERSION := 38.0.1
-UI_CHART_VERSION := 37.0.2
+UI_CHART_VERSION := 38.0.1
 
 helm:
 	helm repo add rucio https://rucio.github.io/helm-charts

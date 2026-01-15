@@ -6,7 +6,7 @@ metadata:
   name: fnal-rucio-webui.config.yaml
   labels:
     app: rucio-webui
-    chart: rucio-webui-37.0.2
+    chart: rucio-webui-38.0.1
     release: "fnal"
     heritage: "Helm"
 type: Opaque
@@ -20,7 +20,7 @@ metadata:
   name: fnal-rucio-webui
   labels:
     app: rucio-webui
-    chart: rucio-webui-37.0.2
+    chart: rucio-webui-38.0.1
     release: fnal
     heritage: Helm
 spec:
@@ -41,7 +41,7 @@ metadata:
   name: fnal-rucio-webui
   labels:
     app: rucio-webui
-    chart: rucio-webui-37.0.2
+    chart: rucio-webui-38.0.1
     release: fnal
     heritage: Helm
 spec:
@@ -102,7 +102,7 @@ spec:
           - name: webui-log
             mountPath: /var/log/webui/
         - name: rucio-webui
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-webui:release-36.2.0"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-webui:release-38.2.1"
           imagePullPolicy: Always
           ports:
             - name: http
@@ -237,4 +237,9 @@ spec:
             - name: RUCIO_LOG_LEVEL
               value: debug
           resources:
-            {}
+            limits:
+              cpu: 1000m
+              memory: 8Gi
+            requests:
+              cpu: 100m
+              memory: 128Mi

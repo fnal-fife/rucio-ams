@@ -32,3 +32,10 @@ spec:
               value: "dune"
             - name: LANDSCAPE_REMOTE_WRITE_ENDPOINT
               value: "http://lsdataitb.fnal.gov:9009/api/v1/push"
+          resources:
+            requests:
+              cpu: 600m
+              memory: 600Mi
+            limits:
+              cpu: 600m
+              memory: 600Mi

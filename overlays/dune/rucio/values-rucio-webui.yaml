@@ -12,6 +12,14 @@ replicaCount: 1
 # When set, run extra busybox containers in the relevant pods to also expose the error logs
 exposeErrorLogs: 0
 
+errorLogsExporterResources:
+  limits:
+    cpu: 30m
+    memory: 50Mi
+  requests:
+    cpu: 20m
+    memory: 20Mi
+
 service:
   # type: NodePort
   # # Run the webui server on port 443 instead of 80 and accept X509 certificates and proxies
@@ -29,7 +37,7 @@ service:
 
 image:
   repository: imageregistry.fnal.gov/docker.io/rucio/rucio-webui
-  tag: release-36.2.0
+  tag: release-38.2.1
   pullPolicy: Always
 
 strategy:
@@ -106,13 +114,14 @@ additionalEnvs:
   - name: RUCIO_LOG_LEVEL
     value: debug
 
-resources: {}
-  # limits:
-  #  cpu: 100m
-  #  memory: 128Mi
-  # requests:
-  #  cpu: 100m
-  #  memory: 128Mi
+resources:
+  limits:
+    cpu: 1000m
+    memory: 8Gi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
 secretMounts:
   # Custom to install metacat? Needed for webui?
   #- secretName: docker-entrypoint-webui

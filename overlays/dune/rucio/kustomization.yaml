@@ -6,6 +6,7 @@ resources:
 - cache.yaml
 - prometheus.yaml
 - messenger.yaml
+- routes.yaml
 - ferry-users.yaml
 - grid-certificates-pvc.yaml
 - grid-certificates-cronjob.yaml
@@ -13,7 +14,7 @@ resources:
 patchesStrategicMerge:
 - patch-service.yaml
 - grid-certificates-patch.yaml
-- patch-webui.yaml
+#- patch-webui.yaml
 - patch-server.yaml
 - patch-busybox.yaml
 
