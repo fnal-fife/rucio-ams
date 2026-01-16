@@ -1,5 +1,6 @@
 *
 !scripts/
+scripts/sync_ferry_dune_justin.py
 !certificates/
 !requirements.txt
 */__pycache__
