@@ -18,10 +18,16 @@ class FerryClient:
     """
     Client to access FERRY
     """
-    def __init__(self, logger=None):
+    logger: logging.Logger
+    server: str
+    capath: str
+    cert: str
+    key: str
+
+    def __init__(self, logger: logging.Logger = None):
         self.logger = logger or logging.getLogger()
         self.server = os.getenv("FERRY_URL", "https://ferry.fnal.gov:8445")
-        self.capath = os.getenv("CA_PATH" "/etc/grid-security/certificates")
+        self.capath = os.getenv("CA_PATH", "/etc/grid-security/certificates")
         self.cert = os.getenv("X509_USER_CERT", "/opt/rucio/certs/usercert.pem")
         self.key = os.getenv("X509_USER_KEY", "/opt/rucio/keys/userkey.pem")
 
@@ -53,13 +59,21 @@ class FerryClient:
         r = self.get(url, params)
         return r
 
-
     def getUserInfo(self, username: str) -> dict:
         """
         Fetches user information for a given username
         """
         url = f"{self.server}/getUserInfo"
         params = {"username": username}
+        r = self.get(url, params)
+        return r
+
+    def getGridMapFile(self, unitname: str) -> list[dict]:
+        """
+        Fetches user information for a given username
+        """
+        url = f"{self.server}/getGridMapFile"
+        params = {"unitname": unitname}
         r = self.get(url, params)
         return r
 

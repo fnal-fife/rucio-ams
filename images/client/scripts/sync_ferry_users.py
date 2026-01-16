@@ -13,6 +13,7 @@ from dataclasses import dataclass, asdict
 import logging
 import os
 import sys
+from typing import Union
 
 from rucio.client import Client as RucioClient
 from rucio.common.exception import AccountNotFound, Duplicate
@@ -21,7 +22,7 @@ from FerryClient import FerryClient, UserLDAPError
 
 # setup logger
 logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 ch = logging.StreamHandler(stream=sys.stdout)
 ch.setLevel(logging.INFO)
 logger.addHandler(ch)
@@ -37,6 +38,15 @@ ANALYSIS_ATTRIBUTES = [
 
 
 @dataclass
+class Identity:
+    """
+    Values for a Rucio identity
+    """
+    identity: Union[dict[str, str], str]
+    id_type: str
+
+
+@dataclass
 class User:
     """
     Dataclass that has values required to create
@@ -44,15 +54,24 @@ class User:
     """
     name: str
     # email: str
-    identities: list[str]
-    uuid: str
-    issuer: str
+    identities: list[Identity]
+    # uuid: str
+    # issuer: str
+
+
+def get_email(ferry: FerryClient, username: str) -> str:
+    """Fetch email from FERRY using LDAP"""
+    try:
+        userLdap = ferry.getUserLdapInfo(username)
+        return userLdap['mail']
+    except Exception as e:
+        raise UserLDAPError(e)
 
 
 def sync_ferry_users(commit=False,
                      delete_accounts=False,
-                     scopes=False,
-                     analysis=False,
+                     add_scopes=False,
+                     add_analysis=False,
                      vo='int'):
     """
     Fetches users from FERRY and adds them to Rucio with analysis attributes
@@ -63,13 +82,14 @@ def sync_ferry_users(commit=False,
 
     unitname = os.getenv("FERRY_VO", vo)
     filtered_users = os.getenv("FILTER_USERS", None)
+    token_iss = os.getenv("TOKEN_ISS", None)
 
     # get all members and all DNs for an affiliation
     try:
         members = ferry.getAffiliationMembers(unitname)[0]
         all_dns = ferry.getAllUsersCertificateDNs(unitname)
     except Exception as e:
-        logger.error(f"Could not get users in affiliation {unitname}")
+        logger.error("Could not get users in affiliation %s", unitname)
         logger.error(e)
         raise
 
@@ -90,46 +110,45 @@ def sync_ferry_users(commit=False,
         except:
             continue
 
-        # Only incative users have no token
-        uuid = user['tokensubject']
-        if unitname == 'dune':
-            issuer = 'https://cilogon.org/dune'
-        elif unitname == 'mu2e':
-            issuer = 'https://cilogon.org/mu2e'
-        else:
-            issuer = 'https://cilogon.org/fermilab'
+        # Add identities
+        identities: list[Identity] = []
 
-        # get identities
+        # OIDC identities
+        # Only inactive users have no token
+        if token_iss and user.get('tokensubject', None):
+            identity = Identity(id_type='OIDC',
+                                identity={'sub': user['tokensubject'],
+                                          'iss': token_iss})
+            identities.append(identity)
+
+        # get x509 identities
         user_dns = list(filter(lambda x: x['username'] == username, all_dns))
         if user_dns:
-            dn = user_dns[0]['certificates']
+            dns = user_dns[0]['certificates']
+            for dn in dns:
+                identity = Identity(id_type='X509',
+                                    identity=dn['dn'])
+                identities.append(identity)
         else:
             logger.error(f"No dns for {username} found")
-            dn = []
 
-        users_to_add.append(User(name=username, identities=dn, uuid=uuid, issuer=issuer))
+        users_to_add.append(User(name=username, identities=identities))
     
     # Add or update users to Rucio
-    if commit:
-        for user in users_to_add:
-            logger.info(f"Adding user {user.name}")
-            add_user(ferry, client, user, scopes, analysis)
+    for user in users_to_add:
+        logger.info("Adding user %s", user.name)
+        if commit:
+            add_user(ferry, client, user, add_scopes, add_analysis)
+        else:
+            logger.info("User had %s identities to add", len(user.identities))
+            logger.debug("User identities: %s", user.identities)
 
     # delete rucio accounts not in FERRY members or if their status has changed
     if delete_accounts:
         delete_users(client, members, commit)
 
 
-def get_email(ferry: FerryClient, username: str) -> str:
-    """Fetch email from FERRY using LDAP"""
-    try:
-        userLdap = ferry.getUserLdapInfo(username)
-        return userLdap['mail']
-    except Exception as e:
-        raise UserLDAPError(e)
-
-
-def add_user(ferry: FerryClient, client: RucioClient, user: User, scopes=False, analysis=False):
+def add_user(ferry: FerryClient, client: RucioClient, user: User, add_scopes=False, add_analysis=False):
     """
     Add users to Rucio
     """
@@ -137,6 +156,7 @@ def add_user(ferry: FerryClient, client: RucioClient, user: User, scopes=False, 
     email = ''
     try:
         account = client.get_account(username)
+        email = account['email']
     except AccountNotFound:
         logger.info(f"Creating account for {username}")
         try:
@@ -148,45 +168,42 @@ def add_user(ferry: FerryClient, client: RucioClient, user: User, scopes=False, 
         client.add_account(username, 'USER', email)
         account = client.get_account(username)
 
-    email = account['email']
-
-    # Create Rucio formatted account identity
-    token_subject = f'SUB={user.uuid}, ISS={user.issuer}'
-
     # add user identities
-    logger.info(f"Adding identities for {username}")
-    # First, see what is currently attached to the user so we can skip adding duplicates
-    existing = client.list_identities(username)
-    # Add a token if there is not one for this user
-    try:
-        if token_subject not in existing:
-            email = get_email(ferry, username)
-            client.add_identity(username, token_subject, "OIDC", email)
-            logger.info(f"Added token for user {username}")
-    except Duplicate:
-        pass
-    except UserLDAPError as e:
-        logger.error(f"Could not get email for {username}, skipping")
-        logger.error(e)
-        pass
+    logger.info("Adding identities for %s", username)
+    logger.debug("Identities %s", user.identities) 
 
-    # Add certificate DNs that don't exist yet for this user
-    for d in user.identities:
+    # First, see what is currently attached to the user so we can skip adding duplicates
+    existing = list(client.list_identities(username))
+    logger.debug("All existing identities %s", existing)
+
+    for user_identity in user.identities:
+        if user_identity.id_type == 'OIDC':
+            # Create Rucio formatted account OIDC identity
+            sub = user_identity.identity['sub']
+            iss = user_identity.identity['iss']
+            identity_str = f'SUB={sub}, ISS={iss}'
+            id_type = user_identity.id_type
+        elif user_identity.id_type == 'X509':
+            identity_str = user_identity.identity
+            id_type = user_identity.id_type
+        else:
+            continue
+        logger.debug("Adding identity %s, %s", identity_str, id_type)
+
         try:
-            if d['dn'] not in existing:
-                if not email:
-                    email = get_email(ferry, username)
-                client.add_identity(username, d['dn'], "X509", email)
-                logger.info(f"Added X509 DN for user {username}: {d['dn']}")
+            existing_ids = [v['identity'] for v in existing if v['type'] == id_type]
+            logger.debug("Existing identities for %s: %s", username, existing_ids)
+            if identity_str not in existing_ids:
+                client.add_identity(username, identity_str, id_type, email)
+                logger.info(f"Added {id_type} for user {username}")
+            else:
+                raise Duplicate
         except Duplicate:
-            continue
-        except UserLDAPError as e:
-            logger.error(f"Could not get email for {username}, skipping")
-            logger.error(e)
-            continue
+            logger.info("Identity already exists %s", id_type)
+            logger.debug("Identity exists %s", identity_str)
 
     # create a scope
-    if scopes:
+    if add_scopes:
         logger.info(f"Adding scope for user: {username}")
         try:
             client.add_scope(username, f'user.{username}')
@@ -194,7 +211,7 @@ def add_user(ferry: FerryClient, client: RucioClient, user: User, scopes=False, 
             logger.info(f"Scope for user {username} already exists")
 
     # add attributes, default False
-    if analysis:
+    if add_analysis:
         logger.info(f"Adding analysis attributes")
         for a in ANALYSIS_ATTRIBUTES:
             try:
@@ -246,9 +263,9 @@ def main():
     args = parser.parse_args()
 
     sync_ferry_users(commit=args.commit,
-                    delete_accounts=args.delete_accounts,
-                    scopes=args.scopes,
-                    analysis=args.analysis)
+                     delete_accounts=args.delete_accounts,
+                     add_scopes=args.scopes,
+                     add_analysis=args.analysis)
 
 
 if __name__ == "__main__":
