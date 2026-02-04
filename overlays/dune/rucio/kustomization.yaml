@@ -14,7 +14,6 @@ resources:
 patchesStrategicMerge:
 - patch-service.yaml
 - grid-certificates-patch.yaml
-#- patch-webui.yaml
 - patch-server.yaml
 - patch-busybox.yaml
 

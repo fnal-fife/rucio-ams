@@ -24,9 +24,11 @@ errorLogsExporterResources:
 useSSL: true
 
 image:
-  repository: imageregistry.fnal.gov/docker.io/rucio/rucio-server
+  repository: rucio/rucio-server
   tag: release-38.3.0
   pullPolicy: Always
+
+imageRegistry: imageregistry.fnal.gov/docker.io
 
 service:
   type: ClusterIP

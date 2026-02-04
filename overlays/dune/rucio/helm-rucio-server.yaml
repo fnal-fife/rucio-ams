@@ -111,7 +111,7 @@ spec:
           secretName: fnal-idpsecrets
       containers:
         - name: httpd-error-log
-          image: "busybox:latest"
+          image: "imageregistry.fnal.gov/docker.io/busybox:latest"
           args: [/bin/sh, -c, 'tail -n+1 -F /var/log/httpd/error_log']
           volumeMounts:
           - name: httpdlog
