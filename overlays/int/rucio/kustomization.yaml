@@ -2,7 +2,7 @@
 resources:
 - helm-rucio-server.yaml
 - helm-rucio-daemons.yaml
-- helm-rucio-ui.yaml
+- helm-rucio-webui.yaml
 - cache.yaml
 - prometheus.yaml
 - messenger.yaml
@@ -12,7 +12,6 @@ resources:
 patchesStrategicMerge:
 - patch-service.yaml
 - grid-certificates-patch.yaml
-#- patch-webui.yaml
 - patch-busybox.yaml
 #- rucio-env-patch.yaml
 
