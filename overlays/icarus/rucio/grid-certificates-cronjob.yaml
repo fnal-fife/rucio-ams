@@ -21,6 +21,13 @@ spec:
             volumeMounts:
             - name: ca-volume
               mountPath: /out/
+            resources:
+              requests:
+                cpu: 256m
+                memory: 500M
+              limits:
+                cpu: 256m
+                memory: 500M
           restartPolicy: OnFailure
           terminationGracePeriodSeconds: 30
           volumes:

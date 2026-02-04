@@ -39,6 +39,13 @@ spec:
         volumeMounts:
         - name: ca-volume
           mountPath: /out/
+        resources:
+          requests:
+            cpu: 600m
+            memory: 600Mi
+          limits:
+            cpu: 600m
+            memory: 600Mi
       volumes:
        - name: ca-volume
          secret:
@@ -59,6 +66,13 @@ spec:
         volumeMounts:
         - name: ca-volume
           mountPath: /out/
+        resources:
+          requests:
+            cpu: 600m
+            memory: 600Mi
+          limits:
+            cpu: 600m
+            memory: 600Mi
       volumes:
        - name: ca-volume
          secret:
@@ -79,6 +93,13 @@ spec:
         volumeMounts:
         - name: ca-volume
           mountPath: /out/
+        resources:
+          requests:
+            cpu: 600m
+            memory: 600Mi
+          limits:
+            cpu: 600m
+            memory: 600Mi
       volumes:
        - name: ca-volume
          secret:
