@@ -14,16 +14,6 @@ spec:
             limits:
               cpu: 500m
               memory: 600Mi
-      containers:
-        - name: httpd-error-log
-          image: imageregistry.fnal.gov/docker.io/busybox
-          resources:
-            requests:
-              cpu: 500m
-              memory: 600Mi
-            limits:
-              cpu: 500m
-              memory: 600Mi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -36,18 +26,18 @@ spec:
         - name: httpd-error-log
           image: imageregistry.fnal.gov/docker.io/busybox
           resources:
-            requests:
-              cpu: 500m
-              memory: 600Mi
             limits:
-              cpu: 500m
-              memory: 600Mi
+              cpu: 30m
+              memory: 50Mi
+            requests:
+              cpu: 20m
+              memory: 20Mi
         - name: webui-log
           image: imageregistry.fnal.gov/docker.io/busybox
           resources:
-            requests:
-              cpu: 500m
-              memory: 600Mi
             limits:
-              cpu: 500m
-              memory: 600Mi
+              cpu: 30m
+              memory: 50Mi
+            requests:
+              cpu: 20m
+              memory: 20Mi
