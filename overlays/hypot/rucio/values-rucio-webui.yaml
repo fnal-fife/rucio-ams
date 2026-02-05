@@ -4,33 +4,8 @@
 
 serviceAccountName: useroot
 
-useSSL: true
-
 ## replicaCount gives the number of server pods to run
 replicaCount: 1
-
-# When set, run extra busybox containers in the relevant pods to also expose the error logs
-exposeErrorLogs: 0
-
-service:
-  # type: NodePort
-  # # Run the webui server on port 443 instead of 80 and accept X509 certificates and proxies
-  # useSSL: true
-  # port: 443
-  # targetPort: https
-  # portName: https
-  type: ClusterIP
-  port: 443
-  targetPort: 443
-  name: https
-  tls:
-    enabled: true
-  allocateLoadBalancerNodePorts: false
-
-image:
-  repository: imageregistry.fnal.gov/docker.io/rucio/rucio-webui
-  tag: release-38.2.1
-  pullPolicy: Always
 
 strategy:
   type: RollingUpdate
@@ -40,79 +15,37 @@ strategy:
 
 minReadySeconds: 5
 
+image:
+  repository: rucio/rucio-webui
+  tag: release-38.3.0
+  pullPolicy: Always
+
+imagePullSecrets: []
+# - name: docker-regcreds
+
+imageRegistry: imageregistry.fnal.gov/docker.io
+
+# Additional annotations to be added to the deployment
+# Example usage:
+# deploymentAnnotations:
+#   reloader.stakater.com/auto: "true"
+#   foo: "bar"
+exposeErrorLogs: 0
+
+useSSL: true
+
+service:
+  type: ClusterIP
+  port: 443
+  targetPort: 443
+  name: https
+  tls:
+    enabled: true
+  allocateLoadBalancerNodePorts: false
+
 ingress:
   enabled: 0
 
-additionalSecrets:
-  - secretName: ca-volume
-    mountPath: /etc/grid-security/certificates
-# - volumeName: gcssecret
-#   secretName: gcssecret
-#   mountPath: /opt/rucio/etc/gcs_rucio.json
-#   subPath: gcs_rucio.json
-
-## values used to configure apache
-httpd_config:
-  legacy_dn: "True"
-  log_dir: "/rucio/logs"
-  # mpm_mode: "event"
-  # start_servers: "1"
-  # min_spare_threads: "1"
-  # max_spare_threads: "20"
-  # threads_per_child: "5"
-  # max_clients: "20"
-  # max_requests_per_child: "8192"
-  tls:
-    enabled: true
-
-## values used to configure Rucio
-config:
-  bootstrap:
-    x509_identity: "/DC=org/DC=cilogon/C=US/O=Fermi National Accelerator Laboratory/OU=People/CN=Brandon White/CN=UID:bjwhite"
-    x509_email: "bjwhite@fnal.gov"
-
-  policy:
-    package: fermilab
-
-  # common:
-    ## config.common.logdir: the default directoy to write logs to (default: "/var/log/rucio")
-    # logdir: "/var/log/rucio"
-    ## config.common.logdir: the max loglevel (default: "DEBUG")
-    # loglevel: "DEBUG"
-    ## config.common.mailtemplatedir: directory containing the mail templates (default: "/opt/rucio/etc/mail_templates")
-    # mailtemplatedir: "/opt/rucio/etc/mail_templates"
-
-  ## Only necessary for webui deployments
-  webui:
-    rucio_host: "https://hypot-rucio.fnal.gov"
-    rucio_auth_host: "https://hypot-rucio.fnal.gov"
-    hostname: "webui-hypot-rucio.fnal.gov"
-    project_url: "https://fnal.gov"
-    oidc_enabled: "False"
-    enable_ssl: "True"
-    server_ca_bundle: "/etc/grid-security/ca.pem"
-
-optional_config:
-  pythonpath: /opt/rucio/permissions
-  #POLICY_PKG_DIR: /opt/rucio/permissions
-
-additionalEnvs:
-  - name: RUCIO_CA_PATH
-    value: "/etc/grid-security/certificates"
-  - name: RUCIO_ENABLE_SSL
-    value: "True"
-  - name: RUCIO_HTTPD_LEGACY_DN
-    value: "True"
-  - name: RUCIO_LOG_LEVEL
-    value: debug
-
-resources: {}
-  # limits:
-  #  cpu: 100m
-  #  memory: 128Mi
-  # requests:
-  #  cpu: 100m
-  #  memory: 128Mi
 secretMounts:
   # Custom to install metacat? Needed for webui?
   #- secretName: docker-entrypoint-webui
@@ -133,6 +66,84 @@ secretMounts:
   - secretName: httpd-custom-config
     mountPath: /etc/httpd/conf.d/fnal-custom-config.conf
     subPath: fnal-custom-config.conf
+
+# - volumeName: gcssecret
+#   secretName: gcssecret
+#   mountPath: /opt/rucio/etc/gcs_rucio.json
+#   subPath: gcs_rucio.json
+
+## values used to configure Rucio
+config:
+
+  httpd_config:
+    legacy_dn: "True"
+    log_dir: "/rucio/logs"
+    # mpm_mode: "event"
+    # start_servers: "1"
+    # min_spare_threads: "1"
+    # max_spare_threads: "20"
+    # threads_per_child: "5"
+    # max_clients: "20"
+    # max_requests_per_child: "8192"
+    tls:
+      enabled: true
+      #
+  ## Rucio WebUI specific configuration for apache
+  webui:
+    # hostname of the rucio server, include http:// or https://
+    rucio_host: "https://hypot-rucio.fnal.gov"
+    # hostname of the rucio-auth server, include http:// or https://
+    rucio_auth_host: "https://hypot-rucio.fnal.gov"
+    # hostname of the webui (without http:// or https://, just the hostname, no port or scheme required)
+    hostname: "webui-hypot-rucio.fnal.gov"
+    project_url: "https://fnal.gov"
+    # if your DID schema in your policy uses special characters like + or /, set this to true
+    params_encoding_enabled: "False"
+    # if you want to disable userpass authentication, set this to False
+    enable_userpass_login: "False"
+    # configures the placeholder scope and name in the DIDs list page (e.g., scope:name, scope:*)
+    #list_dids_initial_pattern: ""
+    # if you want to add your own custom logo to the webui's login page, set this to the url of the logo
+    #community_logo_url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxnHbkErtMHdMn2FXvsMrkyk55SPeqh4bkB8X4uvAQE2HHNmFznf46Zkr96kN_5EbmFfc&usqp=CAU"
+    # to associate a custom Activity with the rules created with the webui, set this to the name of the activity
+    #rule_activity: "User Subscriptions"
+    #multivo_enabled: "False"
+    # A csv string of vos containing their short names. For example: "def,atl,cms"
+    #vo_list: "def"
+    #vo_default: "def"
+    oidc_enabled: "False"
+    enable_ssl: "True"
+    server_ca_bundle: "/etc/grid-security/ca.pem"
+
+  logs:
+    exposeHttpdLogs: true
+    exposeWebuiLogs: true
+
+optional_config:
+  pythonpath: /opt/rucio/permissions
+  #POLICY_PKG_DIR: /opt/rucio/permissions
+
+hostPathMounts: []
+
+additionalEnvs:
+  - name: RUCIO_CA_PATH
+    value: "/etc/grid-security/certificates"
+  - name: RUCIO_ENABLE_SSL
+    value: "True"
+  - name: RUCIO_HTTPD_LEGACY_DN
+    value: "True"
+  - name: RUCIO_LOG_LEVEL
+    value: debug
+
+persistentVolumes: {}
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 4Gi
+  requests:
+    cpu: 100m
+    memory: 128Mi
 
 nodeSelector: {}
 
