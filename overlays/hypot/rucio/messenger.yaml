@@ -59,6 +59,13 @@ spec:
           image: "imageregistry.fnal.gov/docker.io/rabbitmq:3"
           imagePullPolicy: Always
           command: ["rabbitmq-server"]
+          resources:
+            requests:
+              cpu: 1
+              memory: 1Gi
+            limits:
+              cpu: 1
+              memory: 4Gi
           ports:
             - containerPort: 443
             - containerPort: 61613
