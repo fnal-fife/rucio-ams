@@ -1,4 +1,4 @@
-# Default values for rucio.
+# Default values for rucio-server for int
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -21,16 +21,8 @@ image:
   pullPolicy: Always
 
 imagePullSecrets: []
-# - name: docker-regcreds
 
 imageRegistry: imageregistry.fnal.gov/docker.io
-
-# Additional annotations to be added to the deployment
-# Example usage:
-# deploymentAnnotations:
-#   reloader.stakater.com/auto: "true"
-#   foo: "bar"
-deploymentAnnotations: {}
 
 useSSL: true
 
@@ -44,14 +36,9 @@ service:
   allocateLoadBalancerNodePorts: false
 
 ingress:
-  enabled: 0
+  enabled: false
 
 secretMounts:
-  # Custom to install metacat? Needed for webui?
-  #- secretName: docker-entrypoint-webui
-  #  mountPath: /docker-entrypoint.sh
-  #  subPath: docker-entrypoint.sh
-  #  defaultMode: 0750
   - secretName: hostcert
     mountPath: /etc/grid-security/hostcert.pem
     subPath: hostcert.pem
@@ -72,6 +59,17 @@ secretMounts:
 #   mountPath: /opt/rucio/etc/gcs_rucio.json
 #   subPath: gcs_rucio.json
 
+## values used to configure apache
+httpd_config:
+  legacy_dn: "True"
+  log_dir: "/rucio/logs"
+  # mpm_mode: "event"
+  # start_servers: "1"
+  # min_spare_threads: "1"
+  # max_spare_threads: "20"
+  # threads_per_child: "5"
+  # max_clients: "20"
+  # max_requests_per_child: "8192"
 
 ## values used to configure Rucio
 config:
@@ -88,16 +86,15 @@ config:
     # max_requests_per_child: "8192"
     tls:
       enabled: true
-
-  ## Only necessary for webui deployments
+  ## Rucio WebUI specific configuration for apache
   webui:
     # hostname of the rucio server, include http:// or https://
-    rucio_host: "https://icarus-rucio.fnal.gov"
+    rucio_host: "https://int-rucio.fnal.gov"
     # hostname of the rucio-auth server, include http:// or https://
-    rucio_auth_host: "https://icarus-rucio.fnal.gov"
+    rucio_auth_host: "https://int-rucio.fnal.gov"
     # hostname of the webui (without http:// or https://, just the hostname, no port or scheme required)
-    hostname: "webui-icarus-rucio.fnal.gov"
-    project_url: "https://fnal.gov"
+    hostname: "webui-int-rucio.fnal.gov"
+    project_url: "https://github.com/bjwhite-fnal/rucio-ams"
     # if your DID schema in your policy uses special characters like + or /, set this to true
     params_encoding_enabled: "False"
     # if you want to disable userpass authentication, set this to False
@@ -119,12 +116,8 @@ config:
   logs:
     exposeHttpdLogs: true
     exposeWebuiLogs: true
-
 optional_config:
-  pythonpath: /opt/rucio/permissions
-  #POLICY_PKG_DIR: /opt/rucio/permissions
-
-hostPathMounts: []
+  experiment: Uses $EXPERIMENT
 
 additionalEnvs:
   - name: RUCIO_CA_PATH
@@ -141,7 +134,7 @@ persistentVolumes: {}
 resources:
   limits:
     cpu: 1000m
-    memory: 2Gi
+    memory: 4Gi
   requests:
     cpu: 100m
     memory: 128Mi

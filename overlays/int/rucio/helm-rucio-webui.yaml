@@ -11,7 +11,7 @@ metadata:
     heritage: "Helm"
 type: Opaque
 data:
-  common.json: "ewogICJib290c3RyYXAiOiB7CiAgICAieDUwOV9lbWFpbCI6ICJiandoaXRlQGZuYWwuZ292IiwKICAgICJ4NTA5X2lkZW50aXR5IjogIi9EQz1vcmcvREM9Y2lsb2dvbi9DPVVTL089RmVybWkgTmF0aW9uYWwgQWNjZWxlcmF0b3IgTGFib3JhdG9yeS9PVT1QZW9wbGUvQ049QnJhbmRvbiBXaGl0ZS9DTj1VSUQ6Ymp3aGl0ZSIKICB9LAogICJjb3JlIjogewogICAgInVzZV90ZW1wX3RhYmxlcyI6ICJUcnVlIgogIH0sCiAgImh0dHBkIjogewogICAgImtlZXBfYWxpdmUiOiAiT24iLAogICAgImtlZXBfYWxpdmVfdGltZW91dCI6ICI1IiwKICAgICJtYXhfY2xpZW50cyI6ICIyMCIsCiAgICAibWF4X2Nvbm5lY3Rpb25zX3Blcl9jaGlsZCI6ICIyMDQ4IiwKICAgICJtYXhfa2VlcF9hbGl2ZV9yZXF1ZXN0cyI6ICIxMjgiLAogICAgIm1heF9yZXF1ZXN0X3dvcmtlcnMiOiAiMTI4MCIsCiAgICAibWF4X3JlcXVlc3RzX3Blcl9jaGlsZCI6ICI4MTkyIiwKICAgICJtYXhfc3BhcmVfc2VydmVycyI6ICI1IiwKICAgICJtYXhfc3BhcmVfdGhyZWFkcyI6ICIyMCIsCiAgICAibWluX3NwYXJlX3NlcnZlcnMiOiAiMSIsCiAgICAibWluX3NwYXJlX3RocmVhZHMiOiAiMSIsCiAgICAibXBtX21vZGUiOiAiZXZlbnQiLAogICAgInNlcnZlcl9saW1pdCI6ICIxMCIsCiAgICAic3RhcnRfc2VydmVycyI6ICIxIiwKICAgICJ0aHJlYWRzX2xpbWl0IjogIjEyOCIsCiAgICAidGhyZWFkc19wZXJfY2hpbGQiOiAiNSIsCiAgICAidGltZW91dCI6IDMwMAogIH0sCiAgImxvZ3MiOiB7CiAgICAiZXhwb3NlSHR0cGRMb2dzIjogdHJ1ZSwKICAgICJleHBvc2VXZWJ1aUxvZ3MiOiB0cnVlCiAgfSwKICAib2lkY19wcm92aWRlcnMiOiB7CiAgICAiY2VybiI6IHsKICAgICAgImF1dGhvcml6YXRpb25fdXJsIjogIiIsCiAgICAgICJjbGllbnRfaWQiOiAiIiwKICAgICAgImNsaWVudF9zZWNyZXQiOiAiIiwKICAgICAgInJlZGlyZWN0X3VybCI6ICIiLAogICAgICAicmVmcmVzaF90b2tlbl91cmwiOiAiIiwKICAgICAgInRva2VuX3VybCI6ICIiLAogICAgICAidXNlcmluZm9fdXJsIjogIiIKICAgIH0KICB9LAogICJwb2xpY3kiOiB7CiAgICAicGFja2FnZSI6ICJmZXJtaWxhYiIKICB9LAogICJ2byI6IHsKICAgICJkZWYiOiB7CiAgICAgICJuYW1lIjogImRlZmF1bHQiLAogICAgICAib2lkY19lbmFibGVkIjogIkZhbHNlIiwKICAgICAgIm9pZGNfcHJvdmlkZXJzIjogIiIKICAgIH0KICB9LAogICJ3ZWJ1aSI6IHsKICAgICJjb21tdW5pdHlfbG9nb191cmwiOiAiaHR0cHM6Ly9lbmNyeXB0ZWQtdGJuMC5nc3RhdGljLmNvbS9pbWFnZXM/cT10Ym46QU5kOUdjU3huSGJrRXJ0TUhkTW4yRlh2c01ya3lrNTVTUGVxaDRia0I4WDR1dkFRRTJISE5tRnpuZjQ2WmtyOTZrTl81RWJtRmZjXHUwMDI2dXNxcD1DQVUiLAogICAgImVuYWJsZV9zc2wiOiAiVHJ1ZSIsCiAgICAiZW5hYmxlX3VzZXJwYXNzX2xvZ2luIjogIlRydWUiLAogICAgImhvc3RuYW1lIjogIndlYnVpLWludC1ydWNpby5mbmFsLmdvdiIsCiAgICAibGlzdF9kaWRzX2luaXRpYWxfcGF0dGVybiI6ICIiLAogICAgIm11bHRpdm9fZW5hYmxlZCI6ICJGYWxzZSIsCiAgICAib2lkY19lbmFibGVkIjogIkZhbHNlIiwKICAgICJvaWRjX3Byb3ZpZGVycyI6ICIiLAogICAgInBhcmFtc19lbmNvZGluZ19lbmFibGVkIjogIkZhbHNlIiwKICAgICJwcm9qZWN0X3VybCI6ICJodHRwczovL2dpdGh1Yi5jb20vYmp3aGl0ZS1mbmFsL3J1Y2lvLWFtcyIsCiAgICAicnVjaW9fYXV0aF9ob3N0IjogImh0dHBzOi8vaW50LXJ1Y2lvLmZuYWwuZ292IiwKICAgICJydWNpb19ob3N0IjogImh0dHBzOi8vaW50LXJ1Y2lvLmZuYWwuZ292IiwKICAgICJydWxlX2FjdGl2aXR5IjogIlVzZXIgU3Vic2NyaXB0aW9ucyIsCiAgICAic2VydmVyX2NhX2J1bmRsZSI6ICIvZXRjL2dyaWQtc2VjdXJpdHkvY2EucGVtIiwKICAgICJ2b19kZWZhdWx0IjogImRlZiIsCiAgICAidm9fbGlzdCI6ICJkZWYiCiAgfQp9"
+  common.json: "ewogICJodHRwZCI6IHsKICAgICJrZWVwX2FsaXZlIjogIk9uIiwKICAgICJrZWVwX2FsaXZlX3RpbWVvdXQiOiAiNSIsCiAgICAibWF4X2NsaWVudHMiOiAiMjAiLAogICAgIm1heF9jb25uZWN0aW9uc19wZXJfY2hpbGQiOiAiMjA0OCIsCiAgICAibWF4X2tlZXBfYWxpdmVfcmVxdWVzdHMiOiAiMTI4IiwKICAgICJtYXhfcmVxdWVzdF93b3JrZXJzIjogIjEyODAiLAogICAgIm1heF9yZXF1ZXN0c19wZXJfY2hpbGQiOiAiODE5MiIsCiAgICAibWF4X3NwYXJlX3NlcnZlcnMiOiAiNSIsCiAgICAibWF4X3NwYXJlX3RocmVhZHMiOiAiMjAiLAogICAgIm1pbl9zcGFyZV9zZXJ2ZXJzIjogIjEiLAogICAgIm1pbl9zcGFyZV90aHJlYWRzIjogIjEiLAogICAgIm1wbV9tb2RlIjogImV2ZW50IiwKICAgICJzZXJ2ZXJfbGltaXQiOiAiMTAiLAogICAgInN0YXJ0X3NlcnZlcnMiOiAiMSIsCiAgICAidGhyZWFkc19saW1pdCI6ICIxMjgiLAogICAgInRocmVhZHNfcGVyX2NoaWxkIjogIjUiLAogICAgInRpbWVvdXQiOiAzMDAKICB9LAogICJodHRwZF9jb25maWciOiB7CiAgICAibGVnYWN5X2RuIjogIlRydWUiLAogICAgImxvZ19kaXIiOiAiL3J1Y2lvL2xvZ3MiLAogICAgInRscyI6IHsKICAgICAgImVuYWJsZWQiOiB0cnVlCiAgICB9CiAgfSwKICAibG9ncyI6IHsKICAgICJleHBvc2VIdHRwZExvZ3MiOiB0cnVlLAogICAgImV4cG9zZVdlYnVpTG9ncyI6IHRydWUKICB9LAogICJvaWRjX3Byb3ZpZGVycyI6IHsKICAgICJjZXJuIjogewogICAgICAiYXV0aG9yaXphdGlvbl91cmwiOiAiIiwKICAgICAgImNsaWVudF9pZCI6ICIiLAogICAgICAiY2xpZW50X3NlY3JldCI6ICIiLAogICAgICAicmVkaXJlY3RfdXJsIjogIiIsCiAgICAgICJyZWZyZXNoX3Rva2VuX3VybCI6ICIiLAogICAgICAidG9rZW5fdXJsIjogIiIsCiAgICAgICJ1c2VyaW5mb191cmwiOiAiIgogICAgfQogIH0sCiAgInZvIjogewogICAgImRlZiI6IHsKICAgICAgIm5hbWUiOiAiZGVmYXVsdCIsCiAgICAgICJvaWRjX2VuYWJsZWQiOiAiRmFsc2UiLAogICAgICAib2lkY19wcm92aWRlcnMiOiAiIgogICAgfQogIH0sCiAgIndlYnVpIjogewogICAgImNvbW11bml0eV9sb2dvX3VybCI6ICJodHRwczovL2VuY3J5cHRlZC10Ym4wLmdzdGF0aWMuY29tL2ltYWdlcz9xPXRibjpBTmQ5R2NTeG5IYmtFcnRNSGRNbjJGWHZzTXJreWs1NVNQZXFoNGJrQjhYNHV2QVFFMkhITm1Gem5mNDZaa3I5NmtOXzVFYm1GZmNcdTAwMjZ1c3FwPUNBVSIsCiAgICAiZW5hYmxlX3NzbCI6ICJUcnVlIiwKICAgICJlbmFibGVfdXNlcnBhc3NfbG9naW4iOiAiRmFsc2UiLAogICAgImhvc3RuYW1lIjogIndlYnVpLWludC1ydWNpby5mbmFsLmdvdiIsCiAgICAibGlzdF9kaWRzX2luaXRpYWxfcGF0dGVybiI6ICIiLAogICAgIm11bHRpdm9fZW5hYmxlZCI6ICJGYWxzZSIsCiAgICAib2lkY19lbmFibGVkIjogIkZhbHNlIiwKICAgICJvaWRjX3Byb3ZpZGVycyI6ICIiLAogICAgInBhcmFtc19lbmNvZGluZ19lbmFibGVkIjogIkZhbHNlIiwKICAgICJwcm9qZWN0X3VybCI6ICJodHRwczovL2dpdGh1Yi5jb20vYmp3aGl0ZS1mbmFsL3J1Y2lvLWFtcyIsCiAgICAicnVjaW9fYXV0aF9ob3N0IjogImh0dHBzOi8vaW50LXJ1Y2lvLmZuYWwuZ292IiwKICAgICJydWNpb19ob3N0IjogImh0dHBzOi8vaW50LXJ1Y2lvLmZuYWwuZ292IiwKICAgICJydWxlX2FjdGl2aXR5IjogIlVzZXIgU3Vic2NyaXB0aW9ucyIsCiAgICAic2VydmVyX2NhX2J1bmRsZSI6ICIvZXRjL2dyaWQtc2VjdXJpdHkvY2EucGVtIiwKICAgICJ2b19kZWZhdWx0IjogImRlZiIsCiAgICAidm9fbGlzdCI6ICJkZWYiCiAgfQp9"
 ---
 # Source: rucio-webui/templates/service.yaml
 apiVersion: v1
@@ -62,7 +62,7 @@ spec:
         app: rucio-webui
         release: fnal
       annotations:
-        checksum/config: f002a371f0ab606a840249e8aba71a2c68e5e4ae
+        checksum/config: eabb0828a9aaed543b39c11ecfafeca7503516e5
     spec:
       serviceAccountName: useroot
       volumes:
@@ -90,19 +90,19 @@ spec:
           secretName: fnal-httpd-custom-config
       containers:
         - name: httpd-error-log
-          image: "busybox"
+          image: "imageregistry.fnal.gov/docker.io/busybox"
           args: [/bin/sh, -c, 'tail -n+1 -F /var/log/httpd/error_log']
           volumeMounts:
           - name: httpdlog
             mountPath: /var/log/httpd
         - name: webui-log
-          image: "busybox"
+          image: "imageregistry.fnal.gov/docker.io/busybox"
           args: [/bin/sh, -c, 'tail -n+1 -F /var/log/webui/rucio-webui-out.log /var/log/webui/rucio-webui-error.log']
           volumeMounts:
           - name: webui-log
             mountPath: /var/log/webui/
         - name: rucio-webui
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-webui:release-38.2.1"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-webui:release-38.3.0"
           imagePullPolicy: Always
           ports:
             - name: http
@@ -171,7 +171,7 @@ spec:
             - name: RUCIO_WEBUI_ENABLE_SSL
               value: "True"
             - name: RUCIO_WEBUI_ENABLE_USERPASS_LOGIN
-              value: "True"
+              value: "False"
             - name: RUCIO_WEBUI_HOSTNAME
               value: "webui-int-rucio.fnal.gov"
             - name: RUCIO_WEBUI_LIST_DIDS_INITIAL_PATTERN
@@ -239,7 +239,7 @@ spec:
           resources:
             limits:
               cpu: 1000m
-              memory: 8Gi
+              memory: 4Gi
             requests:
               cpu: 100m
               memory: 128Mi

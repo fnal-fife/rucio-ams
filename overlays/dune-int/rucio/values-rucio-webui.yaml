@@ -1,4 +1,4 @@
-# Default values for rucio.
+# Values for rucio-dune-int.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -44,7 +44,7 @@ service:
   allocateLoadBalancerNodePorts: false
 
 ingress:
-  enabled: 0
+  enabled: false
 
 secretMounts:
   # Custom to install metacat? Needed for webui?
@@ -72,6 +72,19 @@ secretMounts:
 #   mountPath: /opt/rucio/etc/gcs_rucio.json
 #   subPath: gcs_rucio.json
 
+## values used to configure apache
+httpd_config:
+  legacy_dn: "True"
+  log_dir: "/rucio/logs"
+  # mpm_mode: "event"
+  # start_servers: "1"
+  # min_spare_threads: "1"
+  # max_spare_threads: "20"
+  # threads_per_child: "5"
+  # max_clients: "20"
+  # max_requests_per_child: "8192"
+  tls:
+    enabled: true
 
 ## values used to configure Rucio
 config:
@@ -89,15 +102,15 @@ config:
     tls:
       enabled: true
 
-  ## Only necessary for webui deployments
+  ## Rucio WebUI specific configuration for apache
   webui:
     # hostname of the rucio server, include http:// or https://
-    rucio_host: "https://icarus-rucio.fnal.gov"
+    rucio_host: "https://dune-int-rucio.fnal.gov"
     # hostname of the rucio-auth server, include http:// or https://
-    rucio_auth_host: "https://icarus-rucio.fnal.gov"
+    rucio_auth_host: "https://dune-int-rucio.fnal.gov"
     # hostname of the webui (without http:// or https://, just the hostname, no port or scheme required)
-    hostname: "webui-icarus-rucio.fnal.gov"
-    project_url: "https://fnal.gov"
+    hostname: "webui-dune-int-rucio.fnal.gov"
+    project_url: "https://dunescience.org"
     # if your DID schema in your policy uses special characters like + or /, set this to true
     params_encoding_enabled: "False"
     # if you want to disable userpass authentication, set this to False
@@ -121,7 +134,7 @@ config:
     exposeWebuiLogs: true
 
 optional_config:
-  pythonpath: /opt/rucio/permissions
+  #pythonpath: /opt/rucio/permissions
   #POLICY_PKG_DIR: /opt/rucio/permissions
 
 hostPathMounts: []
@@ -141,7 +154,7 @@ persistentVolumes: {}
 resources:
   limits:
     cpu: 1000m
-    memory: 2Gi
+    memory: 4Gi
   requests:
     cpu: 100m
     memory: 128Mi
