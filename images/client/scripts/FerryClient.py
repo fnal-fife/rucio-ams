@@ -9,6 +9,8 @@ import os
 import requests
 from requests.exceptions import HTTPError
 
+_fc = None
+
 
 class UserLDAPError(Exception):
     pass
@@ -73,6 +75,15 @@ class FerryClient:
         Fetches user information for a given username
         """
         url = f"{self.server}/getGridMapFile"
+        params = {"unitname": unitname, "status": True}
+        r = self.get(url, params)
+        return r
+
+    def getGridMapFileByVO(self, unitname: str) -> list[dict]:
+        """
+        Fetches user information for a given username
+        """
+        url = f"{self.server}/getGridMapFileByVO"
         params = {"unitname": unitname}
         r = self.get(url, params)
         return r
@@ -123,3 +134,11 @@ class FerryClient:
         params = {"username": username}
         r = self.get(url, params)
         return r
+
+def get_ferry_client():
+    """Fetches the FERRY Client"""
+    return _fc
+
+def create_ferry_client(logger=None):
+    global _fc
+    _fc = FerryClient(logger=logger)
