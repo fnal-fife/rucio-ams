@@ -1,5 +1,6 @@
 #!/bin/bash
 
+FNAL_VERSION=1
 RUCIO_VERSION=38.3.0
 
-podman build -f Dockerfile --build-arg rucio_version=$RUCIO_VERSION -t rucio-client:$RUCIO_VERSION.fnal -t imageregistry.fnal.gov/rucio-ams/rucio-client:$RUCIO_VERSION.fnal .
+podman build -f Dockerfile --build-arg rucio_version=$RUCIO_VERSION -t rucio-client:$RUCIO_VERSION.fnal.$FNAL_VERSION -t imageregistry.fnal.gov/rucio-ams/rucio-client:$RUCIO_VERSION.fnal.$FNAL_VERSION .
