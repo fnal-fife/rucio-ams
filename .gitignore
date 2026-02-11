@@ -19,12 +19,15 @@ exporter.yaml
 autotransfer.yaml
 prometheus.yaml
 
+# ignore charts
 !overlays/*/**
 
 # Ignore policy packages that are experiment specific git repos
 overlays/dune/rucio/etc/policy-package
 overlays/dune-int/rucio/etc/policy-package
 overlays/mu2e/rucio/etc/policy-package
+
+charts
 
 # Ignore hard links that make the Fermilab policy package available inside the Docker build contexts.
 rucio-ams/docker/permissions-fnal/mu2e/
