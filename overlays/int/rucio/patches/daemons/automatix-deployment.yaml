@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fnal-rucio-daemons-automatix
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: grid-certs
+        image: ghcr.io/fnal-fife/fetch-crl-cron:latest
+        volumeMounts:
+        - name: ca-volume
+          mountPath: /out/
+        resources:
+          requests:
+            cpu: 500m
+            memory: 600Mi
+          limits:
+            cpu: 500m
+            memory: 600Mi
+      volumes:
+       - name: ca-volume
+         secret:
+           $patch: delete
+         persistentVolumeClaim:
+           claimName: grid-certificates-pvc
