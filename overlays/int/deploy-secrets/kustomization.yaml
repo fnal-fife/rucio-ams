@@ -1,0 +1,106 @@
+generatorOptions:
+  disableNameSuffixHash: true
+  annotations:
+    argocd.argoproj.io/compare-options: IgnoreExtraneous
+  labels:
+    managed-by: "manual-process"
+
+secretGenerator:
+# Database Connection String
+- name: fnal-db-connstr
+  files:
+  - db-connstr.txt=etc/.secrets/db-connstr
+
+# Server Secrets
+- name: fnal-server-hostcert
+  files:
+  - hostcert.pem=etc/.secrets/hostcert.pem
+- name: fnal-server-hostkey
+  files:
+  - hostkey.pem=etc/.secrets/hostkey.pem
+
+# The desired policy package implementation files
+- name: fnal-policy-package
+  files:
+  - __init__.py=etc/policy-package/__init__.py
+  - permission.py=etc/policy-package/permission.py
+  - schema.py=etc/policy-package/schema.py
+
+# Used by daemons
+- name: fnal-rucio-x509up
+  files:
+  - hostcert.pem=etc/.secrets/hostcert.pem
+  - hostkey.pem=etc/.secrets/hostkey.pem
+  options:
+    disableNameSuffixHash: true
+- name: fnal-hermes-cert
+  files:
+  - hostcert.pem=etc/.secrets/hostcert.pem
+  options:
+    disableNameSuffixHash: true
+- name: fnal-hermes-key
+  files:
+  - hostkey.pem=etc/.secrets/hostkey.pem
+  options:
+    disableNameSuffixHash: true
+- name: fnal-automatix-json
+  files:
+  - automatix.json=etc/automatix.json
+  options:
+    disableNameSuffixHash: true
+- name: fnal-fts-cert
+  files:
+  - usercert.pem=etc/.secrets/hostcert.pem
+- name: fnal-fts-key
+  files:
+  - new_userkey.pem=etc/.secrets/hostkey.pem
+
+# Messenger
+- name: ssl-secrets
+  files:
+  - hostcert.pem=etc/.secrets/hostcert.pem
+  - hostkey.pem=etc/.secrets/hostkey.pem
+  - ca.pem=etc/.secrets/ca.pem
+
+# VOMS Server File (used for getting VOMS proxies in the ftsRenewal Job)
+- name: fnal-vomses
+  files:
+  - vomses=etc/vomses
+
+# RabbitMQ Configuration Files
+- name: fnal-rabbitmq-conf
+  files:
+  - rabbitmq.conf=etc/rabbitmq.conf
+- name: fnal-rabbitmq-enabled-plugins
+  files:
+  - enabled_plugins=etc/enabled_plugins
+
+## ingress
+#- name: rucio-server.tls-secret
+#  files:
+#  - cert=etc/.secrets/hostcert.pem
+#  - key=etc/.secrets/hostkey.pem
+#
+# webui
+- name: fnal-hostcert
+  files:
+  - hostcert.pem=etc/.secrets/hostcert.pem
+- name: fnal-hostkey
+  files:
+  - hostkey.pem=etc/.secrets/hostkey.pem
+- name: fnal-cafile
+  files:
+  - ca.pem=etc/.secrets/ca.pem
+## lsst customization
+#- name: fnal-lsst-schema-file
+#  files:
+#  - lsst.py=etc/lsst.py
+#  options:
+#    disableNameSuffixHash: true
+## automatix input
+#
+
+# Custom HTTPD config options for Fermilab
+- name: fnal-httpd-custom-config
+  files:
+  - fnal-custom-config.conf=etc/fnal-custom-config.conf

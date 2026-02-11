@@ -1,0 +1,7 @@
+[project]
+name = "ruciointpolicy"
+version = "0.1.0"
+description = "Test policy package for integration server"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = []
