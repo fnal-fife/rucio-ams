@@ -57,3 +57,7 @@ patches:
   target:
     kind: Service
     name: fnal-rucio-messenger
+- path: patches/patch-renew-proxy-helm.yaml
+  target:
+    kind: Job
+    name: fnal-rucio-daemons-renew-fts-proxy-on-helm-install
