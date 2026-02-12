@@ -154,5 +154,7 @@ secretGenerator:
 - name: fnal-ferry-rucio-config
   files:
   - rucio.cfg=etc/ferry-sync-rucio.cfg
+  - sync_ferry_config.json=etc/.secrets/sync_ferry_config.json
+  - sync_justin_config.json=etc/.secrets/sync_justin_config.json
   options:
     disableNameSuffixHash: true
