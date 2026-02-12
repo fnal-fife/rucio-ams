@@ -127,11 +127,11 @@ spec:
           imagePullPolicy: Always
           resources:
             limits:
-              cpu: 700m
-              memory: 600Mi
+              cpu: 1000m
+              memory: 4000Mi
             requests:
-              cpu: 200m
-              memory: 200Mi
+              cpu: 700m
+              memory: 4000Mi
           volumeMounts:
           - name: config
             mountPath: /opt/rucio/etc/conf.d/10_common.json
@@ -174,17 +174,17 @@ spec:
               path: /ping
               port: 444
               scheme: HTTPS
-            initialDelaySeconds: 5
-            periodSeconds: 10
-            timeoutSeconds: 5
+            initialDelaySeconds: 10
+            periodSeconds: 120
+            timeoutSeconds: 60
           livenessProbe:
             httpGet:
               path: /ping
               port: 444
               scheme: HTTPS
-            initialDelaySeconds: 10
-            periodSeconds: 20
-            timeoutSeconds: 5
+            initialDelaySeconds: 20
+            periodSeconds: 120
+            timeoutSeconds: 180
           env:
             - name: RUCIO_HTTPD_GRID_SITE_ENABLED
               valueFrom:

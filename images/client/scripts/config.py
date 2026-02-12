@@ -74,14 +74,6 @@ def parse_args():
     parser.add_argument('--delete_accounts',
                         help='allow deleting/disabling of accounts. --commit is required',
                         action='store_true')
-    parser.add_argument('--add_scopes',
-                        help='add user scope',
-                        dest='add_scopes',
-                        action='store_true')
-    parser.add_argument('--add_analysis_attributes',
-                        help=f'add the following analysis account attributes: {ANALYSIS_ATTRIBUTES}',
-                        dest='add_analysis',
-                        action='store_true')
 
     args = parser.parse_args()
 

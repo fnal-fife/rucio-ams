@@ -26,7 +26,6 @@ from FerryClient import (FerryClient,
                          get_ferry_client)
 
 log_level = config.get("log_level", "info")
-print(log_level)
 if log_level == "info":
     level = logging.INFO
 if log_level == "debug":
@@ -38,15 +37,6 @@ logger.setLevel(level)
 ch = logging.StreamHandler(stream=sys.stdout)
 ch.setLevel(level)
 logger.addHandler(ch)
-
-# analysis account attributes
-ANALYSIS_ATTRIBUTES = [
-    "add_rule",
-    "add_replicas",
-    "add_did",
-    "add_dids",
-    "update_replicas_states"
-]
 
 
 @dataclass
@@ -107,6 +97,43 @@ def gather_ferry_identities(user: dict, user_dns: list) -> list[Identity]:
         logger.error(f"No dns for {user['username']} found")
 
     return identities
+
+
+def add_attributes(client: RucioClient, username: str) -> None:
+    """
+    Add attributes to an account depending on the config
+
+    config.attributes is a dictionary containing the attribute as the key and
+    the attribute value as the value
+
+    example:
+        {
+            "add_rule": "1"
+        }
+    """
+    logger.info(f"Adding analysis attributes")
+    existing_attrs = list(client.list_account_attributes(username))[0]
+    account_attrs = {attr['key']: attr['value'] for attr in existing_attrs}
+    config_attrs = config.get('attributes', {})
+    attrs_to_add = {}
+    for attr, val in config_attrs.items():
+        if attr in account_attrs.keys():
+            if account_attrs[attr] != str(config_attrs[attr]):
+                attrs_to_add[attr] = str(config_attrs[attr])
+            else:
+                logger.debug('Attribute already exists and is the same: %s',
+                             attr)
+        else:
+            attrs_to_add[attr] = config_attrs[attr]
+
+    for attr, val in attrs_to_add.items():
+        try:
+            client.add_account_attribute(username, attr, val)
+        except Duplicate as e:
+            logger.error(e)
+            continue
+
+    return attrs_to_add
 
 
 def main():
@@ -252,7 +279,7 @@ def sync_user(client: RucioClient, user: User):
             logger.debug("Identity exists %s", identity_str)
 
     # create a scope
-    if config.get('add_scopes', False):
+    if config.get('create_scopes', False):
         logger.info("Adding scope for user: %s", username)
         try:
             client.add_scope(username, user.scope)
@@ -261,13 +288,9 @@ def sync_user(client: RucioClient, user: User):
 
     # add attributes, default False
     if config.get('add_attributes', False):
-        logger.info(f"Adding analysis attributes")
-        for a in ANALYSIS_ATTRIBUTES:
-            try:
-                client.add_account_attribute(username, a, "1")
-            except Duplicate as e:
-                logger.error(e)
-                continue
+        attrs_to_add = add_attributes(client, username)
+        if not attrs_to_add:
+            logger.info('All attributes already exist')
 
     if config.get("set_limits", False):
         logger.info("Setting RSE limits")
