@@ -1,3 +1,5 @@
+helmGlobals:
+  chartHome: /tmp/rucio-charts
 
 helmCharts:
 - name: rucio-server
