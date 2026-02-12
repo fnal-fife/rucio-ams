@@ -2,8 +2,10 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: fnal-sync-ferry-users
+  labels:
+    app: sync-ferry-users
 spec:
-  schedule: "30 2 */1 * *"
+  schedule: "30 8 */1 * *"
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
@@ -12,9 +14,8 @@ spec:
           serviceAccountName: useroot
           initContainers:
           - name: grid-certs
-            image: ghcr.io/d-ylee/gridcert-container:v0.0.6
-              # image: docker.io/bjwhitefnal/grid-security-files:32
-            command: ["/bin/bash", "-c", "chmod 755 /out/ && cp -rv --preserve=links /etc/grid-security/certificates/* /out/"]
+            image: ghcr.io/fnal-fife/fetch-crl-cron:latest
+            imagePullPolicy: Always
             volumeMounts:
             - name: ca-volume-grid
               mountPath: /out/
@@ -42,7 +43,7 @@ spec:
             emptyDir: {}
           containers:
             - name: sync-ferry-users
-              image: "imageregistry.fnal.gov/rucio-ams/rucio-client:37.0.0.fnal"
+              image: "imageregistry.fnal.gov/rucio-ams/rucio-client:38.3.0.fnal.2"
               imagePullPolicy: Always
               command:
               - /bin/bash
@@ -71,6 +72,96 @@ spec:
                   value: "dune"
                 - name: FERRY_URL
                   value: "https://ferry.fnal.gov:8445"
+                - name: FERRY_SYNC_CONFIG_FILE
+                  value: "/opt/rucio/etc/sync_ferry_config.json"
+                - name: FERRY_TOKEN_ISS
+                  value: "https://cilogon.org/dune"
+                - name: CA_PATH
+                  value: "/etc/grid-security/certificates"
+                - name: X509_USER_PROXY
+                  value: "/opt/proxy/x509up"
+                - name: X509_USER_CERT
+                  value: "/opt/rucio/certs/usercert.pem"
+                - name: X509_USER_KEY
+                  value: "/opt/rucio/keys/new_userkey.pem"
+          restartPolicy: OnFailure
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: fnal-sync-justin-ferry-users
+  labels:
+    app: sync-ferry-users
+spec:
+  schedule: "30 8 */1 * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: useroot
+          initContainers:
+          - name: grid-certs
+            image: ghcr.io/fnal-fife/fetch-crl-cron:latest
+            imagePullPolicy: Always
+            volumeMounts:
+            - name: ca-volume-grid
+              mountPath: /out/
+            resources:
+              requests:
+                cpu: 100m
+                memory: 500M
+              limits:
+                cpu: 256m
+                memory: 500M
+          volumes:
+          - name: rucio-config
+            secret:
+              secretName: fnal-ferry-rucio-config
+          - name: proxy-volume
+            secret:
+              secretName: fnal-rucio-x509up
+          - name: usercert
+            secret:
+              secretName: fnal-fts-cert
+          - name: userkey
+            secret:
+              secretName:  fnal-fts-key
+          - name: ca-volume-grid
+            emptyDir: {}
+          containers:
+            - name: sync-ferry-users
+              image: "imageregistry.fnal.gov/rucio-ams/rucio-client:38.3.0.fnal.2"
+              imagePullPolicy: Always
+              command:
+              - /bin/bash
+              - -c
+              - python3 /scripts/sync_ferry_users.py --commit
+              resources:
+                limits:
+                  cpu: 500m
+                  memory: 256Mi
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+              volumeMounts:
+                - name: rucio-config
+                  mountPath: /opt/rucio/etc
+                - name: proxy-volume
+                  mountPath: /opt/proxy
+                - name: ca-volume-grid
+                  mountPath: /etc/grid-security/certificates
+                - name: usercert
+                  mountPath: /opt/rucio/certs/
+                - name: userkey
+                  mountPath: /opt/rucio/keys/
+              env:
+                - name: FERRY_VO
+                  value: "dune"
+                - name: FERRY_URL
+                  value: "https://ferry.fnal.gov:8445"
+                - name: FERRY_SYNC_CONFIG_FILE
+                  value: "/opt/rucio/etc/sync_justin_config.json"
                 - name: CA_PATH
                   value: "/etc/grid-security/certificates"
                 - name: X509_USER_PROXY
