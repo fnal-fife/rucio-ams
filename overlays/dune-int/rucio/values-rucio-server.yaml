@@ -78,10 +78,15 @@ minReadySeconds: 5
   #authServer: 5
   #traceServer: 5
 
-livenessProbe:
+readinessProbe:
   initialDelaySeconds: 10
-  periodSeconds: 20
-  timeoutSeconds: 5
+  periodSeconds: 120
+  timeoutSeconds: 60
+
+livenessProbe:
+  initialDelaySeconds: 20
+  periodSeconds: 120
+  timeoutSeconds: 180
 
 serverType: api
 
@@ -436,11 +441,11 @@ config:
 
 serverResources:
   limits:
-    memory: "600Mi"
-    cpu: "700m"
+    memory: "4000Mi"
+    cpu: "1000m"
   requests:
-    memory: "200Mi"
-    cpu: "200m"
+    memory: "4000Mi"
+    cpu: "700m"
 
 nodeSelector: {}
 
