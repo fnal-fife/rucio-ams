@@ -1,22 +1,27 @@
 helmGlobals:
   chartHome: /tmp/rucio-charts
 
+namespace: rucio-int
+
 helmCharts:
 - name: rucio-server
   releaseName: fnal
   repo: https://rucio.github.io/helm-charts
   valuesFile: values-rucio-server.yaml
   version: 38.0.4
+  namespace: rucio-int
 - name: rucio-daemons
   releaseName: fnal
   repo: https://rucio.github.io/helm-charts
   valuesFile: values-rucio-daemons.yaml
   version: 38.0.3
+  namespace: rucio-int
 - name: rucio-webui
   releaseName: fnal
   repo: https://rucio.github.io/helm-charts
   valuesFile: values-rucio-webui.yaml
   version: 38.0.1
+  namespace: rucio-int
 
 resources:
 - cache.yaml
