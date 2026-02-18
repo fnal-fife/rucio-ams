@@ -458,7 +458,7 @@ config:
 serverResources:
   limits:
     memory: "1Gi"
-    cpu: "700m"
+    cpu: "1"
   requests:
     memory: "200Mi"
     cpu: "200m"
