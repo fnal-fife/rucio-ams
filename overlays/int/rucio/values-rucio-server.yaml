@@ -379,7 +379,8 @@ authIngress:
 
 ## values used to configure Rucio
 config:
-  # common:
+  common:
+    logjson: true
     ## config.common.logdir: the default directoy to write logs to (default: "/var/log/rucio")
     # logdir: "/var/log/rucio"
     ## config.common.logdir: the max loglevel (default: "DEBUG")
