@@ -381,21 +381,6 @@ authIngress:
 config:
   common:
     logjson: true
-    logformat: "{ \
-  \"time\":\"%{%Y-%m-%d %H:%M:%S}t\", \
-  \"vhost\":\"%v\", \
-  \"remote_ip\":\"%h\", \
-  \"x_forwarded_for\":\"%{X-Forwarded-For}i{escape=JSON}\", \
-  \"request_id\":\"%{X-Rucio-RequestId}i{escape=JSON}\", \
-  \"status\":%>s, \
-  \"bytes_in\":%I, \
-  \"bytes_out\":%B, \
-  \"duration_us\":%D, \
-  \"request\":\"%r{escape=JSON}\", \
-  \"account\":\"%{X-Rucio-Account}i{escape=JSON}\", \
-  \"user_agent\":\"%{User-Agent}i{escape=JSON}\", \
-  \"script\":\"%{X-Rucio-Script}i{escape=JSON}\" \
-}"
     ## config.common.logdir: the default directoy to write logs to (default: "/var/log/rucio")
     # logdir: "/var/log/rucio"
     ## config.common.logdir: the max loglevel (default: "DEBUG")
