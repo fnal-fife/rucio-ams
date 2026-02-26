@@ -17,7 +17,7 @@ minReadySeconds: 5
 
 image:
   repository: rucio/rucio-webui
-  tag: release-38.3.0
+  tag: release-38.3.3
   pullPolicy: Always
 
 imagePullSecrets: []
