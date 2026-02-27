@@ -83,6 +83,8 @@ abacusAccount:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts: []
 
 abacusCollectionReplica:
@@ -103,6 +105,8 @@ abacusCollectionReplica:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts: []
 
 abacusRse:
@@ -124,6 +128,8 @@ abacusRse:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts: []
 
 automatix:
@@ -146,6 +152,8 @@ automatix:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts:
     - secretName: policy-package
       mountPath: /opt/rucio/permissions/fermilab/dune
@@ -175,6 +183,8 @@ cacheConsumer:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts: []
 
 conveyorTransferSubmitter:
@@ -198,6 +208,8 @@ conveyorTransferSubmitter:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts: []
 
 conveyorStager:
@@ -221,6 +233,8 @@ conveyorStager:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts: []
 
 conveyorPoller:
@@ -241,6 +255,8 @@ conveyorPoller:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts: []
 
 conveyorFinisher:
@@ -261,6 +277,8 @@ conveyorFinisher:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts: []
 
 conveyorReceiver:
@@ -281,6 +299,8 @@ conveyorReceiver:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts: []
 
 conveyorThrottler:
@@ -301,6 +321,8 @@ conveyorThrottler:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts: []
 
 conveyorPreparer:
@@ -321,6 +343,8 @@ conveyorPreparer:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts: []
 
 darkReaper:
@@ -346,6 +370,8 @@ darkReaper:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts: []
 
 hermes:
@@ -368,6 +394,8 @@ hermes:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts:
       #If you use this block for a per-daemon config, it doesn't get the secrets from the main block (i.e. pp)
       - secretName: policy-package
@@ -394,6 +422,8 @@ hermesLegacy:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts: []
 
 judgeCleaner:
@@ -414,6 +444,8 @@ judgeCleaner:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts: []
 
 judgeEvaluator:
@@ -434,6 +466,8 @@ judgeEvaluator:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts: []
 
 judgeInjector:
@@ -454,6 +488,8 @@ judgeInjector:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts: []
 
 judgeRepairer:
@@ -474,6 +510,8 @@ judgeRepairer:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts: []
 
 oauthManager:
@@ -494,6 +532,8 @@ oauthManager:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts: []
 
 undertaker:
@@ -514,6 +554,8 @@ undertaker:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts: []
 
 reaper:
@@ -537,6 +579,8 @@ reaper:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts:
     - secretName: ca-volume
       mountPath: /etc/grid-security/certificates
@@ -563,6 +607,8 @@ replicaRecoverer:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts: []
 
 transmogrifier:
@@ -583,6 +629,8 @@ transmogrifier:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts: []
 
 tracerKronos:
@@ -603,6 +651,8 @@ tracerKronos:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts: []
 
 minos:
@@ -623,6 +673,8 @@ minos:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts: []
 
 minosTemporaryExpiration:
@@ -643,6 +695,8 @@ minosTemporaryExpiration:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts: []
 
 necromancer:
@@ -662,6 +716,8 @@ necromancer:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_DATABASE_POOLCLASS
+      value: "nullpool"
   secretMounts: []
 
 ftsRenewal:
