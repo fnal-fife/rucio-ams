@@ -11,7 +11,7 @@ metadata:
     heritage: "Helm"
 type: Opaque
 data:
-  common.json: "ewogICJvaWRjIjogewogICAgImFkbWluX2lzc3VlciI6ICJDSUxvZ29uIiwKICAgICJleHBlY3RlZF9hdWRpZW5jZSI6ICJodHRwczovL3dsY2cuY2Vybi5jaC9qd3QvdjEvYW55IiwKICAgICJleHBlY3RlZF9zY29wZSI6ICJzdG9yYWdlLnJlYWQ6LyIsCiAgICAiaWRwc2VjcmV0cyI6ICIvb3B0L3J1Y2lvL2V0Yy9pZHBzZWNyZXRzLmpzb24iLAogICAgInN1cHBvcnRzX2F1ZGllbmNlIjogIkZhbHNlIgogIH0sCiAgInBvbGljeSI6IHsKICAgICJsZm4ycGZuX2FsZ29yaXRobV9kZWZhdWx0IjogIkRVTkUiLAogICAgIm1ldGFjYXRfYmFzZV91cmwiOiAiaHR0cHM6Ly9tZXRhY2F0LmZuYWwuZ292Ojk0NDMvZHVuZV9tZXRhX3Byb2QvYXBwIiwKICAgICJwYWNrYWdlIjogImZlcm1pbGFiLmR1bmUiCiAgfSwKICAid2VidWkiOiB7CiAgICAidXJscyI6ICJodHRwczovL3dlYnVpLWR1bmUtaW50LXJ1Y2lvLmZuYWwuZ292IgogIH0KfQ=="
+  common.json: "ewogICJkYXRhYmFzZSI6IHsKICAgICJwb29sX3JlY3ljbGUiOiAiMzAwIgogIH0sCiAgIm9pZGMiOiB7CiAgICAiYWRtaW5faXNzdWVyIjogIkNJTG9nb24iLAogICAgImV4cGVjdGVkX2F1ZGllbmNlIjogImh0dHBzOi8vd2xjZy5jZXJuLmNoL2p3dC92MS9hbnkiLAogICAgImV4cGVjdGVkX3Njb3BlIjogInN0b3JhZ2UucmVhZDovIiwKICAgICJpZHBzZWNyZXRzIjogIi9vcHQvcnVjaW8vZXRjL2lkcHNlY3JldHMuanNvbiIsCiAgICAic3VwcG9ydHNfYXVkaWVuY2UiOiAiRmFsc2UiCiAgfSwKICAicG9saWN5IjogewogICAgImxmbjJwZm5fYWxnb3JpdGhtX2RlZmF1bHQiOiAiRFVORSIsCiAgICAibWV0YWNhdF9iYXNlX3VybCI6ICJodHRwczovL21ldGFjYXQuZm5hbC5nb3Y6OTQ0My9kdW5lX21ldGFfcHJvZC9hcHAiLAogICAgInBhY2thZ2UiOiAiZmVybWlsYWIuZHVuZSIKICB9LAogICJ3ZWJ1aSI6IHsKICAgICJ1cmxzIjogImh0dHBzOi8vd2VidWktZHVuZS1pbnQtcnVjaW8uZm5hbC5nb3YiCiAgfQp9"
 ---
 # Source: rucio-server/templates/secrets.yaml
 apiVersion: v1
@@ -77,7 +77,7 @@ spec:
         app: rucio-server
         release: fnal
       annotations:
-        checksum/config: 8756745a68b0e0130fc867c897b5cc0dbde59558
+        checksum/config: bd6ef4687b662c41e46792de9e0525a20f0c0c6c
     spec:
       serviceAccountName: useroot
       volumes:
@@ -212,6 +212,8 @@ spec:
                 secretKeyRef:
                   key: db-connstr.txt
                   name: fnal-db-connstr
+            - name: RUCIO_CFG_DATABASE_POOLCLASS
+              value: nullpool
             - name: RUCIO_HTTPD_LEGACY_DN
               value: "True"
             - name: METACAT_SERVER_URL

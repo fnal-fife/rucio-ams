@@ -352,6 +352,8 @@ spec:
                 secretKeyRef:
                   key: db-connstr.txt
                   name: fnal-db-connstr
+            - name: RUCIO_CFG_DATABASE_POOLCLASS
+              value: nullpool
           resources:
             limits:
               cpu: 700m
@@ -447,6 +449,8 @@ spec:
                 secretKeyRef:
                   key: db-connstr.txt
                   name: fnal-db-connstr
+            - name: RUCIO_CFG_DATABASE_POOLCLASS
+              value: nullpool
           resources:
             limits:
               cpu: 700m
@@ -542,6 +546,8 @@ spec:
                 secretKeyRef:
                   key: db-connstr.txt
                   name: fnal-db-connstr
+            - name: RUCIO_CFG_DATABASE_POOLCLASS
+              value: nullpool
           resources:
             limits:
               cpu: 700m
@@ -637,6 +643,8 @@ spec:
                 secretKeyRef:
                   key: db-connstr.txt
                   name: fnal-db-connstr
+            - name: RUCIO_CFG_DATABASE_POOLCLASS
+              value: nullpool
           resources:
             limits:
               cpu: 700m
@@ -734,6 +742,8 @@ spec:
                 secretKeyRef:
                   key: db-connstr.txt
                   name: fnal-db-connstr
+            - name: RUCIO_CFG_DATABASE_POOLCLASS
+              value: nullpool
           resources:
             limits:
               cpu: 700m
@@ -829,6 +839,8 @@ spec:
                 secretKeyRef:
                   key: db-connstr.txt
                   name: fnal-db-connstr
+            - name: RUCIO_CFG_DATABASE_POOLCLASS
+              value: nullpool
           resources:
             limits:
               cpu: 700m
@@ -924,6 +936,8 @@ spec:
                 secretKeyRef:
                   key: db-connstr.txt
                   name: fnal-db-connstr
+            - name: RUCIO_CFG_DATABASE_POOLCLASS
+              value: nullpool
           resources:
             limits:
               cpu: 1200m
@@ -1019,6 +1033,8 @@ spec:
                 secretKeyRef:
                   key: db-connstr.txt
                   name: fnal-db-connstr
+            - name: RUCIO_CFG_DATABASE_POOLCLASS
+              value: nullpool
           resources:
             limits:
               cpu: 700m
@@ -1114,6 +1130,8 @@ spec:
                 secretKeyRef:
                   key: db-connstr.txt
                   name: fnal-db-connstr
+            - name: RUCIO_CFG_DATABASE_POOLCLASS
+              value: nullpool
           resources:
             limits:
               cpu: 700m
@@ -1209,6 +1227,8 @@ spec:
                 secretKeyRef:
                   key: db-connstr.txt
                   name: fnal-db-connstr
+            - name: RUCIO_CFG_DATABASE_POOLCLASS
+              value: nullpool
           resources:
             limits:
               cpu: 700m
@@ -1304,6 +1324,8 @@ spec:
                 secretKeyRef:
                   key: db-connstr.txt
                   name: fnal-db-connstr
+            - name: RUCIO_CFG_DATABASE_POOLCLASS
+              value: nullpool
           resources:
             limits:
               cpu: 700m
@@ -1399,6 +1421,8 @@ spec:
                 secretKeyRef:
                   key: db-connstr.txt
                   name: fnal-db-connstr
+            - name: RUCIO_CFG_DATABASE_POOLCLASS
+              value: nullpool
           resources:
             limits:
               cpu: 700m
@@ -1496,6 +1520,8 @@ spec:
                 secretKeyRef:
                   key: db-connstr.txt
                   name: fnal-db-connstr
+            - name: RUCIO_CFG_DATABASE_POOLCLASS
+              value: nullpool
           resources:
             limits:
               cpu: 700m
@@ -1591,6 +1617,8 @@ spec:
                 secretKeyRef:
                   key: db-connstr.txt
                   name: fnal-db-connstr
+            - name: RUCIO_CFG_DATABASE_POOLCLASS
+              value: nullpool
           resources:
             limits:
               cpu: 700m
@@ -1686,6 +1714,8 @@ spec:
                 secretKeyRef:
                   key: db-connstr.txt
                   name: fnal-db-connstr
+            - name: RUCIO_CFG_DATABASE_POOLCLASS
+              value: nullpool
           resources:
             limits:
               cpu: 700m
