@@ -25,6 +25,8 @@ prometheus.yaml
 overlays/dune/rucio/etc/policy-package
 overlays/dune-int/rucio/etc/policy-package
 overlays/mu2e/rucio/etc/policy-package
+overlays/int/rucio/etc/policy-package
+overlays/hypot/rucio/etc/policy-package
 
 # Ignore hard links that make the Fermilab policy package available inside the Docker build contexts.
 rucio-ams/docker/permissions-fnal/mu2e/
