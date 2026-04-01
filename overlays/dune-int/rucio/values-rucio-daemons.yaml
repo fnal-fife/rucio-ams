@@ -210,7 +210,16 @@ conveyorTransferSubmitter:
           key: db-connstr.txt
     - name: RUCIO_CFG_DATABASE_POOLCLASS
       value: "nullpool"
-  secretMounts: []
+  secretMounts:
+    - secretName: idpsecrets
+      mountPath: /opt/rucio/etc/idpsecrets.json
+      subPath: idpsecrets.json
+  config:
+    oidc:
+      admin_issuer: "CILogon"
+      supports_audience: "False"
+      idpsecrets: "/opt/rucio/etc/idpsecrets.json"
+
 
 conveyorStager:
   threads: 1

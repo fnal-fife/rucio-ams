@@ -59,7 +59,7 @@ metadata:
     heritage: "Helm"
 type: Opaque
 data:
-  component.json: "e30="
+  component.json: "ewogICJvaWRjIjogewogICAgImFkbWluX2lzc3VlciI6ICJDSUxvZ29uIiwKICAgICJpZHBzZWNyZXRzIjogIi9vcHQvcnVjaW8vZXRjL2lkcHNlY3JldHMuanNvbiIsCiAgICAic3VwcG9ydHNfYXVkaWVuY2UiOiAiRmFsc2UiCiAgfQp9"
 ---
 # Source: rucio-daemons/templates/hermes-deployment.yaml
 apiVersion: v1
@@ -234,11 +234,11 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: fnal-rucio-daemons-rucio-edit
-  namespace: rucio-dune-int
+  namespace: default
 subjects:
 - kind: ServiceAccount
   name: fnal-rucio-daemons-rucio-edit
-  namespace: rucio-dune-int
+  namespace: default
 roleRef:
   kind: ClusterRole
   name: edit
@@ -587,7 +587,7 @@ spec:
         release: fnal
         rucio-daemon: conveyor-submitter
       annotations:
-        checksum/config: eaf3fbe9c9be3e07fbe5c9e7a6202f6a64cad589
+        checksum/config: b0461070fe2ded5b59e27b94051430a523e5c045
     spec:
       serviceAccountName: useroot
       volumes:
@@ -597,16 +597,9 @@ spec:
       - name: config-component
         secret:
           secretName: fnal-rucio-daemons.config.conveyor-submitter
-      - name: policy-package
+      - name: idpsecrets
         secret:
-          secretName: fnal-policy-package
-      - name: rucio-x509up
-        secret:
-          secretName: fnal-rucio-x509up
-      - name: docker-entrypoint-daemons
-        secret:
-          secretName: fnal-docker-entrypoint-daemons
-          defaultMode: 488
+          secretName: fnal-idpsecrets
       containers:
         - name: rucio-daemons
           image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-38.3.0"
@@ -618,13 +611,9 @@ spec:
             - name: config-component
               mountPath: /opt/rucio/etc/conf.d/20_component.json
               subPath: component.json
-            - name: policy-package
-              mountPath: /opt/rucio/permissions/fermilab/dune
-            - name: rucio-x509up
-              mountPath: /opt/proxy
-            - name: docker-entrypoint-daemons
-              mountPath: /start-daemon.sh
-              subPath: "start-daemon.sh"
+            - name: idpsecrets
+              mountPath: /opt/rucio/etc/idpsecrets.json
+              subPath: "idpsecrets.json"
           ports:
             - name: metrics
               containerPort: 8080
