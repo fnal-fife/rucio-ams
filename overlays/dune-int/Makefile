@@ -37,5 +37,11 @@ dump: get-secrets rucio run-dump clean-secrets
 run-apply:  
 	kubectl apply -k .
 
+apply-rucio:
+	kubectl apply -k rucio
+
+apply-pgbouncer:
+	kubectl apply -k pgbouncer
+
 #apply: get-secrets rucio run-apply clean-secrets
 apply: rucio run-apply
