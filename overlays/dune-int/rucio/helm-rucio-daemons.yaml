@@ -234,11 +234,11 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: fnal-rucio-daemons-rucio-edit
-  namespace: default
+  namespace: rucio-dune-int
 subjects:
 - kind: ServiceAccount
   name: fnal-rucio-daemons-rucio-edit
-  namespace: default
+  namespace: rucio-dune-int
 roleRef:
   kind: ClusterRole
   name: edit
@@ -597,6 +597,16 @@ spec:
       - name: config-component
         secret:
           secretName: fnal-rucio-daemons.config.conveyor-submitter
+      - name: policy-package
+        secret:
+          secretName: fnal-policy-package
+      - name: rucio-x509up
+        secret:
+          secretName: fnal-rucio-x509up
+      - name: docker-entrypoint-daemons
+        secret:
+          secretName: fnal-docker-entrypoint-daemons
+          defaultMode: 488
       - name: idpsecrets
         secret:
           secretName: fnal-idpsecrets
@@ -611,6 +621,13 @@ spec:
             - name: config-component
               mountPath: /opt/rucio/etc/conf.d/20_component.json
               subPath: component.json
+            - name: policy-package
+              mountPath: /opt/rucio/permissions/fermilab/dune
+            - name: rucio-x509up
+              mountPath: /opt/proxy
+            - name: docker-entrypoint-daemons
+              mountPath: /start-daemon.sh
+              subPath: "start-daemon.sh"
             - name: idpsecrets
               mountPath: /opt/rucio/etc/idpsecrets.json
               subPath: "idpsecrets.json"
