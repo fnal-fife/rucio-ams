@@ -1,0 +1,11 @@
+resources:
+- pgbouncer-ss.yaml
+- pgbouncer-tx.yaml
+
+secretGenerator:
+- name: rucio-pgb-db-target
+  envs:
+  - etc/.secrets/db-target.env
+
+generatorOptions:
+  disableNameSuffixHash: true
