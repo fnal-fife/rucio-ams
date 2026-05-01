@@ -9,6 +9,7 @@ resources:
 - routes.yaml
 - grid-certificates-pvc.yaml
 - grid-certificates-cronjob.yaml
+- grid-certificates-job.yaml
 - ferry-users.yaml
 
 patchesStrategicMerge:
@@ -17,6 +18,7 @@ patchesStrategicMerge:
 - patch-server.yaml
 - patch-busybox.yaml
 - patch-service.yaml
+- patch-renew-fts-proxy-job.yaml
 
 configmapGenerator:
 - name: webui-patch
