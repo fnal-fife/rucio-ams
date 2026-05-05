@@ -97,9 +97,6 @@ spec:
       - name: httpd-custom-config
         secret:
           secretName: fnal-httpd-custom-config
-      - name: ca-volume
-        secret:
-          secretName: fnal-ca-volume
       - name: server-hostcert
         secret:
           secretName: fnal-server-hostcert
@@ -109,6 +106,9 @@ spec:
       - name: idpsecrets
         secret:
           secretName: fnal-idpsecrets
+      - name: ca-volume
+        persistentVolumeClaim:
+          claimName: grid-certificates-pvc
       containers:
         - name: httpd-error-log
           image: "imageregistry.fnal.gov/docker.io/busybox:latest"
@@ -148,9 +148,6 @@ spec:
           - name: httpd-custom-config
             mountPath: /etc/httpd/conf.d/fnal-custom-config.conf
             subPath: fnal-custom-config.conf
-          - name: ca-volume
-            mountPath: /etc/grid-security/certificates
-            subPath: 
           - name: server-hostcert
             mountPath: /etc/grid-security/hostcert.pem
             subPath: hostcert.pem
@@ -160,6 +157,8 @@ spec:
           - name: idpsecrets
             mountPath: /opt/rucio/etc/idpsecrets.json
             subPath: idpsecrets.json
+          - name: ca-volume
+            mountPath: /etc/grid-security/certificates
           ports:
             - name: http
               containerPort: 80
