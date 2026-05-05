@@ -182,8 +182,6 @@ secretMounts:
   - secretName: httpd-custom-config
     mountPath: /etc/httpd/conf.d/fnal-custom-config.conf
     subPath: fnal-custom-config.conf
-  - secretName: ca-volume
-    mountPath: /etc/grid-security/certificates
   - secretName: server-hostcert
     mountPath: /etc/grid-security/hostcert.pem
     subPath: hostcert.pem
@@ -197,6 +195,11 @@ secretMounts:
   #   secretName: gcssecret
   #   mountPath: /opt/rucio/etc/gcs_rucio.json
   #   subPath: gcs_rucio.json
+
+persistentVolumes:
+  ca-volume:
+    name: grid-certificates-pvc
+    mountPath: /etc/grid-security/certificates
 
 hostPathMounts: []
   # - volumeName: igtf-ca

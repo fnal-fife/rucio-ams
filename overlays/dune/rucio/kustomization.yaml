@@ -7,15 +7,17 @@ resources:
 - prometheus.yaml
 - messenger.yaml
 - routes.yaml
-- ferry-users.yaml
 - grid-certificates-pvc.yaml
 - grid-certificates-cronjob.yaml
+- grid-certificates-job.yaml
+- ferry-users.yaml
 
 patchesStrategicMerge:
 - patch-service.yaml
 - grid-certificates-patch.yaml
 - patch-server.yaml
 - patch-busybox.yaml
+- patch-renew-fts-proxy-job.yaml
 
 configmapGenerator:
 - name: webui-patch
