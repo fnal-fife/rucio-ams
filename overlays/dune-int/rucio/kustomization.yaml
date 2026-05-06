@@ -30,6 +30,11 @@ configmapGenerator:
 - name: server-rucio-conf-j2
   files:
   - rucio.conf.j2=etc/rucio-server.conf.j2
+- name: prometheus-yml
+  options:
+    disableNameSuffixHash: true
+  files:
+  - prometheus.yml=etc/prometheus.yml
 
 secretGenerator:
 # Database Connection String
@@ -138,12 +143,6 @@ secretGenerator:
 - name: fnal-cafile
   files:
   - ca.pem=etc/.secrets/ca.pem
-## lsst customization
-#- name: fnal-lsst-schema-file
-#  files:
-#  - lsst.py=etc/lsst.py
-#  options:
-#    disableNameSuffixHash: true
 ## automatix input
 #
 

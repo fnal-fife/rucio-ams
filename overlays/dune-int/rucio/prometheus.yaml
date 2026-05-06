@@ -23,15 +23,18 @@ spec:
         release: rucio-dune-int-prometheus
     spec:
       serviceAccountName: useroot
+      volumes:
+        - name: prometheus-yml
+          configMap:
+            name: prometheus-yml
       containers:
         - name: rucio-prometheus
           image: "imageregistry.fnal.gov/rucio-ams/rucio-ams-prometheus:32"
           imagePullPolicy: Always
-          env:
-            - name: EXPERIMENT
-              value: "dune-int"
-            - name: LANDSCAPE_REMOTE_WRITE_ENDPOINT
-              value: "http://lsdataitb.fnal.gov:9009/api/v1/push"
+          volumeMounts:
+            - name: prometheus-yml
+              mountPath: /etc/prometheus/prometheus.yml
+              subPath: prometheus.yml
           resources:
             requests:
               cpu: 600m
