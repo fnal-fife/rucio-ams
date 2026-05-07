@@ -182,7 +182,7 @@ policyPackages:
     #   requirement: vo_1_policy_package==1.4.0
     #   version: 1.4.0
     # example: install from a git repository
-    - moduleName: ruciointpolicy
+    - moduleName: fermilab.int
       requirement: git+https://github.com/fnal-fife/ruciointpolicy@main
       version: 0.1.0
   pvc:
@@ -435,7 +435,7 @@ config:
     # password: ""
 
   policy:
-    package: ruciointpolicy
+    package: fermilab.int
     ## config.permission.policy: (default "generic")
     # permission: "generic"
     ## config.permission.schema: (default "generic")
