@@ -21,6 +21,8 @@ data:
     server_reset_query = DISCARD ALL
     log_connections = 1
     log_disconnections = 1
+    ignore_startup_parameters = extra_float_digits
+    stats_users = __DB_USER__
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -61,6 +63,7 @@ spec:
             -e "s/__DB_HOST__/${DB_HOST}/g" \
             -e "s/__DB_PORT__/${DB_PORT}/g" \
             -e "s/__DB_NAME__/${DB_NAME}/g" \
+            -e "s/__DB_USER__/${DB_USER}/g" \
             /template/pgbouncer.ini > /opt/bitnami/pgbouncer/conf/pgbouncer.ini
           printf '"%s" "md5%s"\n' \
             "${DB_USER}" \
@@ -145,6 +148,31 @@ spec:
           mountPath: /opt/bitnami/pgbouncer/conf
         - name: tmp
           mountPath: /tmp
+      - name: pgbouncer-exporter
+        image: prometheuscommunity/pgbouncer-exporter:latest
+        env:
+        - name: POSTGRESQL_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: rucio-pgb-db-target
+              key: DB_USER
+        - name: POSTGRESQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: rucio-pgb-db-target
+              key: DB_PASSWORD
+        - name: PGBOUNCER_EXPORTER_CONNECTION_STRING
+          value: "postgres://$(POSTGRESQL_USERNAME):$(POSTGRESQL_PASSWORD)@localhost:5432/pgbouncer?sslmode=disable"
+        resources:
+          requests:
+            cpu: 30m
+            memory: 40Mi
+          limits:
+            cpu: 250m
+            memory: 150Mi
+        ports:
+          - name: metrics
+            containerPort: 9127
       volumes:
       - name: pgbouncer-config-template
         configMap:
