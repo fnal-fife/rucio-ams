@@ -7,10 +7,10 @@
 #   labels:
 #     app: rucio-messenger
 #     chart: rucio-routes-0.2.0
-#     release: rucio-dune-int
+#     release: rucio-int
 #     heritage: Helm
 # spec:
-#   host: msg-dune-int-rucio.fnal.gov
+#   host: msg-int-rucio.fnal.gov
 #   to:
 #     kind: Service
 #     name: fnal-rucio-messenger
@@ -46,10 +46,10 @@ spec:
 #   labels:
 #     app: rucio-webui
 #     chart: rucio-routes-0.2.0
-#     release: rucio-dune-int
+#     release: rucio-int
 #     heritage: Helm
 # spec:
-#   host: webui-dune-int-rucio.fnal.gov
+#   host: webui-int-rucio.fnal.gov
 #   to:
 #     kind: Service
 #     name: fnal-rucio-webui
