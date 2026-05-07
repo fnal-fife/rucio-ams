@@ -6,18 +6,6 @@ spec:
   template:
     spec:
       initContainers:
-      - name: grid-certs
-        image: ghcr.io/fnal-fife/fetch-crl-cron:latest
-        volumeMounts:
-        - name: ca-volume
-          mountPath: /out/
-        resources:
-          requests:
-            cpu: 500m
-            memory: 600Mi
-          limits:
-            cpu: 500m
-            memory: 600Mi
       - name: install-policy-packages
         resources:
           requests:

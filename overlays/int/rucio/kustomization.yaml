@@ -29,6 +29,7 @@ resources:
 - messenger.yaml
 - grid-certificates-pvc.yaml
 - grid-certificates-cronjob.yaml
+- grid-certificates-job.yaml
 
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
