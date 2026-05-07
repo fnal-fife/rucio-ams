@@ -25,7 +25,7 @@ useSSL: true
 
 image:
   repository: rucio/rucio-server
-  tag: release-38.3.0
+  tag: release-38.5.5
   pullPolicy: Always
 
 imageRegistry: imageregistry.fnal.gov/docker.io
