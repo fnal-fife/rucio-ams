@@ -38,7 +38,7 @@ serviceAccountName: useroot
 
 image:
   repository: imageregistry.fnal.gov/docker.io/rucio/rucio-daemons
-  tag: release-38.5.1
+  tag: release-38.5.5
   pullPolicy: Always
 
 strategy:

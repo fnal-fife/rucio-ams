@@ -17,7 +17,7 @@ minReadySeconds: 5
 
 image:
   repository: rucio/rucio-webui
-  tag: release-38.3.3
+  tag: release-38.3.4
   pullPolicy: Always
 
 imagePullSecrets: []
@@ -141,7 +141,7 @@ persistentVolumes: {}
 resources:
   limits:
     cpu: 1000m
-    memory: 2Gi
+    memory: 4Gi
   requests:
     cpu: 100m
     memory: 128Mi

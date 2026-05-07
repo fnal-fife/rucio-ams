@@ -102,7 +102,7 @@ spec:
           - name: webui-log
             mountPath: /var/log/webui/
         - name: rucio-webui
-          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-webui:release-38.3.3"
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-webui:release-38.3.4"
           imagePullPolicy: Always
           ports:
             - name: http
@@ -239,7 +239,7 @@ spec:
           resources:
             limits:
               cpu: 1000m
-              memory: 2Gi
+              memory: 4Gi
             requests:
               cpu: 100m
               memory: 128Mi

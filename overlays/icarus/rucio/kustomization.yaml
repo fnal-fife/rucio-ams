@@ -9,11 +9,13 @@ resources:
 - ferry-users.yaml
 - grid-certificates-pvc.yaml
 - grid-certificates-cronjob.yaml
+- grid-certificates-job.yaml
 
 patchesStrategicMerge:
 - patch-service.yaml
 - grid-certificates-patch.yaml
 - patch-busybox.yaml
+- patch-renew-fts-proxy-job.yaml
 #- rucio-env-patch.yaml
 
 secretGenerator:
