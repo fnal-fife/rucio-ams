@@ -840,7 +840,8 @@ config:
     protocol_stat_retries: 6
     client_x509_proxy: "/opt/proxy/x509up"
   
-  # common:
+  common:
+    logjson: True
     ## config.common.logdir: the default directoy to write logs to (default: "/var/log/rucio")
     # logdir: "/var/log/rucio"
     ## config.common.logdir: the max loglevel (default: "DEBUG")
