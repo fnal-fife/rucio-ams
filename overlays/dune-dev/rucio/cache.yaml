@@ -1,0 +1,52 @@
+---
+# Source: rucio-cache/templates/cache_service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: fnal-rucio-cache
+  labels:
+    app: rucio-cache
+    release: fnal
+spec:
+  type: ClusterIP 
+  ports:
+    - port: 11211
+      targetPort: 11211
+      protocol: TCP
+      name: https
+  selector:
+    app: rucio-cache
+    release: fnal
+---
+# Source: rucio-cache/templates/cache_deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fnal-rucio-cache
+  labels:
+    app: rucio-cache
+    release: fnal
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rucio-cache
+      release: fnal
+  template:
+    metadata:
+      labels:
+        app: rucio-cache
+        release: fnal
+    spec:
+      serviceAccountName: useroot
+      containers:
+        - name: rucio-cache
+          image: "imageregistry.fnal.gov/docker.io/memcached:1.6"
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 700m
+              memory: 1Gi
+            limits:
+              cpu: 1
+              memory: 6Gi

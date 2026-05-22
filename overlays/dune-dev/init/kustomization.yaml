@@ -1,0 +1,20 @@
+# kustomize.yaml for rucio-dune-dev deploy secrets
+generatorOptions:
+  disableNameSuffixHash: true
+  annotations:
+    argocd.argoproj.io/compare-options: IgnoreExtraneous
+  labels:
+    managed-by: "manual-process"
+
+resources:
+  - init-pod.yaml
+  - grid-certificates-job.yaml
+
+secretGenerator:
+# Database Connection String
+- name: fnal-init-db-connstr
+  files:
+  - db-connstr.txt=etc/.secrets/db-connstr
+- name: fnal-init-ssh-identity
+  files:
+  - ssh-id=etc/.secrets/ssh-pubkey

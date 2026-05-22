@@ -1,0 +1,60 @@
+global:
+  scrape_interval: 60s
+  evaluation_interval: 60s
+
+remote_write:
+  - url: "http://lsdataitb.fnal.gov:9009/api/v1/push"
+  # - url: "REPLACE_WITH_LANDSCAPE_ENDPOINT"
+    write_relabel_configs:
+      - target_label: "rucio_deployment"
+        replacement: rucio-dune-dev
+
+scrape_configs:
+
+  - job_name: rucio-daemons
+    honor_labels: true
+
+    kubernetes_sd_configs:
+      - role: pod
+        namespaces:
+          names:
+            - "rucio-dune-dev"
+        selectors:
+        - role: "pod"
+          label: "app-group=rucio-daemons"
+
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_pod_name]
+        action: drop
+        regex: .+abacus.+
+      #- action: labelmap
+      #  regex: __meta_kubernetes_pod_label_(.+)
+      - source_labels: [__address__]
+        action: replace
+        regex: ([^:]+):.*
+        replacement: $1:8080
+        target_label: __address__
+
+  - job_name: rucio-pgb-tx
+    honor_labels: true
+
+    kubernetes_sd_configs:
+      - role: pod
+        namespaces:
+          names:
+            - "rucio-dune-dev"
+        selectors:
+        - role: "pod"
+          label: "app=rucio-pgb-tx"
+
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_pod_container_name]
+        action: keep
+        regex: pgbouncer-exporter
+      #- action: labelmap
+      #  regex: __meta_kubernetes_pod_label_(.+)
+      - source_labels: [__address__]
+        action: replace
+        regex: ([^:]+):.*
+        replacement: $1:9127
+        target_label: __address__
