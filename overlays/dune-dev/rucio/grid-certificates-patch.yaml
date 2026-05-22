@@ -1,0 +1,54 @@
+# Add initContainers to Deployments requring OSG CA certificates installed
+# This will result in an initContainer being created before the Rucio daemon container
+# This initContainer uses an image that has the most recent CA certs baked in
+# Baked in certs are copied to a mounted volume. The initContainer concludes actions.
+# Volume that initContainer copied CA certificates into is mounted by the Rucio daemon.
+# You've got certs.
+
+#apiVersion: apps/v1
+#kind: Deployment
+#metadata:
+#  name: fnal-automatix
+#spec:
+#  template:
+#    spec:
+#      initContainers:
+#      - name: grid-certs
+#        image: ghcr.io/fnal-fife/fetch-crl-cron:latest
+#        volumeMounts:
+#        - name: ca-volume
+#          mountPath: /out/
+#      volumes:
+#       - name: ca-volume
+#         secret:
+#           $patch: delete
+#         persistentVolumeClaim:
+#           claimName: grid-certificates-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fnal-rucio-daemons-reaper
+spec:
+  template:
+    spec:
+      volumes:
+       - name: ca-volume
+         secret:
+           $patch: delete
+         persistentVolumeClaim:
+           claimName: grid-certificates-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fnal-rucio-webui
+spec:
+  template:
+    spec:
+      volumes:
+       - name: ca-volume
+         secret:
+           $patch: delete
+         persistentVolumeClaim:
+           claimName: grid-certificates-pvc

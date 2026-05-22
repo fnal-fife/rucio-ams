@@ -1,0 +1,44 @@
+---
+# Source: rucio-prometheus/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rucio-dune-dev-prometheus
+  labels:
+    app: rucio-prometheus
+    chart: rucio-prometheus-1
+    release: rucio-dune-dev-prometheus
+    heritage: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rucio-prometheus
+      release: rucio-dune-dev-prometheus
+  minReadySeconds: 
+  template:
+    metadata:
+      labels:
+        app: rucio-prometheus
+        release: rucio-dune-dev-prometheus
+    spec:
+      serviceAccountName: useroot
+      volumes:
+        - name: prometheus-yml
+          configMap:
+            name: prometheus-yml
+      containers:
+        - name: rucio-prometheus
+          image: "imageregistry.fnal.gov/rucio-ams/rucio-ams-prometheus:32"
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: prometheus-yml
+              mountPath: /etc/prometheus/prometheus.yml
+              subPath: prometheus.yml
+          resources:
+            requests:
+              cpu: 600m
+              memory: 600Mi
+            limits:
+              cpu: 600m
+              memory: 600Mi
