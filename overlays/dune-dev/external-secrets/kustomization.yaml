@@ -1,0 +1,3 @@
+resources:
+  - rucio-external-secrets.yaml
+  - pgbouncer-external-secrets.yaml
