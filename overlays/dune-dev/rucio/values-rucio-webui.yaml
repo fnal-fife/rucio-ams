@@ -47,11 +47,6 @@ ingress:
   enabled: false
 
 secretMounts:
-  # Custom to install metacat? Needed for webui?
-  #- secretName: docker-entrypoint-webui
-  #  mountPath: /docker-entrypoint.sh
-  #  subPath: docker-entrypoint.sh
-  #  defaultMode: 0750
   - secretName: hostcert
     mountPath: /etc/grid-security/hostcert.pem
     subPath: hostcert.pem

@@ -6,10 +6,6 @@ spec:
   template:
     spec:
       serviceAccountName: useroot
-      volumes:
-        - name: rucio-conf-j2
-          configMap:
-            name: server-rucio-conf-j2
       initContainers:
       - name: install-policy-packages
         resources:
@@ -19,9 +15,3 @@ spec:
           limits:
             cpu: 500m
             memory: 600Mi
-      containers:
-        - name: rucio-server 
-          volumeMounts:
-            - name: rucio-conf-j2
-              mountPath: /tmp/rucio.conf.j2
-              subPath: rucio.conf.j2
