@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 ## replicaCount gives the number of server pods to run
-replicaCount: 12
+replicaCount: 1
 
 serviceAccountName: useroot
 
@@ -118,6 +118,42 @@ monitoring:
     #   replacement: $1
     #   action: replace
 
+policyPackages:
+  enabled: true
+
+  # Use an ephemeral volume to install the policy package.
+  # This means that the policy package will need to be installed on every pod restart but no PV/PVC are needed
+  ephemeralVolume: true
+
+  # Make sure the trailing slash is present
+  mountPath: /opt/policy_packages/
+  # Use underscores instead of hyphens for module names
+  # (e.g. atlas_rucio_policy_package instead of atlas-rucio-policy-package)
+  packages:
+    # example: install from an index (default is PyPI)
+    - moduleName: metacat
+      requirement: metacat==3.42.2
+      version: 3.42.2
+    - moduleName: pyyaml
+      requirement: PyYAML==6.0.3
+      version: 6.0.3
+    # example: install from a git repository
+    # - moduleName: vo_2_policy_package
+    #   requirement: git+https://github.com/vo-2/vo-2-policy-package@v0.1.0
+    #   version: 0.1.0
+  pvc:
+    # Set true to create a PVC for the policy packages; leave false if providing it separately.
+    createPvc: false
+    name: policy-package-volume
+    # Whether to prepend the release name to the PVC name provided.
+    prependReleaseName: false
+  resources:
+    requests:
+      # Storage required by the policy packages - resize if needed
+      storage: 100Mi
+  storageClass:
+    name:
+
 metricsExporterResources:
   limits:
     cpu: 30m
@@ -189,10 +225,10 @@ automaticRestart:
 secretMounts:
   - secretName: policy-package
     mountPath: /opt/rucio/permissions/fermilab/dune
-  - secretName: docker-entrypoint-server
-    mountPath: /docker-entrypoint.sh
-    subPath: docker-entrypoint.sh
-    defaultMode: 0750
+  # - secretName: docker-entrypoint-server
+  #   mountPath: /docker-entrypoint.sh
+  #   subPath: docker-entrypoint.sh
+  #   defaultMode: 0750
   - secretName: httpd-custom-config
     mountPath: /etc/httpd/conf.d/fnal-custom-config.conf
     subPath: fnal-custom-config.conf
@@ -224,7 +260,7 @@ hostPathMounts: []
 
 additionalEnvs:
   - name: PYTHONPATH
-    value: /opt/rucio/permissions
+    value: /opt/rucio/permissions:/opt/policy_packages
   - name: RUCIO_CFG_DATABASE_DEFAULT
     valueFrom:
       secretKeyRef:
@@ -363,7 +399,8 @@ config:
   database:
     pool_recycle: "300"
 
-  # common:
+  common:
+    logjson: true
     ## config.common.logdir: the default directoy to write logs to (default: "/var/log/rucio")
     # logdir: "/var/log/rucio"
     ## config.common.logdir: the max loglevel (default: "DEBUG")
