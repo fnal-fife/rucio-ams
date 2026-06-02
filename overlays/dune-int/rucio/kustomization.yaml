@@ -11,6 +11,7 @@ resources:
 - grid-certificates-cronjob.yaml
 - grid-certificates-job.yaml
 - ferry-users.yaml
+- headless-rucio-server.yaml
 
 patchesStrategicMerge:
 - grid-certificates-patch.yaml
