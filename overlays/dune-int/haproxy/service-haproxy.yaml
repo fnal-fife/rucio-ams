@@ -8,6 +8,7 @@ metadata:
     release: fnal
 spec:
   type: ClusterIP
+  externalIPs: [ 131.225.218.7 ]
   ports:
     - port: 443
       targetPort: 443

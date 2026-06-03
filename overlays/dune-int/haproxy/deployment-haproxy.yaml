@@ -22,7 +22,7 @@ spec:
       serviceAccountName: useroot
       containers:
         - name: haproxy
-          image: haproxytech/haproxy-alpine:2.9
+          image: haproxytech/haproxy-alpine:s6-3.0
           ports:
             - containerPort: 443
               protocol: TCP
@@ -42,8 +42,8 @@ spec:
               cpu: 100m
               memory: 64Mi
             limits:
-              cpu: 500m
-              memory: 256Mi
+              cpu: 1
+              memory: 1Gi
       volumes:
         - name: haproxy-config
           configMap:

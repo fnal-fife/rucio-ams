@@ -31,9 +31,11 @@ data:
 
     frontend http-in
         bind *:443
+        mode tcp
         default_backend rucio-server-pods
 
     backend rucio-server-pods
+        mode tcp
         balance leastconn
         server-template pod 12 fnal-rucio-server-headless.rucio-dune-int.svc.cluster.local:443 resolvers clusterdns resolve-prefer ipv4 init-addr none check inter 5s
 
