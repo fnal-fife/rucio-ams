@@ -130,17 +130,15 @@ policyPackages:
   # Use underscores instead of hyphens for module names
   # (e.g. atlas_rucio_policy_package instead of atlas-rucio-policy-package)
   packages:
-    # example: install from an index (default is PyPI)
     - moduleName: metacat
       requirement: metacat==3.42.2
       version: 3.42.2
     - moduleName: pyyaml
       requirement: PyYAML==6.0.3
       version: 6.0.3
-    # example: install from a git repository
-    # - moduleName: vo_2_policy_package
-    #   requirement: git+https://github.com/vo-2/vo-2-policy-package@v0.1.0
-    #   version: 0.1.0
+    - moduleName: globus-sdk
+      requirement: globus-sdk==4.7.0
+      version: 4.7.0
   pvc:
     # Set true to create a PVC for the policy packages; leave false if providing it separately.
     createPvc: false
