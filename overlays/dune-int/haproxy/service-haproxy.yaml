@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fnal-rucio-haproxy
+  namespace: rucio-dune-int
+  labels:
+    app: rucio-haproxy
+    release: fnal
+spec:
+  type: ClusterIP
+  externalIPs: [ 131.225.218.7 ]
+  ports:
+    - port: 443
+      targetPort: 443
+      protocol: TCP
+      name: https
+  selector:
+    app: rucio-haproxy

@@ -1,0 +1,5 @@
+# kustomize.yaml for rucio-dune-int
+resources:
+  - configmap-haproxy.yaml
+  - deployment-haproxy.yaml
+  - service-haproxy.yaml

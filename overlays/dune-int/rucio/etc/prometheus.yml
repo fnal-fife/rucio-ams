@@ -58,3 +58,27 @@ scrape_configs:
         regex: ([^:]+):.*
         replacement: $1:9127
         target_label: __address__
+
+  - job_name: haproxy
+    honor_labels: true
+
+    kubernetes_sd_configs:
+      - role: pod
+        namespaces:
+          names:
+            - "rucio-dune-int"
+        selectors:
+        - role: "pod"
+          label: "app=rucio-haproxy"
+
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_pod_container_name]
+        action: keep
+        regex: haproxy
+      #- action: labelmap
+      #  regex: __meta_kubernetes_pod_label_(.+)
+      - source_labels: [__address__]
+        action: replace
+        regex: ([^:]+):.*
+        replacement: $1:8404
+        target_label: __address__

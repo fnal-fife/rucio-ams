@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rucio-haproxy
+  namespace: rucio-dune-int
+  labels:
+    app: rucio-haproxy
+    release: fnal
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rucio-haproxy
+      release: fnal
+  template:
+    metadata:
+      labels:
+        app: rucio-haproxy
+        release: fnal
+    spec:
+      serviceAccount: useroot
+      serviceAccountName: useroot
+      containers:
+        - name: haproxy
+          image: haproxytech/haproxy-alpine:s6-3.0
+          ports:
+            - containerPort: 443
+              protocol: TCP
+          volumeMounts:
+            - name: haproxy-config
+              mountPath: /usr/local/etc/haproxy/haproxy.cfg
+              subPath: haproxy.cfg
+          readinessProbe:
+            httpGet:
+              path: /stats
+              port: 1024
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            limits:
+              cpu: 1
+              memory: 1Gi
+      volumes:
+        - name: haproxy-config
+          configMap:
+            name: haproxy-config
