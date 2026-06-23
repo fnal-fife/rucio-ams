@@ -39,6 +39,8 @@ secretGenerator:
 - name: fnal-policy-package
   files:
   - __init__.py=etc/policy-package/__init__.py
+  - lfn2pfn.py=etc/policy-package/lfn2pfn.py
+  - path_gen.py=etc/policy-package/path_gen.py
   - permission.py=etc/policy-package/permission.py
   - schema.py=etc/policy-package/schema.py
 
