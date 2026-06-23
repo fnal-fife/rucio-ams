@@ -270,6 +270,7 @@ metadata:
 type: Opaque
 data:
   common.json: "ewogICJhdXRvbWF0aXgiOiB7CiAgICAiYWNjb3VudCI6ICJhdXRvbWF0aXgiLAogICAgImRhdGFzZXRfbGlmZXRpbWUiOiAzMCwKICAgICJyc2VzIjogIkRDQUNIRV9CSldISVRFX1NUQVJULCBEQ0FDSEVfQkpXSElURV9FTkQiLAogICAgInNjb3BlIjogImF1dG9tYXRpeCIsCiAgICAic2V0X21ldGFkYXRhIjogIlRydWUiCiAgfSwKICAiY2FjaGUiOiB7CiAgICAidXJsIjogInJ1Y2lvLWNhY2hlOjExMjExIgogIH0sCiAgImNsaWVudCI6IHsKICAgICJhY2NvdW50IjogImF1dG9tYXRpeCIsCiAgICAiYXV0aF9ob3N0IjogImh0dHBzOi8vaWNhcnVzLXJ1Y2lvLmZuYWwuZ292IiwKICAgICJhdXRoX3R5cGUiOiAieDUwOV9wcm94eSIsCiAgICAiY2FfY2VydCI6ICIvZXRjL2dyaWQtc2VjdXJpdHkvY2VydGlmaWNhdGVzIiwKICAgICJjbGllbnRfeDUwOV9wcm94eSI6ICIvb3B0L3Byb3h5L3g1MDl1cCIsCiAgICAicHJvdG9jb2xfc3RhdF9yZXRyaWVzIjogNiwKICAgICJyZXF1ZXN0X3JldHJpZXMiOiAzLAogICAgInJ1Y2lvX2hvc3QiOiAiaHR0cHM6Ly9pY2FydXMtcnVjaW8uZm5hbC5nb3YiCiAgfSwKICAiY29udmV5b3IiOiB7CiAgICAiY2FjZXJ0IjogIi9vcHQvY2VydHMvY2EucGVtIiwKICAgICJzY2hlbWUiOiAiZGF2cyxodHRwcyxodHRwLHNybSxnc2lmdHAscm9vdCIsCiAgICAidXNlcmNlcnQiOiAiL29wdC9wcm94eS94NTA5dXAiCiAgfSwKICAiaGVybWVzIjogewogICAgInNlcnZpY2VzX2xpc3QiOiAiYWN0aXZlbXEiCiAgfSwKICAibWVzc2FnaW5nLWNhY2hlIjogewogICAgImFjY291bnQiOiAibWVtY2FjaGUiLAogICAgImJyb2tlcnMiOiAicnVjaW8tY2FjaGUiLAogICAgImRlc3RpbmF0aW9uIjogIi90b3BpYy9ydWNpby5ldmVudHMuaWNhcnVzIiwKICAgICJwb3J0IjogIjYxMTIzIiwKICAgICJ2b25hbWUiOiAiaWNhcnVzIgogIH0sCiAgIm1lc3NhZ2luZy1oZXJtZXMiOiB7CiAgICAiYnJva2VyX3ZpcnR1YWxfaG9zdCI6ICIvIiwKICAgICJicm9rZXJzIjogImZuYWwtcnVjaW8tbWVzc2VuZ2VyIiwKICAgICJkZXN0aW5hdGlvbiI6ICIvdG9waWMvcnVjaW8uZXZlbnRzLmljYXJ1cyIsCiAgICAiZW1haWxfZnJvbSI6ICJSdWNpbyBcdTAwM2NhdGxhcy1hZGMtZGRtLXN1cHBvcnRAY2Vybi5jaCIsCiAgICAiZW1haWxfdGVzdCI6ICIiLAogICAgIm5vbnNzbF9wb3J0IjogIjYxNjEzIiwKICAgICJwYXNzd29yZCI6ICJndWVzdCIsCiAgICAicG9ydCI6ICI2MTYxMyIsCiAgICAic3NsX2NlcnRfZmlsZSI6ICIvb3B0L3J1Y2lvL2NlcnRzL2hvc3RjZXJ0LnBlbSIsCiAgICAic3NsX2tleV9maWxlIjogIi9vcHQvcnVjaW8va2V5cy9ob3N0a2V5LnBlbSIsCiAgICAidXNlX3NzbCI6ICJGYWxzZSIsCiAgICAidXNlcm5hbWUiOiAiZ3Vlc3QiLAogICAgInZvbmFtZSI6ICJpY2FydXMiCiAgfSwKICAibW9uaXRvciI6IHsKICAgICJlbmFibGVfbWV0cmljcyI6IHRydWUKICB9LAogICJwb2xpY3kiOiB7CiAgICAicGFja2FnZSI6ICJmZXJtaWxhYiIKICB9LAogICJ0cmFuc2ZlcnMiOiB7CiAgICAibXVsdGlob3BfcnNlX2V4cHJlc3Npb24iOiAiIiwKICAgICJzcm1faHR0cHNfY29tcGF0aWJpbGl0eSI6IHRydWUKICB9Cn0="
+
 ---
 # Source: rucio-daemons/templates/transmogrifier-deployment.yaml
 apiVersion: v1
@@ -313,6 +314,8 @@ roleRef:
   kind: ClusterRole
   name: edit
   apiGroup: rbac.authorization.k8s.io
+
+
 ---
 # Source: rucio-daemons/templates/service.yaml
 apiVersion: v1
@@ -334,6 +337,8 @@ spec:
   selector:
     app-group: rucio-daemons
     release: fnal
+
+
 ---
 # Source: rucio-daemons/templates/abacus-deployment.yaml
 apiVersion: apps/v1
@@ -598,6 +603,10 @@ spec:
             requests:
               cpu: 700m
               memory: 200Mi
+
+
+
+
 ---
 # Source: rucio-daemons/templates/automatix-deployment.yaml
 apiVersion: apps/v1
@@ -697,6 +706,9 @@ spec:
             requests:
               cpu: 100m
               memory: 100Mi
+
+
+
 ---
 # Source: rucio-daemons/templates/conveyor-deployment.yaml
 apiVersion: apps/v1
@@ -1049,6 +1061,10 @@ spec:
             requests:
               cpu: 1000m
               memory: 900Mi
+
+
+
+
 ---
 # Source: rucio-daemons/templates/hermes-deployment.yaml
 apiVersion: apps/v1
@@ -1151,6 +1167,9 @@ spec:
             requests:
               cpu: 700m
               memory: 200Mi
+
+
+
 ---
 # Source: rucio-daemons/templates/judge-deployment.yaml
 apiVersion: apps/v1
@@ -1503,6 +1522,10 @@ spec:
             requests:
               cpu: 200m
               memory: 1200Mi
+
+
+
+
 ---
 # Source: rucio-daemons/templates/minos-deployment.yaml
 apiVersion: apps/v1
@@ -1679,6 +1702,10 @@ spec:
             requests:
               cpu: 100m
               memory: 100Mi
+
+
+
+
 ---
 # Source: rucio-daemons/templates/necromancer-deployment.yaml
 apiVersion: apps/v1
@@ -1767,6 +1794,9 @@ spec:
             requests:
               cpu: 100m
               memory: 100Mi
+
+
+
 ---
 # Source: rucio-daemons/templates/reaper-deployment.yaml
 apiVersion: apps/v1
@@ -1864,6 +1894,9 @@ spec:
             requests:
               cpu: 1000m
               memory: 2000Mi
+
+
+
 ---
 # Source: rucio-daemons/templates/replica-recoverer-deployment.yaml
 apiVersion: apps/v1
@@ -1952,6 +1985,9 @@ spec:
             requests:
               cpu: 700m
               memory: 200Mi
+
+
+
 ---
 # Source: rucio-daemons/templates/transmogrifier-deployment.yaml
 apiVersion: apps/v1
@@ -2040,6 +2076,9 @@ spec:
             requests:
               cpu: 700m
               memory: 200Mi
+
+
+
 ---
 # Source: rucio-daemons/templates/undertaker-deployment.yaml
 apiVersion: apps/v1
@@ -2128,6 +2167,9 @@ spec:
             requests:
               cpu: 400m
               memory: 500Mi
+
+
+
 ---
 # Source: rucio-daemons/templates/renew-fts-cronjob.yaml
 apiVersion: batch/v1
@@ -2285,3 +2327,5 @@ spec:
             - name: USERKEY_NAME
               value: new_userkey.pem
       restartPolicy: OnFailure
+
+
