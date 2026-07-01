@@ -51,6 +51,20 @@ data:
 apiVersion: v1
 kind: Secret
 metadata:
+  name: fnal-rucio-daemons.config.conveyor-receiver
+  labels:
+    app: rucio-daemons-conveyor-receiver
+    chart: "rucio-daemons-38.0.3"
+    release: "fnal"
+    heritage: "Helm"
+type: Opaque
+data:
+  component.json: "e30="
+---
+# Source: rucio-daemons/templates/conveyor-deployment.yaml
+apiVersion: v1
+kind: Secret
+metadata:
   name: fnal-rucio-daemons.config.conveyor-submitter
   labels:
     app: rucio-daemons-conveyor-submitter
@@ -214,6 +228,7 @@ metadata:
 type: Opaque
 data:
   common.json: "ewogICJhdXRvbWF0aXgiOiB7CiAgICAiYWNjb3VudCI6ICJhdXRvbWF0aXgiLAogICAgImRhdGFzZXRfbGlmZXRpbWUiOiAzMCwKICAgICJyc2VzIjogIkRDQUNIRV9CSldISVRFX0VORCwgRENBQ0hFX0JKV0hJVEVfRU5EMiIsCiAgICAic2NvcGUiOiAiYXV0b21hdGl4IiwKICAgICJzZXRfbWV0YWRhdGEiOiAiVHJ1ZSIKICB9LAogICJjYWNoZSI6IHsKICAgICJ1cmwiOiAicnVjaW8tY2FjaGU6MTEyMTEiCiAgfSwKICAiY2xpZW50IjogewogICAgImFjY291bnQiOiAiYXV0b21hdGl4IiwKICAgICJhdXRoX2hvc3QiOiAiaHR0cHM6Ly9kdW5lLWludC1ydWNpby5mbmFsLmdvdiIsCiAgICAiYXV0aF90eXBlIjogIng1MDlfcHJveHkiLAogICAgImNhX2NlcnQiOiAiL2V0Yy9ncmlkLXNlY3VyaXR5L2NlcnRpZmljYXRlcyIsCiAgICAiY2xpZW50X3g1MDlfcHJveHkiOiAiL29wdC9wcm94eS94NTA5dXAiLAogICAgInByb3RvY29sX3N0YXRfcmV0cmllcyI6IDYsCiAgICAicmVxdWVzdF9yZXRyaWVzIjogMywKICAgICJydWNpb19ob3N0IjogImh0dHBzOi8vZHVuZS1pbnQtcnVjaW8uZm5hbC5nb3YiCiAgfSwKICAiY29udmV5b3IiOiB7CiAgICAiY2FjZXJ0IjogIi9vcHQvY2VydHMvY2EucGVtIiwKICAgICJzY2hlbWUiOiAic3JtLGdzaWZ0cCxyb290LGh0dHAsaHR0cHMsZGF2cyIsCiAgICAidXNlcmNlcnQiOiAiL29wdC9wcm94eS94NTA5dXAiCiAgfSwKICAiaGVybWVzIjogewogICAgInNlcnZpY2VzX2xpc3QiOiAiYWN0aXZlbXEiCiAgfSwKICAibWVzc2FnaW5nLWNhY2hlIjogewogICAgImFjY291bnQiOiAibWVtY2FjaGUiLAogICAgImJyb2tlcnMiOiAicnVjaW8tY2FjaGUiLAogICAgImRlc3RpbmF0aW9uIjogIi90b3BpYy9ydWNpby5ldmVudHMuZHVuZV9pbnQiLAogICAgInBvcnQiOiAiNjExMjMiLAogICAgInZvbmFtZSI6ICJkdW5lLWludCIKICB9LAogICJtZXNzYWdpbmctaGVybWVzIjogewogICAgImJyb2tlcl92aXJ0dWFsX2hvc3QiOiAiLyIsCiAgICAiYnJva2VycyI6ICJmbmFsLXJ1Y2lvLW1lc3NlbmdlciIsCiAgICAiZGVzdGluYXRpb24iOiAiL3RvcGljL3J1Y2lvLmV2ZW50cy5kdW5lX2ludCIsCiAgICAibm9uc3NsX3BvcnQiOiAiNjE2MTMiLAogICAgInBhc3N3b3JkIjogImd1ZXN0IiwKICAgICJwb3J0IjogIjYxNjEzIiwKICAgICJzc2xfY2VydF9maWxlIjogIi9vcHQvcnVjaW8vY2VydHMvaG9zdGNlcnQucGVtIiwKICAgICJzc2xfa2V5X2ZpbGUiOiAiL29wdC9ydWNpby9rZXlzL2hvc3RrZXkucGVtIiwKICAgICJ1c2Vfc3NsIjogIkZhbHNlIiwKICAgICJ1c2VybmFtZSI6ICJndWVzdCIsCiAgICAidm9uYW1lIjogImR1bmUtaW50IgogIH0sCiAgIm1vbml0b3IiOiB7CiAgICAiZW5hYmxlX21ldHJpY3MiOiB0cnVlCiAgfSwKICAicG9saWN5IjogewogICAgIm1ldGFjYXRfYmFzZV91cmwiOiAiaHR0cHM6Ly9tZXRhY2F0LmZuYWwuZ292Ojk0NDMvZHVuZV9tZXRhX3Byb2QvYXBwIiwKICAgICJwYWNrYWdlIjogImZlcm1pbGFiLmR1bmUiCiAgfSwKICAidHJhbnNmZXJzIjogewogICAgInNybV9odHRwc19jb21wYXRpYmlsaXR5IjogdHJ1ZSwKICAgICJ1c2VfbXVsdGlob3AiOiB0cnVlCiAgfQp9"
+
 ---
 # Source: rucio-daemons/templates/undertaker-deployment.yaml
 apiVersion: v1
@@ -243,6 +258,8 @@ roleRef:
   kind: ClusterRole
   name: edit
   apiGroup: rbac.authorization.k8s.io
+
+
 ---
 # Source: rucio-daemons/templates/service.yaml
 apiVersion: v1
@@ -264,6 +281,8 @@ spec:
   selector:
     app-group: rucio-daemons
     release: fnal
+
+
 ---
 # Source: rucio-daemons/templates/abacus-deployment.yaml
 apiVersion: apps/v1
@@ -361,6 +380,10 @@ spec:
             requests:
               cpu: 700m
               memory: 600Mi
+
+
+
+
 ---
 # Source: rucio-daemons/templates/conveyor-deployment.yaml
 apiVersion: apps/v1
@@ -560,6 +583,135 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: fnal-rucio-daemons-conveyor-receiver
+  labels:
+    app: rucio-daemons-conveyor-receiver
+    app-group: rucio-daemons
+    chart: rucio-daemons-38.0.3
+    release: fnal
+    heritage: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rucio-daemons-conveyor-receiver
+      release: fnal
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: rucio-daemons-conveyor-receiver
+        app-group: rucio-daemons
+        release: fnal
+        rucio-daemon: conveyor-receiver
+      annotations:
+        checksum/config: eaf3fbe9c9be3e07fbe5c9e7a6202f6a64cad589
+    spec:
+      serviceAccountName: useroot
+      volumes:
+      - name: config-common
+        secret:
+          secretName: fnal-rucio-daemons.config.common
+      - name: config-component
+        secret:
+          secretName: fnal-rucio-daemons.config.conveyor-receiver
+      - name: policy-package
+        secret:
+          secretName: fnal-policy-package
+      - name: rucio-x509up
+        secret:
+          secretName: fnal-rucio-x509up
+      - name: docker-entrypoint-daemons
+        secret:
+          secretName: fnal-docker-entrypoint-daemons
+          defaultMode: 488
+      containers:
+        - name: rucio-daemons
+          image: "imageregistry.fnal.gov/docker.io/rucio/rucio-daemons:release-38.5.5"
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: config-common
+              mountPath: /opt/rucio/etc/conf.d/10_common.json
+              subPath: common.json
+            - name: config-component
+              mountPath: /opt/rucio/etc/conf.d/20_component.json
+              subPath: component.json
+            - name: policy-package
+              mountPath: /opt/rucio/permissions/fermilab/dune
+            - name: rucio-x509up
+              mountPath: /opt/proxy
+            - name: docker-entrypoint-daemons
+              mountPath: /start-daemon.sh
+              subPath: "start-daemon.sh"
+          ports:
+            - name: metrics
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: RUCIO_OVERRIDE_CONFIGS
+              value: "/opt/rucio/etc/conf.d/"
+            - name: RUCIO_DAEMON
+              value: "conveyor-receiver"
+            - name: RUCIO_DAEMON_ARGS
+              value: " --total-threads 1"
+            - name: PYTHONPATH
+              value: /opt/rucio/permissions
+            - name: RUCIO_CFG_DATABASE_DEFAULT
+              valueFrom:
+                secretKeyRef:
+                  key: db-connstr.txt
+                  name: fnal-db-connstr
+            - name: RUCIO_CFG_DATABASE_POOLCLASS
+              value: nullpool
+            - name: RUCIO_CFG_MESSAGING_FTS3_BROKERS
+              valueFrom:
+                secretKeyRef:
+                  key: CERN_FTS_BROKER
+                  name: fnal-cern-fts-creds
+            - name: RUCIO_CFG_MESSAGING_FTS3_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: CERN_FTS_USER
+                  name: fnal-cern-fts-creds
+            - name: RUCIO_CFG_MESSAGING_FTS3_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: CERN_FTS_PASSWORD
+                  name: fnal-cern-fts-creds
+            - name: RUCIO_CFG_MESSAGING_FTS3_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: CERN_FTS_PORT
+                  name: fnal-cern-fts-creds
+            - name: RUCIO_CFG_MESSAGING_FTS3_NONSSL_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: CERN_FTS_PORT
+                  name: fnal-cern-fts-creds
+            - name: RUCIO_CFG_MESSAGING_FTS3_VONAME
+              valueFrom:
+                secretKeyRef:
+                  key: CERN_FTS_VO
+                  name: fnal-cern-fts-creds
+            - name: RUCIO_CFG_MESSAGING_FTS3_USE_SSL
+              value: "False"
+          resources:
+            limits:
+              cpu: 700m
+              memory: 600Mi
+            requests:
+              cpu: 700m
+              memory: 600Mi
+---
+# Source: rucio-daemons/templates/conveyor-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: fnal-rucio-daemons-conveyor-submitter
   labels:
     app: rucio-daemons-conveyor-submitter
@@ -658,6 +810,10 @@ spec:
             requests:
               cpu: 700m
               memory: 600Mi
+
+
+
+
 ---
 # Source: rucio-daemons/templates/hermes-deployment.yaml
 apiVersion: apps/v1
@@ -757,6 +913,9 @@ spec:
             requests:
               cpu: 700m
               memory: 600Mi
+
+
+
 ---
 # Source: rucio-daemons/templates/judge-deployment.yaml
 apiVersion: apps/v1
@@ -1145,6 +1304,10 @@ spec:
             requests:
               cpu: 700m
               memory: 600Mi
+
+
+
+
 ---
 # Source: rucio-daemons/templates/minos-deployment.yaml
 apiVersion: apps/v1
@@ -1339,6 +1502,10 @@ spec:
             requests:
               cpu: 100m
               memory: 100Mi
+
+
+
+
 ---
 # Source: rucio-daemons/templates/necromancer-deployment.yaml
 apiVersion: apps/v1
@@ -1436,6 +1603,9 @@ spec:
             requests:
               cpu: 100m
               memory: 100Mi
+
+
+
 ---
 # Source: rucio-daemons/templates/reaper-deployment.yaml
 apiVersion: apps/v1
@@ -1535,6 +1705,9 @@ spec:
             requests:
               cpu: 700m
               memory: 600Mi
+
+
+
 ---
 # Source: rucio-daemons/templates/replica-recoverer-deployment.yaml
 apiVersion: apps/v1
@@ -1632,6 +1805,9 @@ spec:
             requests:
               cpu: 700m
               memory: 600Mi
+
+
+
 ---
 # Source: rucio-daemons/templates/undertaker-deployment.yaml
 apiVersion: apps/v1
@@ -1729,6 +1905,9 @@ spec:
             requests:
               cpu: 700m
               memory: 600Mi
+
+
+
 ---
 # Source: rucio-daemons/templates/renew-fts-cronjob.yaml
 apiVersion: batch/v1
@@ -1886,3 +2065,5 @@ spec:
             - name: USERKEY_NAME
               value: new_userkey.pem
       restartPolicy: OnFailure
+
+
