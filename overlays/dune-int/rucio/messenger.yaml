@@ -14,6 +14,10 @@ spec:
       targetPort: 443
       protocol: TCP
       name: https
+    - port: 15671
+      targetPort: 15671
+      protocol: TCP
+      name: management
     - port: 61613
       targetPort: 61613
       protocol: TCP
@@ -51,9 +55,11 @@ spec:
         - name: rabbitmq-conf
           secret:
             secretName: fnal-rabbitmq-conf
-        - name: enabled-plugins
-          secret: 
-            secretName: fnal-rabbitmq-enabled-plugins
+            items:
+              - key: enabled_plugins
+                path: enabled_plugins
+              - key: rabbitmq.conf
+                path: rabbitmq.conf
       containers:
         - name: rucio-messenger
           image: "imageregistry.fnal.gov/docker.io/rabbitmq:3"
@@ -69,16 +75,13 @@ spec:
           ports:
             - containerPort: 443
             - containerPort: 61613
+            - containerPort: 15671
           volumeMounts:
             - name: ssl-credentials
-              mountPath: /etc/rabbitmq/ssl
+              mountPath: /etc/grid-security/rabbitmq
               readOnly: true
             - name: rabbitmq-conf
-              mountPath: /etc/rabbitmq/rabbitmq.conf
-              subPath: rabbitmq.conf
-            - name: enabled-plugins
-              mountPath: /etc/rabbitmq/enabled_plugins
-              subPath: enabled_plugins
+              mountPath: /etc/rabbitmq
           env:
             - name: EXPERIMENT
               value: "dune-int"

@@ -134,8 +134,6 @@ secretGenerator:
 - name: fnal-rabbitmq-conf
   files:
   - rabbitmq.conf=etc/rabbitmq.conf
-- name: fnal-rabbitmq-enabled-plugins
-  files:
   - enabled_plugins=etc/enabled_plugins
 
 ## ingress

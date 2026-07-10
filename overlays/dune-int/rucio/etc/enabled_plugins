@@ -1,1 +1,1 @@
-[rabbitmq_prometheus,rabbitmq_stomp].
+[rabbitmq_prometheus,rabbitmq_stomp,rabbitmq_management,rabbitmq_trust_store,rabbitmq_auth_mechanism_ssl].
