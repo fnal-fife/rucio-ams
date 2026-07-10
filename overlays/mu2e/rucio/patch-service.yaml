@@ -3,18 +3,21 @@ kind: Service
 metadata:
   name: fnal-rucio-server
 spec:
-  externalIPs: [ 131.225.218.221 ]
+#  externalIPs: [ 131.225.218.221 ]
+  externalIPs: [ 131.225.218.181 ]
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: fnal-rucio-messenger
 spec:
-  externalIPs: [ 131.225.218.218 ]
+#  externalIPs: [ 131.225.218.218 ]
+  externalIPs: [ 131.225.218.178 ]
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: fnal-rucio-webui
 spec:
-  externalIPs: [ 131.225.218.219 ]
+#  externalIPs: [ 131.225.218.219 ]
+  externalIPs: [ 131.225.218.179 ]

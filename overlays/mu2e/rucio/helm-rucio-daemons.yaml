@@ -172,6 +172,7 @@ metadata:
 type: Opaque
 data:
   common.json: "ewogICJhdXRvbWF0aXgiOiB7CiAgICAiYWNjb3VudCI6ICJhdXRvbWF0aXgiLAogICAgImRhdGFzZXRfbGlmZXRpbWUiOiAzMCwKICAgICJyc2VzIjogIkRDQUNIRV9CSldISVRFX0VORCwgRENBQ0hFX0JKV0hJVEVfRU5EMiIsCiAgICAic2NvcGUiOiAiYXV0b21hdGl4IiwKICAgICJzZXRfbWV0YWRhdGEiOiAiVHJ1ZSIKICB9LAogICJjYWNoZSI6IHsKICAgICJ1cmwiOiAicnVjaW8tY2FjaGU6MTEyMTEiCiAgfSwKICAiY2xpZW50IjogewogICAgImFjY291bnQiOiAiYXV0b21hdGl4IiwKICAgICJhdXRoX2hvc3QiOiAiaHR0cHM6Ly9tdTJlLXJ1Y2lvLmZuYWwuZ292IiwKICAgICJhdXRoX3R5cGUiOiAieDUwOV9wcm94eSIsCiAgICAiY2FfY2VydCI6ICIvZXRjL2dyaWQtc2VjdXJpdHkvY2VydGlmaWNhdGVzIiwKICAgICJjbGllbnRfeDUwOV9wcm94eSI6ICIvb3B0L3Byb3h5L3g1MDl1cCIsCiAgICAicHJvdG9jb2xfc3RhdF9yZXRyaWVzIjogNiwKICAgICJyZXF1ZXN0X3JldHJpZXMiOiAzLAogICAgInJ1Y2lvX2hvc3QiOiAiaHR0cHM6Ly9tdTJlLXJ1Y2lvLmZuYWwuZ292IgogIH0sCiAgImNvbnZleW9yIjogewogICAgImNhY2VydCI6ICIvb3B0L2NlcnRzL2NhLnBlbSIsCiAgICAidXNlcmNlcnQiOiAiL29wdC9wcm94eS94NTA5dXAiCiAgfSwKICAiaGVybWVzIjogewogICAgInNlcnZpY2VzX2xpc3QiOiAiYWN0aXZlbXEiCiAgfSwKICAibWVzc2FnaW5nLWNhY2hlIjogewogICAgImFjY291bnQiOiAibWVtY2FjaGUiLAogICAgImJyb2tlcnMiOiAicnVjaW8tY2FjaGUiLAogICAgImRlc3RpbmF0aW9uIjogIi90b3BpYy9ydWNpby5ldmVudHMubXUyZSIsCiAgICAicG9ydCI6ICI2MTEyMyIsCiAgICAidm9uYW1lIjogIm11MmUiCiAgfSwKICAibWVzc2FnaW5nLWhlcm1lcyI6IHsKICAgICJicm9rZXJfdmlydHVhbF9ob3N0IjogIi8iLAogICAgImJyb2tlcnMiOiAiZm5hbC1ydWNpby1tZXNzZW5nZXIiLAogICAgImRlc3RpbmF0aW9uIjogIi90b3BpYy9ydWNpby5ldmVudHMubXUyZSIsCiAgICAibm9uc3NsX3BvcnQiOiAiNjE2MTMiLAogICAgInBhc3N3b3JkIjogImd1ZXN0IiwKICAgICJwb3J0IjogIjYxNjEzIiwKICAgICJzc2xfY2VydF9maWxlIjogIi9vcHQvcnVjaW8vY2VydHMvaG9zdGNlcnQucGVtIiwKICAgICJzc2xfa2V5X2ZpbGUiOiAiL29wdC9ydWNpby9rZXlzL2hvc3RrZXkucGVtIiwKICAgICJ1c2Vfc3NsIjogIkZhbHNlIiwKICAgICJ1c2VybmFtZSI6ICJndWVzdCIsCiAgICAidm9uYW1lIjogIm11MmUiCiAgfSwKICAibW9uaXRvciI6IHsKICAgICJlbmFibGVfbWV0cmljcyI6IHRydWUKICB9LAogICJwb2xpY3kiOiB7CiAgICAibGZuMnBmbl9hbGdvcml0aG1fZGVmYXVsdCI6ICJNVTJFIiwKICAgICJwYWNrYWdlIjogImZlcm1pbGFiLm11MmUiCiAgfSwKICAidHJhbnNmZXJzIjogewogICAgIm11bHRpaG9wX3JzZV9leHByZXNzaW9uIjogIiIKICB9Cn0="
+
 ---
 # Source: rucio-daemons/templates/undertaker-deployment.yaml
 apiVersion: v1
@@ -201,6 +202,8 @@ roleRef:
   kind: ClusterRole
   name: edit
   apiGroup: rbac.authorization.k8s.io
+
+
 ---
 # Source: rucio-daemons/templates/service.yaml
 apiVersion: v1
@@ -222,6 +225,8 @@ spec:
   selector:
     app-group: rucio-daemons
     release: fnal
+
+
 ---
 # Source: rucio-daemons/templates/abacus-deployment.yaml
 apiVersion: apps/v1
@@ -398,6 +403,10 @@ spec:
             requests:
               cpu: 700m
               memory: 200Mi
+
+
+
+
 ---
 # Source: rucio-daemons/templates/hermes-deployment.yaml
 apiVersion: apps/v1
@@ -500,6 +509,9 @@ spec:
             requests:
               cpu: 700m
               memory: 200Mi
+
+
+
 ---
 # Source: rucio-daemons/templates/judge-deployment.yaml
 apiVersion: apps/v1
@@ -852,6 +864,10 @@ spec:
             requests:
               cpu: 700m
               memory: 200Mi
+
+
+
+
 ---
 # Source: rucio-daemons/templates/minos-deployment.yaml
 apiVersion: apps/v1
@@ -1028,6 +1044,10 @@ spec:
             requests:
               cpu: 100m
               memory: 100Mi
+
+
+
+
 ---
 # Source: rucio-daemons/templates/necromancer-deployment.yaml
 apiVersion: apps/v1
@@ -1116,6 +1136,9 @@ spec:
             requests:
               cpu: 100m
               memory: 100Mi
+
+
+
 ---
 # Source: rucio-daemons/templates/replica-recoverer-deployment.yaml
 apiVersion: apps/v1
@@ -1204,6 +1227,9 @@ spec:
             requests:
               cpu: 700m
               memory: 200Mi
+
+
+
 ---
 # Source: rucio-daemons/templates/undertaker-deployment.yaml
 apiVersion: apps/v1
@@ -1292,6 +1318,9 @@ spec:
             requests:
               cpu: 700m
               memory: 200Mi
+
+
+
 ---
 # Source: rucio-daemons/templates/renew-fts-cronjob.yaml
 apiVersion: batch/v1
@@ -1449,3 +1478,5 @@ spec:
             - name: USERKEY_NAME
               value: new_userkey.pem
       restartPolicy: OnFailure
+
+
