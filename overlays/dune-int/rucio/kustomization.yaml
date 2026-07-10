@@ -54,6 +54,16 @@ secretGenerator:
   files:
   - idpsecrets.json=etc/.secrets/idpsecrets.json
 
+# CERN ActiveMQ
+- name: fnal-cern-fts-creds
+  envs:
+    - etc/.secrets/cern-fts-creds
+
+# Opensearch
+- name: fnal-opensearch-creds
+  envs:
+    - etc/.secrets/opensearch-creds
+
 # The desired policy package implementation files
 - name: fnal-policy-package
   files:

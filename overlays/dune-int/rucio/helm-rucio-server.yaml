@@ -26,6 +26,7 @@ metadata:
 type: Opaque
 data:
   grid_site_enabled: "VHJ1ZQ=="
+
 ---
 # Source: rucio-server/templates/service.yaml
 apiVersion: v1
