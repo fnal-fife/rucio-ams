@@ -11,7 +11,7 @@ metadata:
     heritage: "Helm"
 type: Opaque
 data:
-  common.json: "ewogICJkYXRhYmFzZSI6IHsKICAgICJwb29sX3JlY3ljbGUiOiAiMzAwIgogIH0sCiAgIm9pZGMiOiB7CiAgICAiYWRtaW5faXNzdWVyIjogIkNJTG9nb24iLAogICAgImV4cGVjdGVkX2F1ZGllbmNlIjogImh0dHBzOi8vd2xjZy5jZXJuLmNoL2p3dC92MS9hbnkiLAogICAgImV4cGVjdGVkX3Njb3BlIjogInN0b3JhZ2UucmVhZDovIiwKICAgICJpZHBzZWNyZXRzIjogIi9vcHQvcnVjaW8vZXRjL2lkcHNlY3JldHMuanNvbiIsCiAgICAic3VwcG9ydHNfYXVkaWVuY2UiOiAiRmFsc2UiCiAgfSwKICAicG9saWN5IjogewogICAgImxmbjJwZm5fYWxnb3JpdGhtX2RlZmF1bHQiOiAiRFVORSIsCiAgICAibWV0YWNhdF9iYXNlX3VybCI6ICJodHRwczovL21ldGFjYXQuZm5hbC5nb3Y6OTQ0My9kdW5lX21ldGFfcHJvZC9hcHAiLAogICAgInBhY2thZ2UiOiAiZmVybWlsYWIuZHVuZSIKICB9LAogICJ3ZWJ1aSI6IHsKICAgICJ1cmxzIjogImh0dHBzOi8vd2VidWktZHVuZS1pbnQtcnVjaW8uZm5hbC5nb3YiCiAgfQp9"
+  common.json: "ewogICJjb21tb24iOiB7CiAgICAibG9nanNvbiI6IHRydWUKICB9LAogICJkYXRhYmFzZSI6IHsKICAgICJwb29sX3JlY3ljbGUiOiAiMzAwIgogIH0sCiAgIm9pZGMiOiB7CiAgICAiYWRtaW5faXNzdWVyIjogIkNJTG9nb24iLAogICAgImV4cGVjdGVkX2F1ZGllbmNlIjogImh0dHBzOi8vd2xjZy5jZXJuLmNoL2p3dC92MS9hbnkiLAogICAgImV4cGVjdGVkX3Njb3BlIjogInN0b3JhZ2UucmVhZDovIiwKICAgICJpZHBzZWNyZXRzIjogIi9vcHQvcnVjaW8vZXRjL2lkcHNlY3JldHMuanNvbiIsCiAgICAic3VwcG9ydHNfYXVkaWVuY2UiOiAiRmFsc2UiCiAgfSwKICAicG9saWN5IjogewogICAgImxmbjJwZm5fYWxnb3JpdGhtX2RlZmF1bHQiOiAiRFVORSIsCiAgICAibWV0YWNhdF9iYXNlX3VybCI6ICJodHRwczovL21ldGFjYXQuZm5hbC5nb3Y6OTQ0My9kdW5lX21ldGFfcHJvZC9hcHAiLAogICAgInBhY2thZ2UiOiAiZmVybWlsYWIuZHVuZSIKICB9LAogICJ3ZWJ1aSI6IHsKICAgICJ1cmxzIjogImh0dHBzOi8vd2VidWktZHVuZS1pbnQtcnVjaW8uZm5hbC5nb3YiCiAgfQp9"
 ---
 # Source: rucio-server/templates/secrets.yaml
 apiVersion: v1
@@ -26,6 +26,7 @@ metadata:
 type: Opaque
 data:
   grid_site_enabled: "VHJ1ZQ=="
+
 ---
 # Source: rucio-server/templates/service.yaml
 apiVersion: v1
@@ -77,7 +78,7 @@ spec:
         app: rucio-server
         release: fnal
       annotations:
-        checksum/config: bd6ef4687b662c41e46792de9e0525a20f0c0c6c
+        checksum/config: 3ea5f0c17f60a8521252d0a9068c1ca0ecc3dc57
     spec:
       serviceAccountName: useroot
       volumes:

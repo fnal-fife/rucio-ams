@@ -90,6 +90,8 @@ livenessProbe:
 
 serverType: api
 
+#logFormat: '{\"timestamp\":\"[%{%Y-%m-%d %H:%M:%S}t]\",\"vhost\":\"%v\",\"client_ip\":\"%h\",\"forwarded_for\":\"%{X-Forwarded-For}i\",\"request_id\":\"%{X-Rucio-RequestId}i\",\"status\":\"%>s\",\"bytes_sent\":\"%I\",\"bytes_size\":\"%B\",\"duration_us\":\"%D\",\"request\":\"%r\",\"account\":\"%{X-Rucio-Account}i\",\"user_agent\":\"%{User-Agent}i\",\"script\":\"%{X-Rucio-Script}i\"}'
+
 monitoring:
   enabled: false
   exporterPort: 8080
@@ -363,7 +365,8 @@ config:
   database:
     pool_recycle: "300"
 
-  # common:
+  common:
+    logjson: True
     ## config.common.logdir: the default directoy to write logs to (default: "/var/log/rucio")
     # logdir: "/var/log/rucio"
     ## config.common.logdir: the max loglevel (default: "DEBUG")
