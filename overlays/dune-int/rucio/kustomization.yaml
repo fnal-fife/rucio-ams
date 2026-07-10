@@ -5,7 +5,7 @@ resources:
 - helm-rucio-webui.yaml
 - cache.yaml
 - prometheus.yaml
-- messenger.yaml
+- messenger-ss.yaml
 - routes.yaml
 - grid-certificates-pvc.yaml
 - grid-certificates-cronjob.yaml
