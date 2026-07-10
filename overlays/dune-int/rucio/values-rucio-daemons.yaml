@@ -342,6 +342,8 @@ conveyorReceiver:
           key: CERN_FTS_VO
     - name: RUCIO_CFG_MESSAGING_FTS3_USE_SSL
       value: "False"
+    - name: POLICY
+      value: dune # TODO: Change this to using voname at 41 LTS
   secretMounts: []
 
 conveyorThrottler:
@@ -949,11 +951,11 @@ config:
     # using_memcache: ""
     # ftsmonhosts: ""
 
-  # messaging-fts3:
+  messaging-fts3:
     # port: "61123"
     # ssl_key_file: "/etc/grid-security/hostkey.pem"
     # ssl_cert_file: "/etc/grid-security/hostcert.pem"
-    # destination: "/topic/transfer.fts_monitoring_queue_state"
+    destination: "/topic/transfer.fts_monitoring_complete"
     # brokers: "dashb-test-mb.cern.ch"
     # voname: "atlas"
 
