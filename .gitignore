@@ -48,3 +48,5 @@ notes
 .env
 
 .DS_Store
+
+helm-rucio-*

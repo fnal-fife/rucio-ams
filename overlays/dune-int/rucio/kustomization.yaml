@@ -102,6 +102,11 @@ secretGenerator:
   - hostkey.pem=etc/.secrets/hostkey.pem
   options:
     disableNameSuffixHash: true
+- name: fnal-hermes-rabbitmq
+  envs:
+    - etc/.secrets/hermes-rabbitmq
+  options:
+    disableNameSuffixHash: true
 - name: fnal-automatix-json
   files:
   - automatix.json=etc/automatix.json
@@ -135,6 +140,7 @@ secretGenerator:
   files:
   - rabbitmq.conf=etc/rabbitmq.conf
   - enabled_plugins=etc/enabled_plugins
+  - definitions.json=etc/.secrets/rabbitmq-definitions.json
 
 ## ingress
 #- name: rucio-server.tls-secret

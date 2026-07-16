@@ -3,12 +3,31 @@
 apiVersion: v1
 kind: Service
 metadata:
+  name: fnal-rucio-messenger-nossl
+  labels:
+    app: rucio-messenger
+    release: fnal
+spec:
+  type: ClusterIP
+  ports:
+    - port: 61613
+      targetPort: 61613
+      protocol: TCP
+      name: http
+  selector:
+    app: rucio-messenger
+    release: fnal
+---
+# Source: rucio-messenger/templates/messenger_service.yaml
+apiVersion: v1
+kind: Service
+metadata:
   name: fnal-rucio-messenger
   labels:
     app: rucio-messenger
     release: fnal
 spec:
-  type: ClusterIP 
+  type: ClusterIP
   ports:
     - port: 443
       targetPort: 443
@@ -18,10 +37,6 @@ spec:
       targetPort: 15671
       protocol: TCP
       name: management
-    - port: 61613
-      targetPort: 61613
-      protocol: TCP
-      name: http
   selector:
     app: rucio-messenger
     release: fnal
@@ -61,6 +76,9 @@ spec:
                 path: enabled_plugins
               - key: rabbitmq.conf
                 path: rabbitmq.conf
+              - key: definitions.json
+                path: definitions.json
+            defaultMode: 0644
         - name: rabbitmq-data
           persistentVolumeClaim:
             claimName: rabbitmq-data
