@@ -5,7 +5,7 @@ resources:
 - helm-rucio-webui.yaml
 - cache.yaml
 - prometheus.yaml
-- messenger.yaml
+- messenger-ss.yaml
 - routes.yaml
 - grid-certificates-pvc.yaml
 - grid-certificates-cronjob.yaml
@@ -102,6 +102,11 @@ secretGenerator:
   - hostkey.pem=etc/.secrets/hostkey.pem
   options:
     disableNameSuffixHash: true
+- name: fnal-hermes-rabbitmq
+  envs:
+    - etc/.secrets/hermes-rabbitmq
+  options:
+    disableNameSuffixHash: true
 - name: fnal-automatix-json
   files:
   - automatix.json=etc/automatix.json
@@ -134,9 +139,8 @@ secretGenerator:
 - name: fnal-rabbitmq-conf
   files:
   - rabbitmq.conf=etc/rabbitmq.conf
-- name: fnal-rabbitmq-enabled-plugins
-  files:
   - enabled_plugins=etc/enabled_plugins
+  - definitions.json=etc/.secrets/rabbitmq-definitions.json
 
 ## ingress
 #- name: rucio-server.tls-secret
