@@ -8,7 +8,7 @@ resources:
 - helm-rucio-webui.yaml
 - cache.yaml
 - prometheus.yaml
-- messenger.yaml
+- messenger-ss.yaml
 - grid-certificates-pvc.yaml
 - grid-certificates-cronjob.yaml
 - grid-certificates-job.yaml
@@ -27,6 +27,10 @@ configMapGenerator:
 - files:
   - rucio.conf.j2=etc/rucio.conf.j2
   name: webui-rucio-conf-j2
+- files:
+  - rabbitmq.conf=etc/rabbitmq.conf
+  - enabled_plugins=etc/enabled_plugins
+  name: fnal-rabbitmq-conf
 
 secretGenerator:
 - files:
@@ -50,12 +54,6 @@ secretGenerator:
 - files:
   - vomses=etc/vomses
   name: fnal-vomses
-- files:
-  - rabbitmq.conf=etc/rabbitmq.conf
-  name: fnal-rabbitmq-conf
-- files:
-  - enabled_plugins=etc/enabled_plugins
-  name: fnal-rabbitmq-enabled-plugins
 - files:
   - fnal-custom-config.conf=etc/fnal-custom-config.conf
   name: fnal-httpd-custom-config
