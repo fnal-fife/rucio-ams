@@ -26,7 +26,7 @@ helmCharts:
 resources:
 - cache.yaml
 - prometheus.yaml
-- messenger.yaml
+- messenger-ss.yaml
 - grid-certificates-pvc.yaml
 - grid-certificates-cronjob.yaml
 - grid-certificates-job.yaml
@@ -37,6 +37,29 @@ configmapGenerator:
     disableNameSuffixHash: true
   files:
   - prometheus.yml=etc/prometheus.yml
+- files:
+  - rabbitmq.conf=etc/rabbitmq.conf
+  - enabled_plugins=etc/enabled_plugins
+  name: fnal-rabbitmq-conf
+
+secretGenerator:
+# - literals:
+#   - hostcert.pem=
+#   - hostkey.pem=
+#   name: fnal-rucio-x509up
+#   options:
+#     disableNameSuffixHash: true
+- files:
+  - automatix.json=etc/automatix.json
+  name: fnal-automatix-json
+  options:
+    disableNameSuffixHash: true
+- files:
+  - vomses=etc/vomses
+  name: fnal-vomses
+- files:
+  - fnal-custom-config.conf=etc/fnal-custom-config.conf
+  name: fnal-httpd-custom-config
 
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
