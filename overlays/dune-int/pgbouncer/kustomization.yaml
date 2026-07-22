@@ -1,6 +1,9 @@
 resources:
 - pgbouncer-ss.yaml
 - pgbouncer-tx.yaml
+# Bitnami pgbouncer resources are kept for rollback/reference.
+# - pgbouncer-bitnami-ss.yaml
+# - pgbouncer-bitnami-tx.yaml
 
 secretGenerator:
 - name: rucio-pgb-db-target
