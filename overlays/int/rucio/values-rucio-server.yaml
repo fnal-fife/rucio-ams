@@ -25,7 +25,7 @@ useSSL: true
 
 image:
   repository: rucio/rucio-server
-  tag: release-38.5.1
+  tag: release-38.6.0
   pullPolicy: Always
 
 imageRegistry: imageregistry.fnal.gov/docker.io
@@ -182,7 +182,7 @@ policyPackages:
     #   requirement: vo_1_policy_package==1.4.0
     #   version: 1.4.0
     # example: install from a git repository
-    - moduleName: ruciointpolicy
+    - moduleName: fermilab.int
       requirement: git+https://github.com/fnal-fife/ruciointpolicy@main
       version: 0.1.0
   pvc:
@@ -379,7 +379,8 @@ authIngress:
 
 ## values used to configure Rucio
 config:
-  # common:
+  common:
+    logjson: true
     ## config.common.logdir: the default directoy to write logs to (default: "/var/log/rucio")
     # logdir: "/var/log/rucio"
     ## config.common.logdir: the max loglevel (default: "DEBUG")
@@ -434,7 +435,7 @@ config:
     # password: ""
 
   policy:
-    package: ruciointpolicy
+    package: fermilab.int
     ## config.permission.policy: (default "generic")
     # permission: "generic"
     ## config.permission.schema: (default "generic")
@@ -457,8 +458,8 @@ config:
 
 serverResources:
   limits:
-    memory: "600Mi"
-    cpu: "700m"
+    memory: "1Gi"
+    cpu: "1"
   requests:
     memory: "200Mi"
     cpu: "200m"

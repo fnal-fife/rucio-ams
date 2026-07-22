@@ -38,7 +38,7 @@ serviceAccountName: useroot
 
 image:
   repository: imageregistry.fnal.gov/docker.io/rucio/rucio-daemons
-  tag: release-38.5.1
+  tag: release-38.6.0
   pullPolicy: Always
 
 strategy:
@@ -372,6 +372,16 @@ hermes:
         secretKeyRef:
           name: fnal-db-connstr 
           key: db-connstr.txt
+    - name: RUCIO_CFG_MESSAGING_HERMES_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: fnal-hermes-rabbitmq
+          key: USERNAME
+    - name: RUCIO_CFG_MESSAGING_HERMES_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: fnal-hermes-rabbitmq
+          key: PASSWORD
   secretMounts: []
 
 hermesLegacy:
@@ -853,8 +863,6 @@ config:
     services_list: "activemq"
 
   messaging-hermes:
-    username: "guest"
-    password: "guest"
     broker_virtual_host: "/"
     port: "61613"
     nonssl_port: "61613"

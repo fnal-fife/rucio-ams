@@ -23,15 +23,30 @@ spec:
         release: rucio-int-prometheus
     spec:
       serviceAccountName: useroot
+      volumes:
+        - name: prometheus-yml
+          configMap:
+            name: prometheus-yml
       containers:
         - name: rucio-prometheus
-          image: "imageregistry.fnal.gov/rucio-ams/rucio-ams-prometheus:32"
+          # image: "imageregistry.fnal.gov/rucio-ams/rucio-ams-prometheus:32"
+          image: "imageregistry.fnal.gov/docker.io/prom/prometheus:latest"
           imagePullPolicy: Always
-          env:
-            - name: EXPERIMENT
-              value: "int"
-            - name: LANDSCAPE_REMOTE_WRITE_ENDPOINT
-              value: "http://lsdataitb.fnal.gov:9009/api/v1/push"
+          volumeMounts:
+            - name: prometheus-yml
+              mountPath: /etc/prometheus/prometheus.yml
+              subPath: prometheus.yml
+          args:
+            - "--config.file=/etc/prometheus/prometheus.yml"
+            - "--storage.tsdb.path=/prometheus"
+            - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+            - "--web.console.templates=/usr/share/prometheus/consoles"
+            - "--log.level=debug"
+          # env:
+          #   - name: EXPERIMENT
+          #     value: "int"
+          #   - name: LANDSCAPE_REMOTE_WRITE_ENDPOINT
+          #     value: "http://lsdataitb.fnal.gov:9009/api/v1/push"
           resources:
             requests:
               cpu: 600m

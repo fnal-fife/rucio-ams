@@ -1,0 +1,13 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fnal-rucio-daemons-automatix
+spec:
+  template:
+    spec:
+      volumes:
+       - name: ca-volume
+         secret:
+           $patch: delete
+         persistentVolumeClaim:
+           claimName: grid-certificates-pvc
