@@ -5,7 +5,7 @@ resources:
 - helm-rucio-webui.yaml
 - cache.yaml
 - prometheus.yaml
-- messenger.yaml
+- messenger-ss.yaml
 - grid-certificates-pvc.yaml
 - grid-certificates-cronjob.yaml
 - grid-certificates-job.yaml
@@ -16,6 +16,13 @@ patchesStrategicMerge:
 - patch-busybox.yaml
 - patch-renew-fts-proxy-job.yaml
 #- rucio-env-patch.yaml
+
+configMapGenerator:
+# RabbitMQ Configuration Files
+- files:
+  - rabbitmq.conf=etc/rabbitmq.conf
+  - enabled_plugins=etc/enabled_plugins
+  name: fnal-rabbitmq-conf
 
 secretGenerator:
 # The desired policy package implementation files
@@ -42,14 +49,6 @@ secretGenerator:
 - name: fnal-vomses
   files:
   - vomses=etc/vomses
-
-# RabbitMQ Configuration Files
-- name: fnal-rabbitmq-conf
-  files:
-  - rabbitmq.conf=etc/rabbitmq.conf
-- name: fnal-rabbitmq-enabled-plugins
-  files:
-  - enabled_plugins=etc/enabled_plugins
 
 # Custom HTTPD config options for Fermilab
 - name: fnal-httpd-custom-config
