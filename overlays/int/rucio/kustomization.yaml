@@ -8,19 +8,19 @@ helmCharts:
   releaseName: fnal
   repo: https://rucio.github.io/helm-charts
   valuesFile: values-rucio-server.yaml
-  version: 38.0.4
+  version: 41.0.1
   namespace: rucio-int
 - name: rucio-daemons
   releaseName: fnal
   repo: https://rucio.github.io/helm-charts
   valuesFile: values-rucio-daemons.yaml
-  version: 38.0.3
+  version: 41.0.0
   namespace: rucio-int
 - name: rucio-webui
   releaseName: fnal
   repo: https://rucio.github.io/helm-charts
   valuesFile: values-rucio-webui.yaml
-  version: 38.0.1
+  version: 41.1.0
   namespace: rucio-int
 
 resources:
