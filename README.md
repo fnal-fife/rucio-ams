@@ -156,6 +156,10 @@ At Fermilab, we use centrally managed PostgreSQL databases.
 
 ### Upgrading Rucio Database
 
+`util/upgrade-db-container.yaml` is a helper pod that utilizes the rucio/rucio-init container. This pod contains a script in /tmp/ that sets up the alembic and rucio configurations.
+
+#### Deploy helper pod
+
 1. Edit `util/upgrade-db-container.yaml`
 
     ```yaml
@@ -186,8 +190,11 @@ At Fermilab, we use centrally managed PostgreSQL databases.
     $ kubectl exec -it rucio-db-upgrade -- /bin/bash
     ```
 
-    
-4. Generate the `rucio.cfg` and `alembic.ini` file and set `ALEMBIC_CONFIG` (these are the first few commands in `docker-entrypoint.sh`)
+#### Generate configuration
+
+Running `/tmp/generate_sql.sh` will perform steps 1-4, stopping at applying the upgrade. The script will generate the upgrade sql script at `/tmp/upgrade.sql`.
+
+1. Generate the `rucio.cfg` and `alembic.ini` file and set `ALEMBIC_CONFIG` (these are the first few commands in `docker-entrypoint.sh`)
 
     ```bash
     $ python3 /usr/local/rucio/tools/merge_rucio_configs.py \
@@ -200,18 +207,23 @@ At Fermilab, we use centrally managed PostgreSQL databases.
     $ export ALEMBIC_CONFIG=/opt/rucio/etc/alembic.ini
     ```
 
-5. Modify `script_location` in `/opt/rucio/etc/alembic.ini` to the Rucio package's migrate repo
+2. Modify `script_location` in `/opt/rucio/etc/alembic.ini` to the Rucio package's migrate repo
 
     ```
     script_location = /usr/local/lib/python3.9/site-packages/rucio/db/sqla/migrate_repo
     ```
 
-6. Check the current alembic migration version
+    ```
+    # Single sed command
+    sed -i 's/\(script_location = \).*/\1\/usr\/local\/lib\/python3.9\/site-packages\/rucio\/db\/sqla\/migrate_repo/' $ALEMBIC_CONFIG
+    ```
+
+3. Check the current alembic migration version
     ```bash
     alembic current
     ```
 
-7. Follow instructions at <https://rucio.github.io/documentation/operator/database#upgrading-and-downgrading-the-database-schema>
+4. Follow instructions at <https://rucio.github.io/documentation/operator/database#upgrading-and-downgrading-the-database-schema>
 
     > Ensure that in etc/alembic.ini the database connection string is is set to the same database connection string as the etc/rucio.cfg and issue the following command to verify the changes to the upgrade of the schema:
     >
@@ -235,9 +247,16 @@ At Fermilab, we use centrally managed PostgreSQL databases.
     psql> source upgrade.sql
     ```
 
-8. Delete the pod with
+5. Delete the pod with
 
     ```bash
     $ kubectl delete pod/rucio-db-upgrade
     pod "rucio-db-upgrade" deleted
     ```
+
+### Postgres Client
+If a postgres client is needed (i.e. `psql`) deploying `util/psql.yaml` will create a pod in the cluster.
+
+```bash
+$ kubectl apply -f util/psql.yaml
+```
