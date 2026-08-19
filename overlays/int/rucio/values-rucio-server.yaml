@@ -235,6 +235,9 @@ secretMounts:
   - secretName: server-hostkey
     mountPath: /etc/grid-security/hostkey.pem
     subPath: hostkey.pem
+  - secretName: idpsecrets
+    mountPath: /opt/rucio/etc/idpsecrets.json
+    subPath: idpsecrets.json
   # - volumeName: gcssecret
   #   secretName: gcssecret
   #   mountPath: /opt/rucio/etc/gcs_rucio.json
@@ -433,6 +436,13 @@ config:
     # username: ""
     ## config.trace.password: password for the topic (if necessary)
     # password: ""
+
+  oidc:
+    admin_issuer: "CILogon"
+    supports_audience: "False"
+    idpsecrets: "/opt/rucio/etc/idpsecrets.json"
+    expected_audience: "https://wlcg.cern.ch/jwt/v1/any"
+    expected_scope: "compute.read"
 
   policy:
     package: fermilab.int
