@@ -45,7 +45,7 @@ scrape_configs:
             - "rucio-dune-int"
         selectors:
         - role: "pod"
-          label: "app=rucio-pgb-tx"
+          label: "app=rucio-pgb-cnpg-tx"
 
     relabel_configs:
       - source_labels: [__meta_kubernetes_pod_container_name]
@@ -57,6 +57,30 @@ scrape_configs:
         action: replace
         regex: ([^:]+):.*
         replacement: $1:9127
+        target_label: __address__
+
+  - job_name: rucio-messenger-rabbitmq
+    honor_labels: true
+
+    kubernetes_sd_configs:
+      - role: pod
+        namespaces:
+          names:
+            - "rucio-dune-int"
+        selectors:
+        - role: "pod"
+          label: "app=rucio-messenger"
+
+    relabel_configs:
+      # Scrape only pods that have the app label set to 'rabbitmq'
+      - source_labels: [__meta_kubernetes_pod_label_app]
+        action: keep
+        regex: rucio-messenger
+      # Direct Prometheus to the dedicated metrics port (15692)
+      - source_labels: [__address__]
+        action: replace
+        regex: ([^:]+)(?::\d+)?
+        replacement: $1:15692
         target_label: __address__
 
   - job_name: haproxy
