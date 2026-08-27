@@ -4,10 +4,9 @@ global:
 
 remote_write:
   - url: "http://lsdataitb.fnal.gov:9009/api/v1/push"
-  # - url: "REPLACE_WITH_LANDSCAPE_ENDPOINT"
     write_relabel_configs:
       - target_label: "rucio_deployment"
-        replacement: rucio-dune-dev
+        replacement: rucio-dune
 
 scrape_configs:
 
@@ -18,7 +17,7 @@ scrape_configs:
       - role: pod
         namespaces:
           names:
-            - "rucio-dune-dev"
+            - "rucio-dune"
         selectors:
         - role: "pod"
           label: "app-group=rucio-daemons"
@@ -42,7 +41,7 @@ scrape_configs:
       - role: pod
         namespaces:
           names:
-            - "rucio-dune-dev"
+            - "rucio-dune"
         selectors:
         - role: "pod"
           label: "app=rucio-pgb-cnpg-tx"
@@ -66,7 +65,7 @@ scrape_configs:
       - role: pod
         namespaces:
           names:
-            - "rucio-dune-dev"
+            - "rucio-dune"
         selectors:
         - role: "pod"
           label: "app=rucio-messenger"
@@ -81,28 +80,4 @@ scrape_configs:
         action: replace
         regex: ([^:]+)(?::\d+)?
         replacement: $1:15692
-        target_label: __address__
-
-  - job_name: haproxy
-    honor_labels: true
-
-    kubernetes_sd_configs:
-      - role: pod
-        namespaces:
-          names:
-            - "rucio-dune-int"
-        selectors:
-        - role: "pod"
-          label: "app=rucio-haproxy"
-
-    relabel_configs:
-      - source_labels: [__meta_kubernetes_pod_container_name]
-        action: keep
-        regex: haproxy
-      #- action: labelmap
-      #  regex: __meta_kubernetes_pod_label_(.+)
-      - source_labels: [__address__]
-        action: replace
-        regex: ([^:]+):.*
-        replacement: $1:8404
         target_label: __address__

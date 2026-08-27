@@ -31,6 +31,9 @@ configMapGenerator:
   - rabbitmq.conf=etc/rabbitmq.conf
   - enabled_plugins=etc/enabled_plugins
   name: fnal-rabbitmq-conf
+- name: prometheus-yml
+  files:
+  - prometheus.yml=etc/prometheus.yml
 
 secretGenerator:
 - files:

@@ -18,6 +18,13 @@ patchesStrategicMerge:
 - patch-renew-fts-proxy-job.yaml
 #- rucio-env-patch.yaml
 
+
+configmapGenerator:
+- name: prometheus-yml
+  files:
+  - prometheus.yml=etc/prometheus.yml
+
+
 secretGenerator:
 # Database Connection String
 - name: fnal-db-connstr
@@ -34,7 +41,6 @@ secretGenerator:
 - name: fnal-idpsecrets
   files:
   - idpsecrets.json=etc/.secrets/idpsecrets.json
-
 # The desired policy package implementation files
 - name: fnal-policy-package
   files:

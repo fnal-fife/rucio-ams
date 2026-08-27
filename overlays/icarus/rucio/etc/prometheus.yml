@@ -7,7 +7,7 @@ remote_write:
   # - url: "REPLACE_WITH_LANDSCAPE_ENDPOINT"
     write_relabel_configs:
       - target_label: "rucio_deployment"
-        replacement: rucio-dune-dev
+        replacement: rucio-icarus
 
 scrape_configs:
 
@@ -18,7 +18,7 @@ scrape_configs:
       - role: pod
         namespaces:
           names:
-            - "rucio-dune-dev"
+            - "rucio-icarus"
         selectors:
         - role: "pod"
           label: "app-group=rucio-daemons"
@@ -35,30 +35,6 @@ scrape_configs:
         replacement: $1:8080
         target_label: __address__
 
-  - job_name: rucio-pgb-tx
-    honor_labels: true
-
-    kubernetes_sd_configs:
-      - role: pod
-        namespaces:
-          names:
-            - "rucio-dune-dev"
-        selectors:
-        - role: "pod"
-          label: "app=rucio-pgb-cnpg-tx"
-
-    relabel_configs:
-      - source_labels: [__meta_kubernetes_pod_container_name]
-        action: keep
-        regex: pgbouncer-exporter
-      #- action: labelmap
-      #  regex: __meta_kubernetes_pod_label_(.+)
-      - source_labels: [__address__]
-        action: replace
-        regex: ([^:]+):.*
-        replacement: $1:9127
-        target_label: __address__
-
   - job_name: rucio-messenger-rabbitmq
     honor_labels: true
 
@@ -66,7 +42,7 @@ scrape_configs:
       - role: pod
         namespaces:
           names:
-            - "rucio-dune-dev"
+            - "rucio-icarus"
         selectors:
         - role: "pod"
           label: "app=rucio-messenger"
@@ -81,28 +57,4 @@ scrape_configs:
         action: replace
         regex: ([^:]+)(?::\d+)?
         replacement: $1:15692
-        target_label: __address__
-
-  - job_name: haproxy
-    honor_labels: true
-
-    kubernetes_sd_configs:
-      - role: pod
-        namespaces:
-          names:
-            - "rucio-dune-int"
-        selectors:
-        - role: "pod"
-          label: "app=rucio-haproxy"
-
-    relabel_configs:
-      - source_labels: [__meta_kubernetes_pod_container_name]
-        action: keep
-        regex: haproxy
-      #- action: labelmap
-      #  regex: __meta_kubernetes_pod_label_(.+)
-      - source_labels: [__address__]
-        action: replace
-        regex: ([^:]+):.*
-        replacement: $1:8404
         target_label: __address__

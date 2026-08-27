@@ -1,14 +1,11 @@
 ---
-# Source: rucio-prometheus/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: rucio-dune-int-prometheus
   labels:
     app: rucio-prometheus
-    chart: rucio-prometheus-1
     release: rucio-dune-int-prometheus
-    heritage: Helm
 spec:
   replicas: 1
   selector:
@@ -29,12 +26,18 @@ spec:
             name: prometheus-yml
       containers:
         - name: rucio-prometheus
-          image: "imageregistry.fnal.gov/rucio-ams/rucio-ams-prometheus:32"
+          image: "imageregistry.fnal.gov/docker.io/prom/prometheus:latest"
           imagePullPolicy: Always
           volumeMounts:
             - name: prometheus-yml
               mountPath: /etc/prometheus/prometheus.yml
               subPath: prometheus.yml
+          args:
+            - "--config.file=/etc/prometheus/prometheus.yml"
+            - "--storage.tsdb.path=/prometheus"
+            - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+            - "--web.console.templates=/usr/share/prometheus/consoles"
+            - "--log.level=debug"
           resources:
             requests:
               cpu: 600m

@@ -29,6 +29,9 @@ configmapGenerator:
 - name: server-rucio-conf-j2
   files:
   - rucio.conf.j2=etc/rucio-server.conf.j2
+- name: prometheus-yml
+  files:
+  - prometheus.yml=etc/prometheus.yml
 
 secretGenerator:
 # Database Connection String
