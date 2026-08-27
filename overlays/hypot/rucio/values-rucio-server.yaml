@@ -431,11 +431,11 @@ config:
 
 serverResources:
   limits:
-    memory: "600Mi"
-    cpu: "700m"
+    memory: "4000Mi"
+    cpu: "1000m"
   requests:
-    memory: "200Mi"
-    cpu: "200m"
+    memory: "4000Mi"
+    cpu: "700m"
 
 nodeSelector: {}
 
