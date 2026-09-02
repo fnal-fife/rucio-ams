@@ -1,15 +1,19 @@
+# include overlays
+!overlays/*/**
+overlays/**/.secrets/
+
 # Ignore the secrets and certificates directories entirely.
+secret/
+.secrets/
 secret
 .secrets
-certs
+certs/
 ca_bundle.pem
 
 # Ignore all the various YAML files that are created for the deployment.
-cache.yaml
 daemons.yaml
 filebeat.yaml
 logstash.yaml
-messenger.yaml
 routes.yaml
 server.yaml
 webui.yaml
@@ -17,12 +21,9 @@ logrotate.yaml
 statsd.yaml
 exporter.yaml
 autotransfer.yaml
-prometheus.yaml
-
-# ignore charts
-!overlays/*/**
 
 # Ignore policy packages that are experiment specific git repos
+policy-package/
 overlays/dune/rucio/etc/policy-package
 overlays/dune-int/rucio/etc/policy-package
 overlays/mu2e/rucio/etc/policy-package
