@@ -37,5 +37,10 @@ dump: get-secrets rucio run-dump clean-secrets
 run-apply:  
 	kubectl apply -k .
 
+argocd-sync:
+	mkdir -p build
+	kustomize build . --enable-helm > build/build.yaml
+	argocd app sync rucio-int-argo --local ./build
+
 #apply: get-secrets rucio run-apply clean-secrets
 apply: rucio run-apply
