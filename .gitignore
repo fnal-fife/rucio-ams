@@ -54,3 +54,4 @@ notes
 .DS_Store
 
 helm-rucio-*
+build/

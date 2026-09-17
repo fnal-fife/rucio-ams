@@ -38,7 +38,7 @@ serviceAccountName: useroot
 
 image:
   repository: imageregistry.fnal.gov/docker.io/rucio/rucio-daemons
-  tag: release-41.1.1
+  tag: release-41.2.2
   pullPolicy: Always
 
 strategy:
@@ -680,7 +680,7 @@ ftsRenewal:
   schedule: "12 */6 * * *"
   image:
     repository: imageregistry.fnal.gov/docker.io/rucio/fts-cron
-    tag: 38.5.1
+    tag: 41.2.2
     pullPolicy: Always
   servers: "https://fts3-public.fnal.gov:8446"
   script: 'default'  # one of: 'default', 'atlas', 'dteam', 'multi_vo', 'tutorial', 'escape'. The associated scripts can be found here: https://github.com/rucio/containers/tree/master/fts-cron
