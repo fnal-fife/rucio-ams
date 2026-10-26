@@ -1,0 +1,785 @@
+diff --git a/lib/rucio/common/constants.py b/lib/rucio/common/constants.py
+index d1752ca32..1e30da4f7 100644
+--- a/lib/rucio/common/constants.py
++++ b/lib/rucio/common/constants.py
+@@ -132,6 +132,7 @@ class RseAttr:
+     DEFAULT_ACCOUNT_LIMIT_BYTES = 'default_account_limit_bytes'
+     FTS = 'fts'
+     GLOBUS_ENDPOINT_ID = 'globus_endpoint_id'
++    GLOBUS_COLLECTION_ID = 'globus_collection_id'
+     GREEDYDELETION = 'greedyDeletion'
+     IS_OBJECT_STORE = 'is_object_store'
+     LFN2PFN_ALGORITHM = 'lfn2pfn_algorithm'
+@@ -185,6 +186,7 @@ RSE_ATTRS_STR = Literal[
+     'default_account_limit_bytes',
+     'fts',
+     'globus_endpoint_id',
++    'globus_collection_id'
+     'lfn2pfn_algorithm',
+     'maximum_pin_lifetime',
+     'multihop_tombstone_delay',
+diff --git a/lib/rucio/rse/protocols/globus.py b/lib/rucio/rse/protocols/globus.py
+index a787010aa..2e22b77be 100644
+--- a/lib/rucio/rse/protocols/globus.py
++++ b/lib/rucio/rse/protocols/globus.py
+@@ -13,6 +13,7 @@
+ # limitations under the License.
+ 
+ import logging
++from typing import TYPE_CHECKING, Optional, Union
+ from urllib.parse import urlparse
+ 
+ from rucio.common import exception
+@@ -20,15 +21,18 @@ from rucio.common.constants import RseAttr
+ from rucio.common.extra import import_extras
+ from rucio.core.rse import get_rse_attribute
+ from rucio.rse.protocols.protocol import RSEProtocol
+-from rucio.transfertool.globus_library import get_transfer_client, send_bulk_delete_task, send_delete_task
++from rucio.transfertool.globus_library import GlobusTools
+ 
+ EXTRA_MODULES = import_extras(['globus_sdk'])
+ 
+ if EXTRA_MODULES['globus_sdk']:
+     from globus_sdk import TransferAPIError  # pylint: disable=import-error
+ 
++if TYPE_CHECKING:
++    from collections.abc import Iterable
+ 
+-class GlobusRSEProtocol(RSEProtocol):
++
++class Default(RSEProtocol):
+     """ Implementing access to RSEs using the Globus service as a Rucio RSE protocol. """
+ 
+     def __init__(self, protocol_attr, rse_settings, logger=logging.log):
+@@ -36,11 +40,14 @@ class GlobusRSEProtocol(RSEProtocol):
+ 
+             :param props: Properties of the requested protocol
+         """
+-        super(GlobusRSEProtocol, self).__init__(protocol_attr, rse_settings, logger=logger)
++        super(Default, self).__init__(protocol_attr, rse_settings, logger=logger)
+         self.globus_endpoint_id = get_rse_attribute(self.rse.get('id'), RseAttr.GLOBUS_ENDPOINT_ID)
++        self.globus_collection_id = get_rse_attribute(self.rse.get('id'), RseAttr.GLOBUS_COLLECTION_ID)
++
+         self.logger = logger
++        self.tools = GlobusTools()
+ 
+-    def lfns2pfns(self, lfns):
++    def lfns2pfns(self, lfns) -> dict[str, str]:
+         """
+             Returns a fully qualified PFN for the file referred by path.
+ 
+@@ -66,19 +73,7 @@ class GlobusRSEProtocol(RSEProtocol):
+                 pfns['%s:%s' % (scope, name)] = ''.join([prefix, self._get_path(scope=scope, name=name)])
+         return pfns
+ 
+-    def _get_path(self, scope, name):
+-        """ Transforms the logical file name into a PFN.
+-            Suitable for sites implementing the RUCIO naming convention.
+-            This implementation is only invoked if the RSE is deterministic.
+-
+-            :param scope: scope
+-            :param name: filename
+-
+-            :returns: RSE specific URI of the physical file
+-        """
+-        return self.translator.path(scope, name)
+-
+-    def parse_pfns(self, pfns):
++    def parse_pfns(self, pfns: Union[str, "Iterable"]) -> dict[str, dict[str, str]]:
+         """
+             Splits the given PFN into the parts known by the protocol. It is also checked if the provided protocol supports the given PFNs.
+ 
+@@ -106,16 +101,10 @@ class GlobusRSEProtocol(RSEProtocol):
+             if not self.attributes['prefix'].endswith('/'):
+                 self.attributes['prefix'] += '/'
+ 
+-            if self.attributes['hostname'] != hostname:
+-                if self.attributes['hostname'] != 'localhost':  # In the database empty hostnames are replaced with localhost but for some URIs (e.g. file) a hostname is not included
+-                    raise exception.RSEFileNameNotSupported('Invalid hostname: provided \'%s\', expected \'%s\'' % (hostname, self.attributes['hostname']))
+-
+-            if self.attributes['port'] != port:
+-                raise exception.RSEFileNameNotSupported('Invalid port: provided \'%s\', expected \'%s\'' % (port, self.attributes['port']))
+-
+             if not path.startswith(self.attributes['prefix']):
+-                raise exception.RSEFileNameNotSupported('Invalid prefix: provided \'%s\', expected \'%s\'' % ('/'.join(path.split('/')[0:len(self.attributes['prefix'].split('/')) - 1]),
+-                                                                                                              self.attributes['prefix']))  # len(...)-1 due to the leading '/
++                provided_path = '/'.join(path.split('/')[0:len(self.attributes['prefix'].split('/')) - 1])
++                msg = f"Invalid prefix: provided {provided_path}, expected {self.attributes['prefix']}"
++                raise exception.RSEFileNameNotSupported(msg)
+ 
+             # Splitting parsed.path into prefix, path, filename
+             prefix = self.attributes['prefix']
+@@ -142,24 +131,24 @@ class GlobusRSEProtocol(RSEProtocol):
+ 
+         """
+ 
+-        filepath = '/'.join(path.split('/')[0:-1]) + '/'
+-        filename = path.split('/')[-1]
+-
+-        transfer_client = get_transfer_client()
++        file_info = self.parse_pfns(path)[path]
++        filepath = file_info['path']
++        filename = file_info['name']
+         exists = False
+ 
+-        if self.globus_endpoint_id:
++        if self.globus_collection_id:
+             try:
+-                resp = transfer_client.operation_ls(endpoint_id=self.globus_endpoint_id, path=filepath)
+-                exists = len([r for r in resp if r['name'] == filename]) > 0
++                with self.tools.transfer_client() as tc:
++                    resp = tc.operation_ls(endpoint_id=self.globus_collection_id, path=file_info['prefix'].rstrip('/') + filepath, filter={'name': filename})
++                    exists = len(resp['DATA']) != 0
+             except TransferAPIError as err:
+-                print(err)
++                raise exception.ServiceUnavailable(err)
+         else:
+-            print('No rse attribute found for globus endpoint id.')
++            raise exception.ServiceUnavailable('No rse attribute found for globus collection id.')
+ 
+         return exists
+ 
+-    def list(self, path):
++    def list(self, path: str) -> list[str]:
+         """
+ 
+             Checks if the requested path is known by the referred RSE and returns a list of items
+@@ -170,21 +159,22 @@ class GlobusRSEProtocol(RSEProtocol):
+ 
+         """
+ 
+-        transfer_client = get_transfer_client()
+         items = []
+ 
+-        if self.globus_endpoint_id:
++        if self.globus_collection_id:
+             try:
+-                resp = transfer_client.operation_ls(endpoint_id=self.globus_endpoint_id, path=path)
+-                items = resp['DATA']
++                with self.tools.transfer_client() as tc:
++                    resp = tc.operation_ls(endpoint_id=self.globus_collection_id, path=path)
++                    items = resp['DATA']
+             except TransferAPIError as err:
+-                print(err)
++                self.logger(logging.DEBUG, err)
++                raise exception.ServiceUnavailable()
+         else:
+-            print('No rse attribute found for globus endpoint id.')
++            raise exception.ServiceUnavailable('No rse attribute found for globus collection id.')
+ 
+         return items
+ 
+-    def delete(self, path):
++    def delete(self, path: str) -> None:
+         """
+             Deletes a file from the connected RSE.
+ 
+@@ -193,51 +183,92 @@ class GlobusRSEProtocol(RSEProtocol):
+             :raises ServiceUnavailable: if some generic error occurred in the library.
+             :raises SourceNotFound: if the source file was not found on the referred storage.
+         """
+-        if self.globus_endpoint_id:
++
++        if not self.exists(path):
++            raise exception.SourceNotFound()
++
++        if self.globus_collection_id:
+             try:
+-                delete_response = send_delete_task(endpoint_id=self.globus_endpoint_id, path=path, logger=self.logger)
++                ddata = self.tools.build_delete_data(delete_items=[path], endpoint_id=self.globus_collection_id)
++                delete_response = self.tools.submit_deletion(ddata)
+             except TransferAPIError as err:
+                 self.logger(logging.WARNING, str(err))
+-                raise exception.RucioException(err)
++                raise exception.ServiceUnavailable(err)
+         else:
+-            raise exception.RucioException('No rse attribute found for globus endpoint id.')
++            raise exception.ServiceUnavailable('No rse attribute found for globus collection id.')
+ 
+         if delete_response['code'] != 'Accepted':
+             self.logger(logging.DEBUG, 'delete_response: %s' % delete_response)
+-            raise exception.RucioException('delete_task not accepted by Globus')
++            raise exception.ServiceUnavailable('delete_task not accepted by Globus')
+ 
+-    def bulk_delete(self, pfns):
++    def bulk_delete(self, pfns: "Iterable[str]") -> None:
+         """
+             Submits an async task to bulk delete files on globus endpoint.
+ 
+             :param pfns: list of pfns to delete
+ 
+-            :raises TransferAPIError: if unexpected response from the service.
++            :raises ServiceUnavailable: if unexpected response from the service.
+         """
+-        if self.globus_endpoint_id:
++        if self.globus_collection_id:
+             try:
+-                bulk_delete_response = send_bulk_delete_task(endpoint_id=self.globus_endpoint_id, pfns=pfns, logger=self.logger)
++                ddata = self.tools.build_delete_data(delete_items=pfns, endpoint_id=self.globus_collection_id)
++                delete_response = self.tools.submit_deletion(ddata)
+             except TransferAPIError as err:
+-                raise exception.RucioException(err)
++                raise exception.ServiceUnavailable(err)
+         else:
+-            raise exception.RucioException('No rse attribute found for globus endpoint id.')
++            raise exception.ServiceUnavailable('No rse attribute found for globus collection id.')
+ 
+-        if bulk_delete_response['code'] != 'Accepted':
+-            self.logger(logging.DEBUG, 'delete_response: %s' % bulk_delete_response)
+-            raise exception.RucioException('delete_task not accepted by Globus')
++        if delete_response['code'] != 'Accepted':
++            self.logger(logging.DEBUG, 'delete_response: %s' % delete_response)
++            raise exception.ServiceUnavailable('delete_task not accepted by Globus')
+ 
+-    def connect(self):
++    def connect(self) -> None:
+         """
+             Establishes the actual connection to the referred RSE.
+ 
+-            reaper2 daemon requires implementation of protocol.connect
++            Pings the endpoint to establish connection credidentals.
+         """
+-        pass
++        if self.globus_endpoint_id:
++            with self.tools.transfer_client() as tc:
++                response = tc.get_endpoint(self.globus_endpoint_id)
++            if response.http_status != 200:
++                msg = f"Failed to fetch endpoint infomation.\n{response.text}"
++                raise exception.ServiceUnavailable(msg)
++        else:
++            raise exception.ServiceUnavailable("No attribute found for globus endpoint id.")
+ 
+-    def close(self):
++    def close(self) -> None:
+         """
+             Closes the connection to RSE.
+-
+-            reaper2 daemon requires implementation of protocol.close
+         """
+         pass
++
++    def get(self,
++            path: str,
++            dest: str,
++            transfer_timeout: Optional[int] = None) -> None:
++        """
++        Download file to a local path.
++        """
++        msg = "Cannot download from Globus through Rucio. Please either visit the web portal to upload your file or use the Globus Personal Endpoint."
++        raise NotImplementedError(msg)
++
++    def put(self, *args, **kwargs) -> None:
++        """Upload"""
++        msg = "Cannot upload to Globus through Rucio. Please either visit the web portal to upload your file or use the Globus Personal Endpoint."
++        raise NotImplementedError(msg)
++
++    def rename(self, pfn: str, new_pfn: str) -> None:
++
++        if not self.exists(pfn):
++            raise exception.SourceNotFound()
++
++        path = self.attributes['prefix'] + self.parse_pfns(pfn)[pfn]['name']
++        new_path = self.attributes['prefix'] + self.parse_pfns(new_pfn)[new_pfn]['name']
++
++        with self.tools.transfer_client() as tc:
++            resp = tc.operation_rename(self.globus_collection_id, path, new_path)
++
++        if resp.http_status != 200:
++            msg = f"Could not submit rename request.\n{resp.text}"
++            raise exception.ServiceUnavailable(msg)
+diff --git a/lib/rucio/transfertool/globus.py b/lib/rucio/transfertool/globus.py
+index 3d2969883..fcc25fd85 100644
+--- a/lib/rucio/transfertool/globus.py
++++ b/lib/rucio/transfertool/globus.py
+@@ -13,39 +13,23 @@
+ # limitations under the License.
+ 
+ import logging
++from typing import TYPE_CHECKING, Any, Optional
+ 
+ from rucio.common.constants import RseAttr
+-from rucio.common.utils import chunks
++from rucio.common.utils import EXTRA_MODULES, chunks
+ from rucio.db.sqla.constants import RequestState
++from rucio.transfertool.globus_library import GlobusTools
+ from rucio.transfertool.transfertool import TransferStatusReport, Transfertool, TransferToolBuilder
+ 
+-from .globus_library import bulk_check_xfers, bulk_submit_xfer, submit_xfer
++if TYPE_CHECKING:
++    from collections.abc import Iterable, Mapping
+ 
++    from rucio.common.types import LoggerFunction
++    from rucio.core.request import DirectTransfer
++    from rucio.db.sqla.session import Session
+ 
+-def bulk_group_transfers(transfer_paths, policy='single', group_bulk=200):
+-    """
+-    Group transfers in bulk based on certain criteria
+-
+-    :param transfer_paths:  List of (potentially multihop) transfer paths to group. Each path is a list of single-hop transfers.
+-    :param policy:          Policy to use to group.
+-    :param group_bulk:      Bulk sizes.
+-    :return:                List of transfer groups
+-    """
+-    if policy == 'single':
+-        group_bulk = 1
+-
+-    grouped_jobs = []
+-    for chunk in chunks(transfer_paths, group_bulk):
+-        # Globus doesn't support multihop. Get the first hop only.
+-        transfers = [transfer_path[0] for transfer_path in chunk]
+-
+-        grouped_jobs.append({
+-            'transfers': transfers,
+-            # Job params are not used by globus transfertool, but are needed for further common fts/globus code
+-            'job_params': {}
+-        })
+-
+-    return grouped_jobs
++    if EXTRA_MODULES['globus_sdk']:
++        from globus_sdk import GlobusHTTPResponse
+ 
+ 
+ class GlobusTransferStatusReport(TransferStatusReport):
+@@ -55,7 +39,7 @@ class GlobusTransferStatusReport(TransferStatusReport):
+         'external_id',
+     ]
+ 
+-    def __init__(self, request_id, external_id, globus_response):
++    def __init__(self, request_id: str, external_id: str, globus_response: "GlobusHTTPResponse") -> None:
+         super().__init__(request_id)
+ 
+         if globus_response == 'FAILED':
+@@ -70,10 +54,10 @@ class GlobusTransferStatusReport(TransferStatusReport):
+         if new_state in [RequestState.FAILED, RequestState.DONE]:
+             self.external_id = external_id
+ 
+-    def initialize(self, session, logger=logging.log):
++    def initialize(self, session: "Session", logger: "LoggerFunction" = logging.log) -> None:
+         pass
+ 
+-    def get_monitor_msg_fields(self, session, logger=logging.log):
++    def get_monitor_msg_fields(self, session: "Session", logger: "LoggerFunction" = logging.log) -> dict[str, Any]:
+         return {'protocol': 'globus'}
+ 
+ 
+@@ -83,9 +67,10 @@ class GlobusTransferTool(Transfertool):
+     """
+ 
+     external_name = 'globus'
+-    required_rse_attrs = (RseAttr.GLOBUS_ENDPOINT_ID, )
++    supported_schemes = set(['https'])
++    required_rse_attrs = (RseAttr.GLOBUS_ENDPOINT_ID, RseAttr.GLOBUS_COLLECTION_ID)
+ 
+-    def __init__(self, external_host, logger=logging.log, group_bulk=200, group_policy='single'):
++    def __init__(self, external_host: str, logger: "LoggerFunction" = logging.log, group_bulk: int = 200, group_policy: str = 'single') -> None:
+         """
+         Initializes the transfertool
+ 
+@@ -96,52 +81,39 @@ class GlobusTransferTool(Transfertool):
+         super().__init__(external_host, logger)
+         self.group_bulk = group_bulk
+         self.group_policy = group_policy
+-        # TODO: initialize vars from config file here
++
++        self.tools = GlobusTools()
+ 
+     @classmethod
+-    def submission_builder_for_path(cls, transfer_path, logger=logging.log):
++    def submission_builder_for_path(cls, transfer_path: list["DirectTransfer"], logger: "LoggerFunction" = logging.log) -> tuple[list["DirectTransfer"], "TransferToolBuilder"]:
+         hop = transfer_path[0]
+         if not cls.can_perform_transfer(hop.src.rse, hop.dst.rse):
+-            logger(logging.WARNING, "Source or destination globus_endpoint_id not set. Skipping {}".format(hop))
+-            return [], None
++            logger(logging.WARNING, "Source or destination globus_endpoint_id, globus_collection_id not set. Skipping {}".format(hop))
++            return [], TransferToolBuilder(cls, external_host='Globus Online Transfertool')
+ 
+         return [hop], TransferToolBuilder(cls, external_host='Globus Online Transfertool')
+ 
+-    def group_into_submit_jobs(self, transfer_paths):
+-        jobs = bulk_group_transfers(transfer_paths, policy=self.group_policy, group_bulk=self.group_bulk)
+-        return jobs
++    def group_into_submit_jobs(self, transfer_paths: "Iterable[list[DirectTransfer]]") -> list[dict[str, Any]]:
+ 
+-    def submit_one(self, files, timeout=None):
+-        """
+-        Submit transfers to globus API
+-
+-        :param files:        List of dictionaries describing the file transfers.
+-        :param job_params:   Dictionary containing key/value pairs, for all transfers.
+-        :param timeout:      Timeout in seconds.
+-        :returns:            Globus transfer identifier.
+-        """
+-
+-        source_path = files[0]['sources'][0]
+-        self.logger(logging.INFO, 'source_path: %s' % source_path)
+-
+-        source_endpoint_id = files[0]['metadata']['source_globus_endpoint_id']
+-
+-        # TODO: use prefix from rse_protocol to properly construct destination url
+-        # parse and assemble dest_path for Globus endpoint
+-        dest_path = files[0]['destinations'][0]
+-        self.logger(logging.INFO, 'dest_path: %s' % dest_path)
+-
+-        # TODO: rucio.common.utils.construct_url logic adds unnecessary '/other' into file path
+-        # s = dest_path.split('/') # s.remove('other') # dest_path = '/'.join(s)
++        if self.group_policy == 'single':
++            group_bulk = 1
++        else:
++            group_bulk = self.group_bulk
+ 
+-        destination_endpoint_id = files[0]['metadata']['dest_globus_endpoint_id']
+-        job_label = files[0]['metadata']['request_id']
++        grouped_jobs = []
++        for chunk in chunks(transfer_paths, group_bulk):
++            # Globus doesn't support multihop. Get the first hop only.
++            transfers = [transfer_path[0] for transfer_path in chunk]
+ 
+-        task_id = submit_xfer(source_endpoint_id, destination_endpoint_id, source_path, dest_path, job_label, recursive=False, logger=self.logger)
++            grouped_jobs.append({
++                'transfers': transfers,
++                # Job params are not used by globus transfertool, but are needed for further common fts/globus code
++                'job_params': {}
++            })
+ 
+-        return task_id
++        return grouped_jobs
+ 
+-    def submit(self, transfers, job_params, timeout=None):
++    def submit(self, transfers: "Iterable[DirectTransfer]", job_params: dict[str, str], timeout: Optional[int] = None) -> str:
+         """
+         Submit a bulk transfer to globus API
+ 
+@@ -151,31 +123,29 @@ class GlobusTransferTool(Transfertool):
+         :returns:            Globus transfer identifier.
+         """
+ 
+-        # TODO: support passing a recursive parameter to Globus
+-        submitjob = [
+-            {
+-                # Some dict elements are not needed by globus transfertool, but are accessed by further common fts/globus code
+-                'sources': [transfer.source_url(s) for s in transfer.sources],
+-                'destinations': [transfer.dest_url],
+-                'metadata': {
+-                    'src_rse': transfer.src.rse.name,
+-                    'dst_rse': transfer.dst.rse.name,
+-                    'scope': str(transfer.rws.scope),
+-                    'name': transfer.rws.name,
+-                    'source_globus_endpoint_id': transfer.src.rse.attributes[RseAttr.GLOBUS_ENDPOINT_ID],
+-                    'dest_globus_endpoint_id': transfer.dst.rse.attributes[RseAttr.GLOBUS_ENDPOINT_ID],
+-                    'filesize': transfer.rws.byte_count,
+-                },
+-            }
+-            for transfer in transfers
+-        ]
+-        self.logger(logging.DEBUG, '... Starting globus xfer ...')
+-        self.logger(logging.DEBUG, 'job_files: %s' % submitjob)
+-        task_id = bulk_submit_xfer(submitjob, recursive=False, logger=self.logger)
+-
++        # Transfer data objects are a dict, we can place them all in an updated dictionary
++        # And submit that obj instead
++        transfer_data = {}
++        for transfer in transfers:
++            job_label = transfer.rws.request_id if transfer.rws.request_id is not None else ""
++            for source in transfer.sources:
++
++                source_endpoint_id = transfer.src.rse.attributes[RseAttr.GLOBUS_COLLECTION_ID]
++                dest_endpoint_id = transfer.dst.rse.attributes[RseAttr.GLOBUS_COLLECTION_ID]
++
++                tdata = self.tools.build_transfer_data(
++                    {transfer.source_url(source): transfer.dest_url},
++                    job_label,
++                    source_endpoint_id=source_endpoint_id,
++                    destination_endpoint_id=dest_endpoint_id
++                )
++                transfer_data.update(tdata)
++
++        response = self.tools.submit_transfer(transfer_data)
++        task_id = response['task_id']
+         return task_id
+ 
+-    def bulk_query(self, requests_by_eid, timeout=None):
++    def bulk_query(self, requests_by_eid: "Mapping[str, Mapping[str, Any]]", timeout: Optional[int] = None) -> dict[str, dict[str, GlobusTransferStatusReport]]:
+         """
+         Query the status of a bulk of transfers in globus API
+ 
+@@ -183,7 +153,7 @@ class GlobusTransferTool(Transfertool):
+         :returns: Transfer status information as a dictionary.
+         """
+ 
+-        job_responses = bulk_check_xfers(requests_by_eid, logger=self.logger)
++        job_responses = self.tools.check_transfer(list(requests_by_eid.keys()))
+ 
+         response = {}
+         for transfer_id, requests in requests_by_eid.items():
+diff --git a/lib/rucio/transfertool/globus_library.py b/lib/rucio/transfertool/globus_library.py
+index 8050658c7..0c70c3b86 100644
+--- a/lib/rucio/transfertool/globus_library.py
++++ b/lib/rucio/transfertool/globus_library.py
+@@ -15,167 +15,113 @@
+ import datetime
+ import logging
+ import os
++from typing import TYPE_CHECKING
+ 
+-from rucio.common.config import config_get, config_get_int, get_config_dirs
++from rucio.common.config import config_get, config_get_int
+ from rucio.common.extra import import_extras
+ from rucio.core.monitor import MetricManager
+ 
+ EXTRA_MODULES = import_extras(['globus_sdk'])
+ 
+ if EXTRA_MODULES['globus_sdk']:
+-    import yaml  # pylint: disable=import-error
+-    from globus_sdk import DeleteData, NativeAppAuthClient, RefreshTokenAuthorizer, TransferClient, TransferData  # pylint: disable=import-error
++    import globus_sdk
+ 
+-METRICS = MetricManager(module=__name__)
+-
+-GLOBUS_AUTH_APP = config_get('conveyor', 'globus_auth_app', False, None)
+-
+-
+-def load_config(cfg_file='globus-config.yml', logger=logging.log):
+-    config = None
+-    config_dir = get_config_dirs()[0]
+-    if os.path.isfile(os.path.join(config_dir, cfg_file)):
+-        config = os.path.join(config_dir, cfg_file)
+-    else:
+-        logger(logging.ERROR, 'Could not find globus config file')
+-        raise Exception
+-    return yaml.safe_load(open(config).read())
+-
+-
+-def get_transfer_client(logger=logging.log):
+-    cfg = load_config(logger=logger)
+-    # cfg = yaml.safe_load(open("/opt/rucio/lib/rucio/transfertool/config.yml"))
+-    client_id = cfg['globus']['apps'][GLOBUS_AUTH_APP]['client_id']
+-    auth_client = NativeAppAuthClient(client_id)
+-    refresh_token = cfg['globus']['apps'][GLOBUS_AUTH_APP]['refresh_token']
+-    logger(logging.INFO, 'authorizing token...')
+-    authorizer = RefreshTokenAuthorizer(refresh_token=refresh_token, auth_client=auth_client)
+-    logger(logging.INFO, 'initializing TransferClient...')
+-    tc = TransferClient(authorizer=authorizer)
+-    return tc
+-
+-
+-def auto_activate_endpoint(tc, ep_id, logger=logging.log):
+-    r = tc.endpoint_autoactivate(ep_id, if_expires_in=3600)
+-    if r['code'] == 'AutoActivationFailed':
+-        logger(logging.CRITICAL, 'Endpoint({}) Not Active! Error! Source message: {}'.format(ep_id, r['message']))
+-        # sys.exit(1) # TODO: don't want to exit; hook into graceful exit
+-    elif r['code'] == 'AutoActivated.CachedCredential':
+-        logger(logging.INFO, 'Endpoint({}) autoactivated using a cached credential.'.format(ep_id))
+-    elif r['code'] == 'AutoActivated.GlobusOnlineCredential':
+-        logger(logging.INFO, ('Endpoint({}) autoactivated using a built-in Globus credential.').format(ep_id))
+-    elif r['code'] == 'AlreadyActivated':
+-        logger(logging.INFO, 'Endpoint({}) already active until at least {}'.format(ep_id, 3600))
+-    return r['code']
+-
+-
+-def submit_xfer(source_endpoint_id, destination_endpoint_id, source_path, dest_path, job_label, recursive=False, logger=logging.log):
+-    tc = get_transfer_client(logger=logger)
+-    # as both endpoints are expected to be Globus Server endpoints, send auto-activate commands for both globus endpoints
+-    auto_activate_endpoint(tc, source_endpoint_id, logger=logger)
+-    auto_activate_endpoint(tc, destination_endpoint_id, logger=logger)
+-
+-    # from Globus... sync_level=checksum means that before files are transferred, Globus will compute checksums on the source and
+-    # destination files, and only transfer files that have different checksums are transferred. verify_checksum=True means that after
+-    # a file is transferred, Globus will compute checksums on the source and destination files to verify that the file was transferred
+-    # correctly.  If the checksums do not match, it will redo the transfer of that file.
+-    # tdata = TransferData(tc, source_endpoint_id, destination_endpoint_id, label=job_label, sync_level="checksum", verify_checksum=True)
+-    tdata = TransferData(tc, source_endpoint_id, destination_endpoint_id, label=job_label,
+-                         sync_level="checksum", notify_on_succeeded=False, notify_on_failed=False)
+-    tdata.add_item(source_path, dest_path, recursive=recursive)
+-
+-    # logging.info('submitting transfer...')
+-    transfer_result = tc.submit_transfer(tdata)
+-    # logging.info("task_id =", transfer_result["task_id"])
+-
+-    return transfer_result["task_id"]
+-
+-
+-def bulk_submit_xfer(submitjob, recursive=False, logger=logging.log):
+-    cfg = load_config(logger=logger)
+-    client_id = cfg['globus']['apps'][GLOBUS_AUTH_APP]['client_id']
+-    auth_client = NativeAppAuthClient(client_id)
+-    refresh_token = cfg['globus']['apps'][GLOBUS_AUTH_APP]['refresh_token']
+-    source_endpoint_id = submitjob[0].get('metadata').get('source_globus_endpoint_id')
+-    destination_endpoint_id = submitjob[0].get('metadata').get('dest_globus_endpoint_id')
+-    authorizer = RefreshTokenAuthorizer(refresh_token=refresh_token, auth_client=auth_client)
+-    tc = TransferClient(authorizer=authorizer)
+-
+-    # make job_label for task a timestamp
+-    now = datetime.datetime.utcnow()
+-    job_label = now.strftime('%Y%m%d%H%M%s')
+-
+-    # retrieve globus_task_deadline value to enforce time window to complete transfers
+-    # default is 2880 minutes or 48 hours
+-    globus_task_deadline = config_get_int('conveyor', 'globus_task_deadline', False, 2880)
+-    deadline = now + datetime.timedelta(minutes=globus_task_deadline)
+-
+-    # from Globus... sync_level=checksum means that before files are transferred, Globus will compute checksums on the source
+-    # and destination files, and only transfer files that have different checksums are transferred. verify_checksum=True means
+-    # that after a file is transferred, Globus will compute checksums on the source and destination files to verify that the
+-    # file was transferred correctly.  If the checksums do not match, it will redo the transfer of that file.
+-    tdata = TransferData(tc, source_endpoint_id, destination_endpoint_id, label=job_label, sync_level="checksum", deadline=str(deadline))
+-
+-    for file in submitjob:
+-        source_path = file.get('sources')[0]
+-        dest_path = file.get('destinations')[0]
+-        filesize = file['metadata']['filesize']
+-        # TODO: support passing a recursive parameter to Globus
+-        # md5 = file['metadata']['md5']
+-        # tdata.add_item(source_path, dest_path, recursive=False, external_checksum=md5)
+-        tdata.add_item(source_path, dest_path, recursive=False)
+-        METRICS.counter('submit.filesize').inc(filesize)
+-
+-    # logging.info('submitting transfer...')
+-    transfer_result = tc.submit_transfer(tdata)
+-    logger(logging.INFO, "transfer_result: %s" % transfer_result)
+-
+-    return transfer_result["task_id"]
+-
+-
+-def check_xfer(task_id, logger=logging.log):
+-    tc = get_transfer_client(logger=logger)
+-    transfer = tc.get_task(task_id)
+-    status = str(transfer["status"])
+-    return status
+-
+-
+-def bulk_check_xfers(task_ids, logger=logging.log):
+-    tc = get_transfer_client(logger=logger)
+-
+-    logger(logging.DEBUG, 'task_ids: %s' % task_ids)
+-
+-    responses = {}
+-
+-    for task_id in task_ids:
+-        transfer = tc.get_task(str(task_id))
+-        logger(logging.DEBUG, 'transfer: %s' % transfer)
+-        status = str(transfer["status"])
+-        if status == 'SUCCEEDED':
+-            METRICS.counter('bytes_transferred').inc(transfer['bytes_transferred'])
+-            METRICS.counter('effective_bytes_per_second').inc(transfer['effective_bytes_per_second'])
+-        responses[str(task_id)] = status
+-
+-    logger(logging.DEBUG, 'responses: %s' % responses)
+-
+-    return responses
+-
+-
+-def send_delete_task(endpoint_id=None, path=None, logger=logging.log):
+-    tc = get_transfer_client(logger=logger)
+-    ddata = DeleteData(tc, endpoint_id, recursive=True)
+-    ddata.add_item(path)
+-    delete_result = tc.submit_delete(ddata)
++if TYPE_CHECKING:
++    from rucio.common.types import LoggerFunction
+ 
+-    return delete_result
++METRICS = MetricManager(module=__name__)
+ 
+ 
+-def send_bulk_delete_task(endpoint_id=None, pfns=None, logger=logging.log):
+-    tc = get_transfer_client(logger=logger)
+-    ddata = DeleteData(tc, endpoint_id, recursive=True)
+-    for pfn in pfns:
+-        logger(logging.DEBUG, 'pfn: %s' % pfn)
+-        ddata.add_item(pfn)
+-    bulk_delete_result = tc.submit_delete(ddata)
+-
+-    return bulk_delete_result
++class GlobusTools:
++    def __init__(self, logger: "LoggerFunction" = logging.log) -> None:
++        self.logger = logger
++        self.auth_app_creds = config_get("conveyor", "globus_auth_app", raise_exception=True)
++        self.sync_level = config_get("conveyor", "globus_sync_level", raise_exception=False, default='checksum')
++        self.globus_task_deadline = config_get_int('conveyor', 'globus_task_deadline', False, 2880)
++
++        self.auth_client = self.__auth_client()
++
++    def __read_secrets(self) -> tuple[str, str]:
++        if not os.path.exists(self.auth_app_creds):
++            raise ValueError("Could not find client auth file")
++
++        with open(self.auth_app_creds, 'r') as f:
++            lines = f.read().strip().split('\n')
++
++            if len(lines) < 2:
++                raise ValueError("Auth file must contain at least 2 lines (client_id and client_secret)")
++
++            client_id = lines[0].strip()
++            client_secret = lines[1].strip()
++
++        msg = f"Retrieved Globus auth from {self.auth_app_creds}"
++        self.logger(logging.INFO, msg)
++        return client_id, client_secret
++
++    def __auth_client(self) -> "globus_sdk.ConfidentialAppAuthClient":
++        client_id, client_secret = self.__read_secrets()
++        return globus_sdk.ConfidentialAppAuthClient(client_id=client_id, client_secret=client_secret)
++
++    def transfer_client(self) -> "globus_sdk.AccessTokenAuthorizer":
++        token_auth = self.auth_client.oauth2_client_credentials_tokens(globus_sdk.TransferClient.scopes.all)
++        token = token_auth.by_resource_server["transfer.api.globus.org"]["access_token"]
++        transfer_auth = globus_sdk.AccessTokenAuthorizer(token)
++        return globus_sdk.TransferClient(authorizer=transfer_auth)
++
++    def build_transfer_data(self, data_paths: dict[str, str], job_label: str, source_endpoint_id: str, destination_endpoint_id: str) -> "globus_sdk.TransferData":
++        deadline = datetime.datetime.utcnow() + datetime.timedelta(minutes=self.globus_task_deadline)
++        tdata = globus_sdk.TransferData(
++            source_endpoint_id,
++            destination_endpoint_id,
++            label=job_label,
++            sync_level=self.sync_level,
++            deadline=deadline,
++        )
++        for source, dest in data_paths.items():
++            tdata.add_item(source, dest)
++        return tdata
++
++    def build_delete_data(self, delete_items: list[str], endpoint_id: str, recursive: bool = False) -> "globus_sdk.DeleteData":
++        now = datetime.datetime.utcnow()
++        deadline = now + datetime.timedelta(minutes=self.globus_task_deadline)
++        ddata = globus_sdk.DeleteData(
++            endpoint=endpoint_id,
++            label=f"delete-{now.strftime('%Y%m%d%H%M%s')}",
++            recursive=recursive,
++            deadline=deadline
++        )
++        for item in delete_items:
++            ddata.add_item(item)
++        return ddata
++
++    def submit_transfer(self, transfer_data: "globus_sdk.TransferData") -> "globus_sdk.response.GlobusHTTPResponse":
++        try:
++            with self.transfer_client() as tc:
++                transfer_response = tc.submit_transfer(transfer_data)
++            return transfer_response
++        except globus_sdk.TransferAPIError as e:
++            return {"task_id": e.request_id, "code": e.code, "http_status": e.http_status, "data": e.text}
++
++    def submit_deletion(self, deletation_data: "globus_sdk.DeleteData") -> "globus_sdk.response.GlobusHTTPResponse":
++        try:
++            with self.transfer_client() as tc:
++                delete_response = tc.submit_delete(deletation_data)
++            return delete_response
++        except globus_sdk.TransferAPIError as e:
++            return {"task_id": e.request_id, "code": e.code, "http_status": e.http_status, "data": e.text}
++
++    def check_transfer(self, transfer_ids: list[str]) -> dict[str, str]:
++        responses = {}
++        with self.transfer_client() as tc:
++            for task_id in transfer_ids:
++                try:
++                    transfer = tc.get_task(str(task_id))
++                    status = str(transfer["status"])
++                    if status == 'SUCCEEDED':
++                        METRICS.counter('bytes_transferred').inc(transfer['bytes_transferred'])
++                        METRICS.counter('effective_bytes_per_second').inc(transfer['effective_bytes_per_second'])
++                except globus_sdk.TransferAPIError:
++                    status = "FAILED"
++
++                responses[str(task_id)] = status
++        return responses

@@ -73,3 +73,8 @@ secretGenerator:
 - files:
   - fnal-custom-config.conf=etc/fnal-custom-config.conf
   name: fnal-httpd-custom-config
+- files:
+    - 8-globus-patch.patch=etc/patch-globus-8.patch
+  name: fnal-8-globus-patch
+  options:
+    disableNameSuffixHash: true
