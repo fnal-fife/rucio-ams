@@ -16,6 +16,16 @@ resources:
 - headless-rucio-server.yaml
 - policy-package-volume.yaml
 
+images:
+  - name: imageregistry.fnal.gov/docker.io/rucio/rucio-server
+    newTag: release-41.5.1
+  - name: imageregistry.fnal.gov/docker.io/rucio/rucio-daemons
+    newTag: release-41.5.1
+  - name: imageregistry.fnal.gov/docker.io/rucio/fts-cron
+    newTag: 41.5.1
+  - name: imageregistry.fnal.gov/docker.io/rucio/rucio-webui
+    newTag: release-41.1.0
+
 components:
   - ./patches
 
@@ -57,10 +67,8 @@ secretGenerator:
 - files:
   - docker-entrypoint.sh=etc/docker-entrypoint-webui.sh
   name: fnal-docker-entrypoint-webui
-- files:
-  - hostcert.pem=etc/.secrets/hostcert.pem
-  - hostkey.pem=etc/.secrets/hostkey.pem
-  name: fnal-rucio-x509up
+- name: fnal-rucio-x509up
+  literals: []
   options:
     disableNameSuffixHash: true
 
@@ -80,10 +88,3 @@ secretGenerator:
 - files:
   - fnal-custom-config.conf=etc/fnal-custom-config.conf
   name: fnal-httpd-custom-config
-
-# Rucio/FERRY Syncer Rucio config
-- files:
-  - rucio.cfg=etc/ferry-sync-rucio.cfg
-  - sync_ferry_config.json=etc/.secrets/sync_ferry_config.json
-  - sync_justin_config.json=etc/.secrets/sync_justin_config.json
-  name: fnal-ferry-rucio-config
