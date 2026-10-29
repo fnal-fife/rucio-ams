@@ -239,6 +239,12 @@ secretMounts:
   - secretName: idpsecrets
     mountPath: /opt/rucio/etc/idpsecrets.json
     subPath: idpsecrets.json
+  - secretName: globus-client
+    mountPath: /opt/rucio/globus
+    subPath: globus-client
+  - secretName: 8-globus-patch
+    mountPath: /patch/8-globus-patch.patch
+    subPath: 8-globus-patch.patch
   # - volumeName: gcssecret
   #   secretName: gcssecret
   #   mountPath: /opt/rucio/etc/gcs_rucio.json

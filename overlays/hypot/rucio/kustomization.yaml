@@ -10,6 +10,16 @@ resources:
 - grid-certificates-cronjob.yaml
 - grid-certificates-job.yaml
 
+images:
+  - name: imageregistry.fnal.gov/docker.io/rucio/rucio-server
+    newTag: release-41.5.1
+  - name: imageregistry.fnal.gov/docker.io/rucio/rucio-daemons
+    newTag: release-41.5.1
+  - name: imageregistry.fnal.gov/docker.io/rucio/fts-cron
+    newTag: 41.5.1
+  - name: imageregistry.fnal.gov/docker.io/rucio/rucio-webui
+    newTag: release-41.1.0
+
 patchesStrategicMerge:
 - patch-service.yaml
 - grid-certificates-patch.yaml

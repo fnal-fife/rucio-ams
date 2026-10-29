@@ -854,6 +854,12 @@ secretMounts:
     mountPath: /start-daemon.sh
     subPath: start-daemon.sh
     defaultMode: 0750
+  - secretName: globus-client
+    mountPath: /opt/rucio/globus
+    subPath: globus-client
+  - secretName: 8-globus-patch
+    mountPath: /patch/8-globus-patch.patch
+    subPath: 8-globus-patch.patch
   # - volumeName: gcssecret
   #   secretName: gcssecret
   #   mountPath: /opt/rucio/etc/gcs_rucio.json
@@ -952,6 +958,7 @@ config:
     # transfertool: "fts3"
     cacert: "/opt/certs/ca.pem"
     usercert: "/opt/proxy/x509up"
+    globus_auth_app: "/opt/rucio/globus"
     # cache_time: ""
     # user_deterministic_id: ""
     # poll_timeout: ""

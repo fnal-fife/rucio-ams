@@ -840,9 +840,9 @@ policyPackages:
   # Use underscores instead of hyphens for module names
   # (e.g. atlas_rucio_policy_package instead of atlas-rucio-policy-package)
   packages:
-    - moduleName: metacat
-      requirement: metacat==3.42.2
-      version: 3.42.2
+    - moduleName: metacat-client
+      requirement: metacat-client==4.1.5
+      version: 4.1.5
     # example: install from an index (default is PyPI)
     # - moduleName: vo_1_policy_package
     #   requirement: vo_1_policy_package==1.4.0

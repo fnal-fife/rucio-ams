@@ -3,6 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: grid-certificates-pvc
 spec:
+  storageClassName: "ceph-csi-cephfs-sc-sa-data"
   accessModes:
   - ReadWriteMany
   resources:
