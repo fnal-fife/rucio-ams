@@ -12,6 +12,16 @@ spec:
         metadata:
           creationTimestamp: null
         spec:
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: NotIn
+                        values:
+                          - okdprod-worker2003-vm.okdprod1.fnal.gov
+                          - okdprod1-worker01-vm.okdprod1.fnal.gov
           serviceAccountName: useroot
           containers:
           - args:
@@ -33,6 +43,6 @@ spec:
           volumes:
           - name: ca-volume
             persistentVolumeClaim:
-              claimName: grid-certificates-pvc
+              claimName: grid-certificates-pvc-2
   schedule: 0 */3 * * *
   suspend: false
