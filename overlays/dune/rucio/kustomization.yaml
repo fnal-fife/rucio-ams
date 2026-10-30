@@ -1,3 +1,5 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
 
 resources:
 - helm-rucio-server.yaml
@@ -8,159 +10,160 @@ resources:
 - messenger-ss.yaml
 - routes.yaml
 - grid-certificates-pvc.yaml
+- grid-certificates-pvc-2.yaml
 - grid-certificates-cronjob.yaml
 - grid-certificates-job.yaml
 - ferry-users.yaml
 
-patchesStrategicMerge:
-- patch-service.yaml
-- grid-certificates-patch.yaml
-- patch-server.yaml
-- patch-busybox.yaml
-- patch-renew-fts-proxy-job.yaml
+patches:
+- path: patch-service.yaml
+- path: grid-certificates-patch.yaml
+- path: patch-server.yaml
+- path: patch-busybox.yaml
+- path: patch-renew-fts-proxy-job.yaml
+- path: node-affinity-patch.yaml
+  target:
+    kind: Deployment
 
-configmapGenerator:
-- name: webui-patch
-  files:
+images:
+- name: imageregistry.fnal.gov/docker.io/rucio/rucio-server
+  newTag: release-38.6.4
+- name: imageregistry.fnal.gov/docker.io/rucio/rucio-daemons
+  newTag: release-38.6.4
+- name: imageregistry.fnal.gov/docker.io/rucio/fts-cron
+  newTag: 38.6.4
+- name: imageregistry.fnal.gov/docker.io/rucio/rucio-webui
+  newTag: release-38.3.6
+
+configMapGenerator:
+- files:
   - next.config.js=etc/next.config.js
-- name: webui-rucio-conf-j2
-  files:
+  name: webui-patch
+- files:
   - rucio.conf.j2=etc/rucio.conf.j2
-- name: server-rucio-conf-j2
-  files:
+  name: webui-rucio-conf-j2
+- files:
   - rucio.conf.j2=etc/rucio-server.conf.j2
-- name: prometheus-yml
-  files:
+  name: server-rucio-conf-j2
+- files:
   - prometheus.yml=etc/prometheus.yml
+  name: prometheus-yml
 
 secretGenerator:
 # Database Connection String
-- name: fnal-db-connstr
-  files:
+- files:
   - db-connstr.txt=etc/.secrets/db-connstr
-
+  name: fnal-db-connstr
 # Server Secrets
-- name: fnal-server-hostcert
-  files:
+- files:
   - hostcert.pem=etc/.secrets/hostcert.pem
-- name: fnal-server-hostkey
-  files:
+  name: fnal-server-hostcert
+- files:
   - hostkey.pem=etc/.secrets/hostkey.pem
-- name: fnal-idpsecrets
-  files:
+  name: fnal-server-hostkey
+- files:
   - idpsecrets.json=etc/.secrets/idpsecrets.json
+  name: fnal-idpsecrets
 
 # The desired policy package implementation files
-- name: fnal-policy-package
-  files:
+- files:
   - __init__.py=etc/policy-package/__init__.py
   - permission.py=etc/policy-package/permission.py
   - schema.py=etc/policy-package/schema.py
   - lfn2pfn.py=etc/policy-package/lfn2pfn.py
   - path_gen.py=etc/policy-package/path_gen.py
   - utils.py=etc/policy-package/utils.py
+  name: fnal-policy-package
+
 # Custom docker-entrypoint.sh files for DUNE (installs Metacat)
-- name: fnal-docker-entrypoint-server
-  files:
+- files:
   - docker-entrypoint.sh=etc/docker-entrypoint-server.sh
-- name: fnal-docker-entrypoint-daemons
-  files:
+  name: fnal-docker-entrypoint-server
+- files:
   - start-daemon.sh=etc/docker-entrypoint-daemons.sh
-- name: fnal-docker-entrypoint-webui
-  files:
+  name: fnal-docker-entrypoint-daemons
+- files:
   - docker-entrypoint.sh=etc/docker-entrypoint-webui.sh
+  name: fnal-docker-entrypoint-webui
+- files:
+  - hostcert.pem=etc/.secrets/hostcert.pem
+  - hostkey.pem=etc/.secrets/hostkey.pem
+  name: fnal-rucio-x509up
+  options:
+    disableNameSuffixHash: true
 
 # Used by daemons
-- name: fnal-rucio-x509up
-  files:
+- files:
   - hostcert.pem=etc/.secrets/hostcert.pem
+  name: fnal-hermes-cert
+  options:
+    disableNameSuffixHash: true
+- files:
   - hostkey.pem=etc/.secrets/hostkey.pem
+  name: fnal-hermes-key
   options:
     disableNameSuffixHash: true
-- name: fnal-hermes-cert
-  files:
-  - hostcert.pem=etc/.secrets/hostcert.pem
-  options:
-    disableNameSuffixHash: true
-- name: fnal-hermes-key
-  files:
-  - hostkey.pem=etc/.secrets/hostkey.pem
-  options:
-    disableNameSuffixHash: true
-- name: fnal-hermes-rabbitmq
-  envs:
-    - etc/.secrets/hermes-rabbitmq
-  options:
-    disableNameSuffixHash: true
-- name: fnal-automatix-json
-  files:
-  - automatix.json=etc/automatix.json
-  options:
-    disableNameSuffixHash: true
-- name: fnal-fts-cert
-  files:
-  - usercert.pem=etc/.secrets/hostcert.pem
-  options:
-    disableNameSuffixHash: true
-- name: fnal-fts-key
-  files:
-  - new_userkey.pem=etc/.secrets/hostkey.pem
+# RabbitMQ Configuration Files
+- envs:
+  - etc/.secrets/hermes-rabbitmq.env
+  name: fnal-hermes-rabbitmq
   options:
     disableNameSuffixHash: true
 
-# Messenger
-- name: ssl-secrets
-  files:
+## automatix input
+- files:
+  - automatix.json=etc/automatix.json
+  name: fnal-automatix-json
+  options:
+    disableNameSuffixHash: true
+- files:
+  - usercert.pem=etc/.secrets/hostcert.pem
+  name: fnal-fts-cert
+  options:
+    disableNameSuffixHash: true
+- files:
+  - new_userkey.pem=etc/.secrets/hostkey.pem
+  name: fnal-fts-key
+  options:
+    disableNameSuffixHash: true
+- files:
   - hostcert.pem=etc/.secrets/hostcert.pem
   - hostkey.pem=etc/.secrets/hostkey.pem
   - ca.pem=etc/.secrets/ca.pem
+  name: ssl-secrets
 
 # VOMS Server File (used for getting VOMS proxies in the ftsRenewal Job)
-- name: fnal-vomses
-  files:
+- files:
   - vomses=etc/vomses
+  name: fnal-vomses
 
-# RabbitMQ Configuration Files
-- name: fnal-rabbitmq-conf
-  files:
+# Messenger
+- files:
   - rabbitmq.conf=etc/rabbitmq.conf
   - enabled_plugins=etc/enabled_plugins
   - definitions.json=etc/.secrets/rabbitmq-definitions.json
-
-## ingress
-#- name: rucio-server.tls-secret
-#  files:
-#  - cert=etc/.secrets/hostcert.pem
-#  - key=etc/.secrets/hostkey.pem
-#
-# webui
-- name: fnal-hostcert
-  files:
+  name: fnal-rabbitmq-conf
+- files:
   - hostcert.pem=etc/.secrets/hostcert.pem
-- name: fnal-hostkey
-  files:
+  name: fnal-hostcert
+- files:
   - hostkey.pem=etc/.secrets/hostkey.pem
-- name: fnal-cafile
-  files:
+  name: fnal-hostkey
+- files:
   - ca.pem=etc/.secrets/ca.pem
-## lsst customization
-#- name: fnal-lsst-schema-file
-#  files:
-#  - lsst.py=etc/lsst.py
-#  options:
-#    disableNameSuffixHash: true
-## automatix input
-#
-# Custom HTTPD config options for Fermilab
-- name: fnal-httpd-custom-config
-  files:
+  name: fnal-cafile
+- files:
   - fnal-custom-config.conf=etc/fnal-custom-config.conf
 
+# Custom HTTPD config options for Fermilab
+  name: fnal-httpd-custom-config
+
 # Rucio/FERRY Syncer Rucio config
-- name: fnal-ferry-rucio-config
-  files:
+- files:
   - rucio.cfg=etc/ferry-sync-rucio.cfg
   - sync_ferry_config.json=etc/.secrets/sync_ferry_config.json
   - sync_justin_config.json=etc/.secrets/sync_justin_config.json
+  name: fnal-ferry-rucio-config
   options:
     disableNameSuffixHash: true
+

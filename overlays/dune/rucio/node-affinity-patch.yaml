@@ -1,0 +1,13 @@
+- op: add
+  path: /spec/template/spec/affinity
+  value:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: NotIn
+                values:
+                  - okdprod-worker2003-vm.okdprod1.fnal.gov
+                  - okdprod1-worker01-vm.okdprod1.fnal.gov
+

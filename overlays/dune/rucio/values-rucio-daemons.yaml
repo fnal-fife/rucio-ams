@@ -26,7 +26,7 @@ judgeInjectorCount: 1
 judgeRepairerCount: 1
 oauthManagerCount: 0
 undertakerCount: 1
-reaperCount: 2
+reaperCount: 5
 replicaRecovererCount: 1
 transmogrifierCount: 1
 tracerKronosCount: 0

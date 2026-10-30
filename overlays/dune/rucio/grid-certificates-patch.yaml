@@ -37,7 +37,7 @@ spec:
          secret:
            $patch: delete
          persistentVolumeClaim:
-           claimName: grid-certificates-pvc
+           claimName: grid-certificates-pvc-2
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -51,4 +51,4 @@ spec:
          secret:
            $patch: delete
          persistentVolumeClaim:
-           claimName: grid-certificates-pvc
+           claimName: grid-certificates-pvc-2

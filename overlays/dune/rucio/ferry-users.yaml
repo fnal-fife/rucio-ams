@@ -12,20 +12,6 @@ spec:
       template:
         spec:
           serviceAccountName: useroot
-          initContainers:
-          - name: grid-certs
-            image: ghcr.io/fnal-fife/fetch-crl-cron:latest
-            imagePullPolicy: Always
-            volumeMounts:
-            - name: ca-volume-grid
-              mountPath: /out/
-            resources:
-              requests:
-                cpu: 100m
-                memory: 500M
-              limits:
-                cpu: 256m
-                memory: 500M
           volumes:
           - name: rucio-config
             secret:
@@ -40,7 +26,8 @@ spec:
             secret:
               secretName:  fnal-fts-key
           - name: ca-volume-grid
-            emptyDir: {}
+            persistentVolumeClaim:
+              claimName: grid-certificates-pvc-2
           containers:
             - name: sync-ferry-users
               image: "imageregistry.fnal.gov/rucio-ams/rucio-client:38.5.5.fnal.1"
@@ -100,20 +87,6 @@ spec:
       template:
         spec:
           serviceAccountName: useroot
-          initContainers:
-          - name: grid-certs
-            image: ghcr.io/fnal-fife/fetch-crl-cron:latest
-            imagePullPolicy: Always
-            volumeMounts:
-            - name: ca-volume-grid
-              mountPath: /out/
-            resources:
-              requests:
-                cpu: 100m
-                memory: 500M
-              limits:
-                cpu: 256m
-                memory: 500M
           volumes:
           - name: rucio-config
             secret:
@@ -128,7 +101,8 @@ spec:
             secret:
               secretName:  fnal-fts-key
           - name: ca-volume-grid
-            emptyDir: {}
+            persistentVolumeClaim:
+              claimName: grid-certificates-pvc-2
           containers:
             - name: sync-ferry-users
               image: "imageregistry.fnal.gov/rucio-ams/rucio-client:38.5.5.fnal.1"
