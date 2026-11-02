@@ -69,16 +69,21 @@ spec:
           secret:
             secretName: ssl-secrets
         - name: rabbitmq-conf
-          secret:
-            secretName: fnal-rabbitmq-conf
-            items:
-              - key: enabled_plugins
-                path: enabled_plugins
-              - key: rabbitmq.conf
-                path: rabbitmq.conf
-              - key: definitions.json
-                path: definitions.json
+          projected:
             defaultMode: 0644
+            sources:
+              - secret:
+                  name: fnal-rabbitmq-definitions
+                  items:
+                    - key: definitions.json
+                      path: definitions.json
+              - configMap:
+                  name: fnal-rabbitmq-conf
+                  items:
+                    - key: rabbitmq.conf
+                      path: rabbitmq.conf
+                    - key: enabled_plugins
+                      path: enabled_plugins
         - name: rabbitmq-data
           persistentVolumeClaim:
             claimName: rabbitmq-data
