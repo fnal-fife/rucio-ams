@@ -198,7 +198,7 @@ secretMounts:
 
 persistentVolumes:
   ca-volume:
-    name: grid-certificates-pvc
+    name: grid-certificates-pvc-2
     mountPath: /etc/grid-security/certificates
 
 hostPathMounts: []
