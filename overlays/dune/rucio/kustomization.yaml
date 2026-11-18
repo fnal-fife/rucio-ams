@@ -1,6 +1,13 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+labels:
+  # TODO: Remove if moving to ArgoCD
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/managed-by: kustomize
+      app.kubernetes.io/part-of: rucio
+
 resources:
 - helm-rucio-server.yaml
 - helm-rucio-daemons.yaml
@@ -9,21 +16,15 @@ resources:
 - prometheus.yaml
 - messenger-ss.yaml
 - routes.yaml
-- grid-certificates-pvc.yaml
+#- grid-certificates-pvc.yaml
 - grid-certificates-pvc-2.yaml
 - grid-certificates-cronjob.yaml
 - grid-certificates-job.yaml
 - ferry-users.yaml
+- policy-package-volume.yaml
 
-patches:
-- path: patch-service.yaml
-- path: grid-certificates-patch.yaml
-- path: patch-server.yaml
-- path: patch-busybox.yaml
-- path: patch-renew-fts-proxy-job.yaml
-- path: node-affinity-patch.yaml
-  target:
-    kind: Deployment
+components:
+  - ./patches
 
 images:
 - name: imageregistry.fnal.gov/docker.io/rucio/rucio-server
@@ -49,22 +50,18 @@ configMapGenerator:
   - prometheus.yml=etc/prometheus.yml
   name: prometheus-yml
 
-secretGenerator:
-# Database Connection String
+# RabbitMQ Configuration Files
 - files:
-  - db-connstr.txt=etc/.secrets/db-connstr
-  name: fnal-db-connstr
-# Server Secrets
-- files:
-  - hostcert.pem=etc/.secrets/hostcert.pem
-  name: fnal-server-hostcert
-- files:
-  - hostkey.pem=etc/.secrets/hostkey.pem
-  name: fnal-server-hostkey
-- files:
-  - idpsecrets.json=etc/.secrets/idpsecrets.json
-  name: fnal-idpsecrets
+  - rabbitmq.conf=etc/rabbitmq.conf
+  - enabled_plugins=etc/enabled_plugins
+  name: fnal-rabbitmq-conf
 
+# Rucio/FERRY Syncer Rucio config
+- files:
+  - rucio.cfg=etc/ferry-sync-rucio.cfg
+  name: fnal-ferry-rucio-cfg
+
+secretGenerator:
 # The desired policy package implementation files
 - files:
   - __init__.py=etc/policy-package/__init__.py
@@ -85,28 +82,8 @@ secretGenerator:
 - files:
   - docker-entrypoint.sh=etc/docker-entrypoint-webui.sh
   name: fnal-docker-entrypoint-webui
-- files:
-  - hostcert.pem=etc/.secrets/hostcert.pem
-  - hostkey.pem=etc/.secrets/hostkey.pem
+- literals: []
   name: fnal-rucio-x509up
-  options:
-    disableNameSuffixHash: true
-
-# Used by daemons
-- files:
-  - hostcert.pem=etc/.secrets/hostcert.pem
-  name: fnal-hermes-cert
-  options:
-    disableNameSuffixHash: true
-- files:
-  - hostkey.pem=etc/.secrets/hostkey.pem
-  name: fnal-hermes-key
-  options:
-    disableNameSuffixHash: true
-# RabbitMQ Configuration Files
-- envs:
-  - etc/.secrets/hermes-rabbitmq.env
-  name: fnal-hermes-rabbitmq
   options:
     disableNameSuffixHash: true
 
@@ -116,46 +93,14 @@ secretGenerator:
   name: fnal-automatix-json
   options:
     disableNameSuffixHash: true
-- files:
-  - usercert.pem=etc/.secrets/hostcert.pem
-  name: fnal-fts-cert
-  options:
-    disableNameSuffixHash: true
-- files:
-  - new_userkey.pem=etc/.secrets/hostkey.pem
-  name: fnal-fts-key
-  options:
-    disableNameSuffixHash: true
-- files:
-  - hostcert.pem=etc/.secrets/hostcert.pem
-  - hostkey.pem=etc/.secrets/hostkey.pem
-  - ca.pem=etc/.secrets/ca.pem
-  name: ssl-secrets
 
 # VOMS Server File (used for getting VOMS proxies in the ftsRenewal Job)
 - files:
   - vomses=etc/vomses
   name: fnal-vomses
 
-# Messenger
-- files:
-  - rabbitmq.conf=etc/rabbitmq.conf
-  - enabled_plugins=etc/enabled_plugins
-  - definitions.json=etc/.secrets/rabbitmq-definitions.json
-  name: fnal-rabbitmq-conf
-- files:
-  - hostcert.pem=etc/.secrets/hostcert.pem
-  name: fnal-hostcert
-- files:
-  - hostkey.pem=etc/.secrets/hostkey.pem
-  name: fnal-hostkey
-- files:
-  - ca.pem=etc/.secrets/ca.pem
-  name: fnal-cafile
 - files:
   - fnal-custom-config.conf=etc/fnal-custom-config.conf
-
-# Custom HTTPD config options for Fermilab
   name: fnal-httpd-custom-config
 
 # Rucio/FERRY Syncer Rucio config

@@ -1,0 +1,11 @@
+# Source: rucio-server/templates/policy-package-storage.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: policy-package-volume
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Mi

@@ -18,16 +18,25 @@ rucio-webui: helm
 
 rucio: rucio-server rucio-daemons rucio-webui
 
-# get-secrets:
-# 	mkdir -p rucio/etc/.secrets
-# 	vault kv get --field=${EXPERIMENT}-server-hostkey secret/rucio/${EXPERIMENT}-rucio/rucio  > rucio/etc/.secrets/hostkey.pem
-# 	vault kv get --field=${EXPERIMENT}-server-hostcert secret/rucio/${EXPERIMENT}-rucio/rucio  > rucio/etc/.secrets/hostcert.pem
-# 	vault kv get --field=${EXPERIMENT}-server-cafile secret/rucio/${EXPERIMENT}-rucio/rucio  > rucio/etc/.secrets/ca.pem
-# 	vault kv get --field=${EXPERIMENT}-db-conn-str secret/rucio/${EXPERIMENT}-rucio/rucio  > rucio/etc/.secrets/db-conn-str.txt
-# 	curl https://raw.githubusercontent.com/rucio/rucio/master/etc/automatix.json > rucio/etc/.secrets/automatix.json
+get-secrets:
+	mkdir -p rucio/etc/.secrets
+	vault kv get --field=db-connstr okd/okdprod1/rucio-${EXPERIMENT}/rucio  > rucio/etc/.secrets/db-conn-str.txt
+	vault kv get --field=hermes-rabbitmq okd/okdprod1/rucio-${EXPERIMENT}/rucio  > rucio/etc/.secrets/hermes-rabbitmq.json
+	vault kv get --field=idpsecrets.json okd/okdprod1/rucio-${EXPERIMENT}/rucio  > rucio/etc/.secrets/idpsecrets.json
+	vault kv get --field=rabbitmq-definitions.json okd/okdprod1/rucio-${EXPERIMENT}/rucio  > rucio/etc/.secrets/rabbitmq-definitions.json
+	vault kv get --field=server-cafile okd/okdprod1/rucio-${EXPERIMENT}/rucio  > rucio/etc/.secrets/ca.pem
+	vault kv get --field=server-hostcert okd/okdprod1/rucio-${EXPERIMENT}/rucio  > rucio/etc/.secrets/hostcert.pem
+	vault kv get --field=server-hostkey okd/okdprod1/rucio-${EXPERIMENT}/rucio  > rucio/etc/.secrets/hostkey.pem
+	vault kv get --field=sync_ferry_config.json okd/okdprod1/rucio-${EXPERIMENT}/rucio  > rucio/etc/.secrets/sync_ferry_config.json
+	vault kv get --field=sync_justin_config.json okd/okdprod1/rucio-${EXPERIMENT}/rucio  > rucio/etc/.secrets/sync_justin_config.json
 
-#clean-secrets:
-#	rm -rf rucio/etc/.secrets
+	mkdir -p pgbouncer/etc/.secrets
+	vault kv get --field=db-target okd/okdprod1/rucio-${EXPERIMENT}/pgbouncer  > pgbouncer/etc/.secrets/db-target.json
+	jq -r 'to_entries | map("\(.key)=\(.value)") | .[]' pgbouncer/etc/.secrets/db-target.json > pgbouncer/etc/.secrets/db-target.env
+
+clean-secrets:
+	rm -rf rucio/etc/.secrets
+	rm -rf pgbouncer/etc/.secrets
 
 run-dump: 
 	kubectl kustomize .

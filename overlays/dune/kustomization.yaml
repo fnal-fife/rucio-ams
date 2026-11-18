@@ -1,2 +1,4 @@
 resources:
+- external-secrets/
+- pgbouncer/
 - rucio/
