@@ -35,7 +35,8 @@ run-dump:
 dump: get-secrets rucio run-dump clean-secrets
 
 run-apply:  
-	kubectl apply -k .
+#	kubectl apply --enable-helm -k .
+	kubectl kustomize --enable-helm . | kubectl apply -f -
 
 #apply: get-secrets rucio run-apply clean-secrets
 apply: rucio run-apply
