@@ -78,8 +78,12 @@ secretGenerator:
 
 # Used by daemons
 - name: fnal-rucio-x509up
+  literals: []
   options:
     disableNameSuffixHash: true
+    annotations:
+      argocd.argoproj.io/sync-options: Prune=false
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
 - files:
   - automatix.json=etc/automatix.json
   name: fnal-automatix-json
