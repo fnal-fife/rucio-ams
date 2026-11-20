@@ -1,8 +1,55 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: rucio-hypot
+
+helmCharts:
+- name: rucio-server
+  namespace: rucio-hypot
+  releaseName: fnal
+  repo: https://rucio.github.io/helm-charts
+  valuesFile: values-rucio-server.yaml
+  version: 41.0.1
+- name: rucio-daemons
+  namespace: rucio-hypot
+  releaseName: fnal
+  repo: https://rucio.github.io/helm-charts
+  valuesFile: values-rucio-daemons.yaml
+  version: 41.0.0
+- name: rucio-webui
+  namespace: rucio-hypot
+  releaseName: fnal
+  repo: https://rucio.github.io/helm-charts
+  valuesFile: values-rucio-webui.yaml
+  version: 41.1.0
+
+images:
+- name: imageregistry.fnal.gov/docker.io/rucio/rucio-server
+  newTag: release-41.5.1
+- name: imageregistry.fnal.gov/docker.io/rucio/rucio-daemons
+  newTag: release-41.5.1
+- name: imageregistry.fnal.gov/docker.io/rucio/fts-cron
+  newTag: 41.5.1
+- name: imageregistry.fnal.gov/docker.io/rucio/rucio-webui
+  newTag: release-41.1.0
+
+patches:
+- path: patch-service.yaml
+- path: grid-certificates-patch.yaml
+- path: patch-busybox.yaml
+- path: patch-renew-fts-proxy-job.yaml
+- path: patch-install-policy-package.yaml
+  target:
+    labelSelector: "app-group=rucio-daemons"
+    kind: Deployment
+- path: patch-install-policy-package.yaml
+  target:
+    labelSelector: "app=rucio-server"
+    kind: Deployment
 
 resources:
-- helm-rucio-server.yaml
-- helm-rucio-daemons.yaml
-- helm-rucio-webui.yaml
+#- helm-rucio-server.yaml
+#- helm-rucio-daemons.yaml
+#- helm-rucio-webui.yaml
 - cache.yaml
 - prometheus.yaml
 - messenger-ss.yaml
@@ -10,60 +57,47 @@ resources:
 - grid-certificates-cronjob.yaml
 - grid-certificates-job.yaml
 
-images:
-  - name: imageregistry.fnal.gov/docker.io/rucio/rucio-server
-    newTag: release-41.5.1
-  - name: imageregistry.fnal.gov/docker.io/rucio/rucio-daemons
-    newTag: release-41.5.1
-  - name: imageregistry.fnal.gov/docker.io/rucio/fts-cron
-    newTag: 41.5.1
-  - name: imageregistry.fnal.gov/docker.io/rucio/rucio-webui
-    newTag: release-41.1.0
-
-patchesStrategicMerge:
-- patch-service.yaml
-- grid-certificates-patch.yaml
-- patch-busybox.yaml
-- patch-renew-fts-proxy-job.yaml
-#- rucio-env-patch.yaml
-
-configMapGenerator:
 # RabbitMQ Configuration Files
+configMapGenerator:
 - files:
   - rabbitmq.conf=etc/rabbitmq.conf
   - enabled_plugins=etc/enabled_plugins
   name: fnal-rabbitmq-conf
-- name: prometheus-yml
-  files:
+- files:
   - prometheus.yml=etc/prometheus.yml
+  name: prometheus-yml
 
+# Custom HTTPD config options for Fermilab
 secretGenerator:
-# The desired policy package implementation files
-- name: fnal-policy-package
-  files:
-  - __init__.py=etc/policy-package/__init__.py
-  - permission.py=etc/policy-package/permission.py
-  - schema.py=etc/policy-package/schema.py
+# # The desired policy package implementation files
+# - files:
+#   - __init__.py=etc/policy-package/__init__.py
+#   - permission.py=etc/policy-package/permission.py
+#   - schema.py=etc/policy-package/schema.py
+#   name: fnal-policy-package
 
 # Used by daemons
-- name: fnal-rucio-x509up
-  literals:
-  - hostcert.pem=
-  - hostkey.pem=
-  options:
-    disableNameSuffixHash: true
-- name: fnal-automatix-json
-  files:
+# - name: fnal-rucio-x509up
+#   literals: []
+#   options:
+#     disableNameSuffixHash: true
+#     annotations:
+#       argocd.argoproj.io/sync-options: Prune=false
+#       argocd.argoproj.io/compare-options: IgnoreExtraneous
+- files:
   - automatix.json=etc/automatix.json
+  name: fnal-automatix-json
   options:
     disableNameSuffixHash: true
 
 # VOMS Server File (used for getting VOMS proxies in the ftsRenewal Job)
-- name: fnal-vomses
-  files:
+- files:
   - vomses=etc/vomses
-
-# Custom HTTPD config options for Fermilab
-- name: fnal-httpd-custom-config
-  files:
+  name: fnal-vomses
+  options:
+    disableNameSuffixHash: true
+- files:
   - fnal-custom-config.conf=etc/fnal-custom-config.conf
+  name: fnal-httpd-custom-config
+  options:
+    disableNameSuffixHash: true
