@@ -10,6 +10,7 @@ resources:
 - grid-certificates-pvc.yaml
 - grid-certificates-cronjob.yaml
 - grid-certificates-job.yaml
+- routes.yaml
 
 images:
   - name: imageregistry.fnal.gov/docker.io/rucio/rucio-server
