@@ -43,6 +43,13 @@ image:
 
 imageRegistry: imageregistry.fnal.gov/docker.io
 
+additionalEnvs:
+  - name: RUCIO_CFG_DATABASE_DEFAULT
+    valueFrom:
+      secretKeyRef:
+        name: fnal-db-connstr
+        key: db-connstr.txt
+
 strategy:
   type: RollingUpdate
   rollingUpdate:
@@ -72,14 +79,7 @@ abacusAccount:
     requests:
       memory: "200Mi"
       cpu: "700m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts: []
 
 abacusCollectionReplica:
@@ -92,14 +92,7 @@ abacusCollectionReplica:
     requests:
       memory: "200Mi"
       cpu: "700m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts: []
 
 abacusRse:
@@ -113,14 +106,7 @@ abacusRse:
     requests:
       memory: "200Mi"
       cpu: "700m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts: []
 
 automatix:
@@ -135,17 +121,8 @@ automatix:
     requests:
       memory: "100Mi"
       cpu: "100m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts:
-    # - secretName: policy-package
-    #   mountPath: /opt/rucio/permissions/fermilab
     - secretName: automatix-json
       mountPath: /opt/rucio/etc/automatix.json
       subPath: automatix.json
@@ -164,14 +141,7 @@ cacheConsumer:
     requests:
       memory: "100Mi"
       cpu: "100m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts: []
 
 conveyorTransferSubmitter:
@@ -187,14 +157,7 @@ conveyorTransferSubmitter:
     requests:
       memory: "200Mi"
       cpu: "700m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts: []
 
 conveyorStager:
@@ -210,14 +173,7 @@ conveyorStager:
     requests:
       memory: "200Mi"
       cpu: "700m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts: []
 
 conveyorPoller:
@@ -230,14 +186,7 @@ conveyorPoller:
     requests:
       memory: "200Mi"
       cpu: "700m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts: []
 
 conveyorFinisher:
@@ -250,14 +199,7 @@ conveyorFinisher:
     requests:
       memory: "200Mi"
       cpu: "700m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts: []
 
 conveyorReceiver:
@@ -270,14 +212,7 @@ conveyorReceiver:
     requests:
       memory: "200Mi"
       cpu: "700m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts: []
 
 conveyorThrottler:
@@ -290,14 +225,7 @@ conveyorThrottler:
     requests:
       memory: "200Mi"
       cpu: "700m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts: []
 
 conveyorPreparer:
@@ -310,14 +238,7 @@ conveyorPreparer:
     requests:
       memory: "200Mi"
       cpu: "700m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts: []
 
 darkReaper:
@@ -335,14 +256,7 @@ darkReaper:
     requests:
       memory: "200Mi"
       cpu: "700m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts: []
 
 hermes:
@@ -358,13 +272,6 @@ hermes:
       memory: "200Mi"
       cpu: "700m"
   additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
     - name: RUCIO_CFG_MESSAGING_HERMES_USERNAME
       valueFrom:
         secretKeyRef:
@@ -390,14 +297,7 @@ hermesLegacy:
     requests:
       memory: "200Mi"
       cpu: "700m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts: []
 
 judgeCleaner:
@@ -410,14 +310,7 @@ judgeCleaner:
     requests:
       memory: "200Mi"
       cpu: "700m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts: []
 
 judgeEvaluator:
@@ -430,14 +323,7 @@ judgeEvaluator:
     requests:
       memory: "200Mi"
       cpu: "700m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts: []
 
 judgeInjector:
@@ -450,14 +336,7 @@ judgeInjector:
     requests:
       memory: "200Mi"
       cpu: "700m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts: []
 
 judgeRepairer:
@@ -470,14 +349,7 @@ judgeRepairer:
     requests:
       memory: "200Mi"
       cpu: "700m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts: []
 
 oauthManager:
@@ -490,14 +362,7 @@ oauthManager:
     requests:
       memory: "200Mi"
       cpu: "700m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts: []
 
 undertaker:
@@ -510,14 +375,7 @@ undertaker:
     requests:
       memory: "200Mi"
       cpu: "700m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts: []
 
 reaper:
@@ -533,19 +391,10 @@ reaper:
     requests:
       memory: "200Mi"
       cpu: "700m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts:
     - secretName: ca-volume
       mountPath: /etc/grid-security/certificates
-    # - secretName: policy-package
-    #   mountPath: /opt/rucio/permissions/fermilab
     - secretName: rucio-x509up
       mountPath: /opt/proxy
 
@@ -559,14 +408,7 @@ replicaRecoverer:
     requests:
       memory: "200Mi"
       cpu: "700m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts: []
 
 transmogrifier:
@@ -579,14 +421,7 @@ transmogrifier:
     requests:
       memory: "200Mi"
       cpu: "700m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts: []
 
 tracerKronos:
@@ -599,14 +434,7 @@ tracerKronos:
     requests:
       memory: "200Mi"
       cpu: "700m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts: []
 
 minos:
@@ -619,14 +447,7 @@ minos:
     requests:
       memory: "100Mi"
       cpu: "100m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts: []
 
 minosTemporaryExpiration:
@@ -639,14 +460,7 @@ minosTemporaryExpiration:
     requests:
       memory: "100Mi"
       cpu: "100m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts: []
 
 necromancer:
@@ -658,14 +472,7 @@ necromancer:
     requests:
       memory: "100Mi"
       cpu: "100m"
-  additionalEnvs:
-    # - name: PYTHONPATH
-    #   value: /opt/rucio/permissions
-    - name: RUCIO_CFG_DATABASE_DEFAULT
-      valueFrom:
-        secretKeyRef:
-          name: fnal-db-connstr 
-          key: db-connstr.txt
+  additionalEnvs: []
   secretMounts: []
 
 ftsRenewal:
@@ -774,8 +581,6 @@ automaticRestart:
       memory: 128Mi
 
 secretMounts:
-  # - secretName: policy-package
-  #   mountPath: /opt/rucio/permissions/fermilab
   - secretName: rucio-x509up
     mountPath: /opt/proxy
   # - volumeName: gcssecret

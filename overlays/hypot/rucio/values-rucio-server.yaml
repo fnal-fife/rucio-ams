@@ -215,8 +215,6 @@ automaticRestart:
       memory: 128Mi
 
 secretMounts:
-  # - secretName: policy-package
-  #   mountPath: /opt/rucio/permissions/fermilab
   - secretName: httpd-custom-config
     mountPath: /etc/httpd/conf.d/fnal-custom-config.conf
     subPath: fnal-custom-config.conf
@@ -247,8 +245,6 @@ hostPathMounts: []
   #   type: DirectoryOrCreate
 
 additionalEnvs:
-  # - name: PYTHONPATH
-  #   value: /opt/rucio/permissions
   - name: RUCIO_CFG_DATABASE_DEFAULT
     valueFrom:
       secretKeyRef:
@@ -458,9 +454,6 @@ config:
 
   webui:
     urls: "https://webui-hypot-rucio.fnal.gov"
-
-#optional_config:
-#  policy_pkg_dir: /opt/rucio/permissions
 
 serverResources:
   limits:

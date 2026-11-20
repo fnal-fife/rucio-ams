@@ -30,7 +30,8 @@ rucio: rucio-server rucio-daemons rucio-webui
 #	rm -rf rucio/etc/.secrets
 
 run-dump: 
-	kubectl kustomize .
+	mkdir -p build
+	kubectl kustomize --enable-helm . > build/rendered.yaml
 
 dump: get-secrets rucio run-dump clean-secrets
 
