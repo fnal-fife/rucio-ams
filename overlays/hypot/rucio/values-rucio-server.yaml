@@ -165,6 +165,39 @@ ftsRenewal:
       cpu: 100m
       memory: 128Mi
 
+policyPackages:
+  enabled: true
+
+  # Use an ephemeral volume to install the policy package.
+  # This means that the policy package will need to be installed on every pod restart but no PV/PVC are needed
+  ephemeralVolume: true
+
+  # Make sure the trailing slash is present
+  mountPath: /opt/policy_packages/
+  # Use underscores instead of hyphens for module names
+  # (e.g. atlas_rucio_policy_package instead of atlas-rucio-policy-package)
+  packages:
+    # example: install from an index (default is PyPI)
+    # - moduleName: vo_1_policy_package
+    #   requirement: vo_1_policy_package==1.4.0
+    #   version: 1.4.0
+    # example: install from a git repository
+    - moduleName: HypotRucioPolicy
+      requirement: git+https://github.com/fnal-fife/HypotRucioPolicy@pyproject
+      version: 0.1.0
+  pvc:
+    # Set true to create a PVC for the policy packages; leave false if providing it separately.
+    createPvc: false
+    name: policy-package-volume
+    # Whether to prepend the release name to the PVC name provided.
+    prependReleaseName: false
+  resources:
+    requests:
+      # Storage required by the policy packages - resize if needed
+      storage: 100Mi
+  storageClass:
+    name:
+
 automaticRestart:
   enabled: 0
   image:
@@ -182,8 +215,6 @@ automaticRestart:
       memory: 128Mi
 
 secretMounts:
-  - secretName: policy-package
-    mountPath: /opt/rucio/permissions/fermilab
   - secretName: httpd-custom-config
     mountPath: /etc/httpd/conf.d/fnal-custom-config.conf
     subPath: fnal-custom-config.conf
@@ -214,8 +245,6 @@ hostPathMounts: []
   #   type: DirectoryOrCreate
 
 additionalEnvs:
-  - name: PYTHONPATH
-    value: /opt/rucio/permissions
   - name: RUCIO_CFG_DATABASE_DEFAULT
     valueFrom:
       secretKeyRef:
@@ -406,7 +435,7 @@ config:
     # password: ""
 
   policy:
-    package: fermilab
+    package: HypotRucioPolicy
     ## config.permission.policy: (default "generic")
     # permission: "generic"
     ## config.permission.schema: (default "generic")
@@ -425,9 +454,6 @@ config:
 
   webui:
     urls: "https://webui-hypot-rucio.fnal.gov"
-
-#optional_config:
-#  policy_pkg_dir: /opt/rucio/permissions
 
 serverResources:
   limits:
